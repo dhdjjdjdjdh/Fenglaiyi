@@ -654,7 +654,6 @@ function setupImageCompare() {
       target.setPointerCapture?.(event.pointerId);
       setSplit(event.clientX);
     });
-    target.addEventListener("pointerleave", () => box.style.setProperty("--split", "42%"));
   });
 }
 function markCurrentNav() {
@@ -696,6 +695,8 @@ function init() {
 }
 
 window.addEventListener("DOMContentLoaded", init);
+
+
 
 
 
