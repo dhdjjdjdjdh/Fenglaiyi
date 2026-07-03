@@ -68,6 +68,15 @@ function updateProgress() {
   bar.style.width = `${max > 0 ? Math.min(100, window.scrollY / max * 100) : 0}%`;
 }
 
+function updateCompareOnScroll() {
+  const box = document.querySelector("[data-compare]");
+  const hero = document.querySelector(".home-hero");
+  if (!box || !hero) return;
+  const start = hero.offsetTop;
+  const distance = Math.max(1, hero.offsetHeight * 0.88);
+  const pct = Math.max(0, Math.min(100, (window.scrollY - start) / distance * 100));
+  box.style.setProperty("--split", `${pct}%`);
+}
 function updateTimer() {
   const h = document.getElementById("elapsedHour");
   const m = document.getElementById("elapsedMinute");
@@ -685,16 +694,21 @@ function init() {
   markCurrentNav();
   setupImageCompare();
   updateProgress();
+  updateCompareOnScroll();
   updateTimer();
   if (document.getElementById("wasteSinceOpen")) setInterval(updateTimer, 1000);
   drawAllCharts();
   setupToolbar();
   setupRoutes();
   setupObservers();
-  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("scroll", () => {
+    updateProgress();
+    updateCompareOnScroll();
+  }, { passive: true });
 }
 
 window.addEventListener("DOMContentLoaded", init);
+
 
 
 

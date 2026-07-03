@@ -36,9 +36,9 @@ button { font: inherit; }
 .compare-img, .compare-layer { position: absolute; inset: 0; width: 100%; height: 100%; }
 .compare-img { object-fit: cover; }
 .compare-img--clean { filter: saturate(1.12) contrast(1.04) brightness(1.04); }
-.compare-layer { clip-path: inset(0 calc(100% - var(--split, 42%)) 0 0); transition: clip-path .08s linear; }
+.compare-layer { clip-path: inset(0 calc(100% - var(--split, 0%)) 0 0); transition: clip-path .08s linear; }
 .compare-img--waste { filter: saturate(.82) contrast(1.08) brightness(.78); }
-.compare-divider { position: absolute; top: 0; bottom: 0; left: var(--split, 42%); width: 22px; transform: translateX(-11px); pointer-events: none; }
+.compare-divider { position: absolute; top: 0; bottom: 0; left: var(--split, 0%); width: 22px; transform: translateX(-11px); pointer-events: none; }
 .compare-divider::before { content: ""; position: absolute; top: 0; bottom: 0; left: 7px; width: 10px; background: rgba(215,225,255,.9); box-shadow: 0 0 0 1px rgba(255,255,255,.55), 0 0 30px rgba(0,0,0,.38); }
 .compare-divider span { position: absolute; top: 0; bottom: 0; left: 0; width: 22px; }
 .compare-divider span::before, .compare-divider span::after { content: ""; position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.55); }
@@ -210,6 +210,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .next-gate { min-height: 300px; padding: 30px 14px; }
   h1 { font-size: clamp(44px, 15vw, 70px); }
 }
+
 
 
 
