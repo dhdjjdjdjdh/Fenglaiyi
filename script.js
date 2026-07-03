@@ -646,7 +646,7 @@ function setupImageCompare() {
     const target = box.closest(".hero") || box;
     const setSplit = clientX => {
       const rect = box.getBoundingClientRect();
-      const pct = Math.max(8, Math.min(92, (clientX - rect.left) / rect.width * 100));
+      const pct = Math.max(0, Math.min(100, (clientX - rect.left) / rect.width * 100));
       box.style.setProperty("--split", `${pct}%`);
     };
     target.addEventListener("pointermove", event => setSplit(event.clientX));
@@ -695,6 +695,7 @@ function init() {
 }
 
 window.addEventListener("DOMContentLoaded", init);
+
 
 
 
