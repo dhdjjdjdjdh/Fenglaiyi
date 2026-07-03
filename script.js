@@ -641,6 +641,22 @@ function setupToolbar() {
   });
 }
 
+function setupImageCompare() {
+  document.querySelectorAll("[data-compare]").forEach(box => {
+    const target = box.closest(".hero") || box;
+    const setSplit = clientX => {
+      const rect = box.getBoundingClientRect();
+      const pct = Math.max(8, Math.min(92, (clientX - rect.left) / rect.width * 100));
+      box.style.setProperty("--split", `${pct}%`);
+    };
+    target.addEventListener("pointermove", event => setSplit(event.clientX));
+    target.addEventListener("pointerdown", event => {
+      target.setPointerCapture?.(event.pointerId);
+      setSplit(event.clientX);
+    });
+    target.addEventListener("pointerleave", () => box.style.setProperty("--split", "42%"));
+  });
+}
 function markCurrentNav() {
   const file = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll(".site-nav a").forEach(link => {
@@ -668,6 +684,7 @@ function drawAllCharts() {
 
 function init() {
   markCurrentNav();
+  setupImageCompare();
   updateProgress();
   updateTimer();
   if (document.getElementById("wasteSinceOpen")) setInterval(updateTimer, 1000);
@@ -679,6 +696,8 @@ function init() {
 }
 
 window.addEventListener("DOMContentLoaded", init);
+
+
 
 
 
