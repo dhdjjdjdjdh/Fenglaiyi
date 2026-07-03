@@ -1,0 +1,16 @@
+﻿country,year,population,ewaste_generated_kt,eee_put_on_market_kt,ewaste_formally_collected_kt,collection_rate_pct,ewaste_generated_kg_per_capita,source_file
+China,2022,1425925386,12066,24174,1952,16,8.5,globalewaste_china_2022.html
+United States of America,2022,337499479,7188,9185,4054,56,21.3,globalewaste_united-states-of-america_2022.html
+India,2022,1412319817,4137,10271,60,1,2.9,globalewaste_india_2022.html
+Japan,2022,124278310,2638,3750,613,23,21.2,globalewaste_japan_2022.html
+Brazil,2022,214824774,2443,3210,79,3,11.4,globalewaste_brazil_2022.html
+Russian Federation,2022,144732516,1910,2142,121,6,13.2,globalewaste_russian-federation_2022.html
+Indonesia,2022,274616289,1886,3110,0,0,6.9,globalewaste_indonesia_2022.html
+Germany,2022,83426789,1767,1756,957,54,21.2,globalewaste_germany_2022.html
+United Kingdom of Great Britain and Northern Ireland,2022,67394305,1652,1594,502,30,24.5,globalewaste_united-kingdom-of-great-britain-and-northern-ireland_2022.html
+Mexico,2022,127024134,1499,2128,53,4,11.8,globalewaste_mexico_2022.html
+France,2022,64560542,1445,1667,861,60,22.4,globalewaste_france_2022.html
+Republic of Korea,2022,51829025,930,1260,443,48,17.9,globalewaste_republic-of-korea_2022.html
+Viet Nam,2022,97842283,516,1270,0,0,5.3,globalewaste_viet-nam_2022.html
+Nigeria,2022,215928431,497,695,0,0,2.3,globalewaste_nigeria_2022.html
+Ghana,2022,33154506,71,131,0,0,2.2,globalewaste_ghana_2022.html

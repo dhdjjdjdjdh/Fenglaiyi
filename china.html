@@ -1,0 +1,93 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>中国：总量最重的一端</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:,">
+</head>
+<body class="chapter-page">
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <nav class="site-nav" aria-label="专题导航"><a href="index.html">首页</a><a href="global.html">全球</a><a href="china.html">中国</a><a href="missing.html">缺口</a><a href="unequal.html">代价</a><a href="afterlife.html">去向</a></nav>
+  <a class="return-home" href="index.html">返回首页</a>
+
+  <header class="page-hero page-hero--china">
+    <div>
+      <p class="eyebrow">02 / 中国</p>
+      <h1>总量最重的一端，不只是因为人多。</h1>
+      <p>中国同时处在生产、消费、维修、二手流通和回收处理的交汇处。电子废弃物在这里不是单一的环境问题，而是一个产业链问题。</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="story-section two-col-section">
+      <div class="text-column">
+        <p class="eyebrow">Country ranking</p>
+        <h2>跨国统一口径下，中国的电子废弃物总量最高。</h2>
+        <p>全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）的国家页显示，中国 2022 年电子废弃物产生量为 1206.6 万吨。在重点国家对照中，它高于美国与印度之和。</p>
+        <p>但总量第一不等于“每个人最浪费”。点击切换到人均，你会看到另一个事实：压力不是单一排名，而是人口规模、设备保有量和回收系统共同叠出的结果。</p>
+      </div>
+      <div class="viz-panel viz-panel--dark">
+        <div class="chart-toolbar"><button class="segmented is-active" type="button" data-mode="total">总量</button><button class="segmented" type="button" data-mode="perCapita">人均</button></div>
+        <div id="countryChart" class="chart" role="img" aria-label="国家电子废弃物对照图"></div>
+      </div>
+    </section>
+
+    <section class="story-section two-col-section reverse">
+      <div class="viz-panel">
+        <div class="chart-toolbar chart-toolbar--light"><button class="segmented" type="button" data-year="2023">2023</button><button class="segmented is-active" type="button" data-year="2024">2024</button></div>
+        <div id="productionChart" class="chart" role="img" aria-label="中国主要电子电器产品产量图"></div>
+      </div>
+      <div class="text-column">
+        <p class="eyebrow">Domestic data</p>
+        <h2>旧设备的未来，先藏在新设备的产量里。</h2>
+        <p>国家统计局公报显示，2024 年中国移动通信手持机产量为 166952.9 万台，微型计算机设备产量为 33912.9 万台，房间空气调节器、彩色电视机、家用电冰箱也都以“万台”为单位进入家庭和市场。</p>
+        <p>这些数字不是电子废弃物本身，却是未来废弃物流的入口。今天被装进购物车、办公室和出租屋的设备，几年后会变成另一张回收压力表。</p>
+        <p class="source-note">图中数据来源为国家统计局《2023年/2024年国民经济和社会发展统计公报》。华强北图片为深圳电子流通场景，不代表废弃处理现场。</p>
+      </div>
+    </section>
+
+    <section class="story-section two-col-section">
+      <div class="text-column">
+        <p class="eyebrow">Digital front</p>
+        <h2>前端越普遍，末端越不能靠“看不见”来解决。</h2>
+        <p>2024 年，中国移动电话用户达到 17.90 亿户，移动互联网用户达到 15.70 亿户。数字生活已经成为基础设施，旧设备处理也就不该只是少数回收者的后端问题。</p>
+        <p>当连接变成日常，断开连接后的责任也应该变成日常。</p>
+      </div>
+      <div class="viz-panel"><div id="digitalUsersChart" class="chart" role="img" aria-label="中国数字生活前端规模图"></div></div>
+    </section>
+
+    <section class="story-section two-col-section reverse">
+      <div class="viz-panel"><div id="radarChart" class="chart" role="img" aria-label="中美印三国电子废弃物指标雷达图"></div></div>
+      <div class="text-column">
+        <p class="eyebrow">Not one dimension</p>
+        <h2>总量、人均、正式收集率，指向不同的治理难题。</h2>
+        <p>美国的人均电子废弃物更高，正式收集率也更高；印度人均较低，但正式收集率很低；中国最突出的，是总量压力与正式收集能力之间的张力。</p>
+        <p>这也是为什么中国的故事不能只停在“生产很多”或“消费很多”。真正关键的是：设备离开用户以后，链条能不能继续追踪它。</p>
+      </div>
+    </section>
+
+    <section class="story-section two-col-section">
+      <div class="text-column">
+        <p class="eyebrow">Market input</p>
+        <h2>进入市场的设备，比当年形成的废弃物多得多。</h2>
+        <p>跨国统一口径显示，2022 年中国投放市场电子电气设备为 2417.4 万吨，约为当年电子废弃物产生量的两倍。换句话说，回收系统面对的不是一个静止的存量池，而是一条不断加水的河。</p>
+      </div>
+      <div class="viz-panel"><div id="marketVsWasteChart" class="chart" role="img" aria-label="中国投放市场设备量与电子废弃物产生量对比图"></div></div>
+    </section>
+
+    <section class="story-section">
+      <div class="section-title"><p class="eyebrow">Question</p><h2>如果入口如此清楚，出口为什么仍然模糊？</h2></div>
+      <p class="wide-text">国家总量只是第一层。真正进入治理难题的，是正式收集系统能不能接住这些设备，以及接不住的部分去了哪里。</p>
+    </section>
+
+    <a class="next-gate" href="missing.html"><span>正式回收为什么接不住？</span><small>点击进入下一页</small></a>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+

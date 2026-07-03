@@ -1,0 +1,6 @@
+﻿country,year,population,ewaste_generated_kt,eee_put_on_market_kt,ewaste_formally_collected_kt,collection_rate_pct,ewaste_generated_kg_per_capita,eee_put_on_market_kg_per_capita,category_temperature_exchange_equipment_kt,category_screens_kt,category_lamps_kt,category_large_equipment_kt,category_small_equipment_kt,category_small_it_kt
+China,2018,1414408894,9558,22213,1546,16,6.8,15.7,1990,1297,231,2071,3213,756
+China,2019,1419730043,10228,18450,1654,16,7.2,13,2188,1310,256,2301,3391,782
+China,2020,1423998019,10853,19916,1756,16,7.6,14,2380,1325,281,2527,3537,803
+China,2021,1425861543,11453,21307,1853,16,8,14.9,2570,1341,306,2752,3661,823
+China,2022,1425925386,12066,24174,1952,16,8.5,17,2759,1359,331,2996,3785,836
