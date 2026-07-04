@@ -1,4 +1,4 @@
-﻿const KG_PER_SECOND = 62000000000 / (365 * 24 * 60 * 60);
+const KG_PER_SECOND = 62000000000 / (365 * 24 * 60 * 60);
 const startTime = Date.now();
 
 const countryData = [
@@ -556,6 +556,28 @@ function drawWordCloud() {
   });
 }
 
+function drawPlatformClouds() {
+  const platformClouds = {
+    zhihu: [["隐私清除",30,45,46],["报价波动",25,70,38],["官方渠道",22,30,67],["小摊回收",20,74,70],["卖不卖",22,28,34],["数据残留",19,54,76],["旧手机",24,55,58],["回收差别",18,78,54]],
+    redbook: [["验机",30,42,43],["邮寄",24,66,34],["估价",28,63,62],["擦除数据",22,35,70],["闲置平板",20,34,32],["几十元",24,76,74],["步骤",18,24,54],["经验帖",20,75,49]],
+    bilibili: [["拆机",34,44,46],["维修",28,70,36],["翻新",26,28,65],["主板",22,66,68],["电池",24,32,35],["屏幕",21,56,78],["金属",20,78,55],["看见物质",19,29,52]],
+    weibo: [["以旧换新",28,42,42],["绿色回收",25,70,36],["电子垃圾",30,56,62],["消费节点",20,28,68],["平台活动",20,75,72],["政策",23,28,34],["责任",24,35,78],["热度",18,78,53]]
+  };
+  document.querySelectorAll(".platform-cloud").forEach(el => {
+    const words = platformClouds[el.dataset.platform] || platformClouds.zhihu;
+    el.querySelectorAll(".platform-cloud-word").forEach(node => node.remove());
+    words.forEach(([text, size, x, y], i) => {
+      const span = document.createElement("span");
+      span.className = "platform-cloud-word";
+      span.textContent = text;
+      span.style.fontSize = `${size}px`;
+      span.style.left = `${x}%`;
+      span.style.top = `${y}%`;
+      span.style.transitionDelay = `${i * 38}ms`;
+      el.appendChild(span);
+    });
+  });
+}
 function drawHundredGrid() {
   const grid = document.getElementById("hundredGrid");
   if (!grid) return;
@@ -687,6 +709,7 @@ function drawAllCharts() {
   drawGapFlow();
   setupRadar();
   drawWordCloud();
+  drawPlatformClouds();
   drawRouteFlow();
 }
 
@@ -708,20 +731,3 @@ function init() {
 }
 
 window.addEventListener("DOMContentLoaded", init);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
