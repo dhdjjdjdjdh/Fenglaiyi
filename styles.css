@@ -88,7 +88,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .is-visible .platform-shot:nth-child(5) { transition-delay: .32s; }
 .platform-shot:hover { box-shadow: 0 26px 58px rgba(16,20,19,.18); }
 .shot-large { grid-row: span 2; min-height: 436px; background: linear-gradient(135deg, #101615, #23302c); color: #fff; }
-.platform-shot:not(.shot-large) { min-height: 226px; }
+.platform-shot:not(.shot-large) { min-height: 246px; }
 .shot-top { position: relative; z-index: 1; display: grid; gap: 8px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(95,135,146,.24); transition: opacity .25s ease, transform .25s ease; }
 .platform-shot:not(.shot-large) .shot-top { min-height: 78px; margin-bottom: 18px; }
 .shot-top span { color: var(--orange); font-size: 14px; font-weight: 900; }
