@@ -470,14 +470,6 @@ function drawGlobalGauge() {
   ], "22.3%", "数据来源：联合国训练研究所（United Nations Institute for Training and Research）与国际电信联盟（International Telecommunication Union）《Global E-waste Monitor 2024》", "%");
 }
 
-function drawMaterialDonut() {
-  drawDonut("materialDonut", [
-    { label: "金属", value: 31, color: "#ffae00" },
-    { label: "塑料", value: 17, color: "#5f8792" },
-    { label: "其他材料", value: 14, color: "#c8f000" }
-  ], "材料账本", "数据来源：联合国训练研究所（United Nations Institute for Training and Research）与国际电信联盟（International Telecommunication Union）《Global E-waste Monitor 2024》", " 百万吨");
-}
-
 function drawRadar(id, labels, series, title, source) {
   const c = document.getElementById(id);
   if (!c) return;
@@ -697,7 +689,6 @@ function markCurrentNav() {
 function drawAllCharts() {
   drawGlobalTimeline();
   drawGlobalCollectionMini();
-  drawMaterialDonut();
   drawGlobalGauge();
   drawCountryChart("total");
   drawProductionChart("2024");
