@@ -153,12 +153,21 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .metric-strip p { margin: 7px 0 0; color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.35; }
 .dashboard-grid { display: grid; grid-template-columns: 1.28fr .92fr; gap: 14px; align-items: stretch; }
 .dashboard-grid .chart { background: #f8faf5; border: 1px solid var(--line); }
-.global-scale-section { grid-template-columns: minmax(300px, .7fr) minmax(660px, 1.35fr); gap: 44px; align-items: start; }
-.global-scale-section .text-column { position: sticky; top: 88px; align-self: start; padding-top: 96px; }
+.global-scale-section { grid-template-columns: minmax(360px, .82fr) minmax(620px, 1.18fr); gap: 36px; align-items: start; }
+.global-scale-section .text-column { position: sticky; top: 88px; align-self: start; padding-top: 0; }
 .global-scale-section .text-column p { font-size: 19px; line-height: 1.76; }
+.mountain-facts { margin: 28px 0 30px; border-top: 1px solid #bbc4be; }
+.mountain-fact { display: grid; grid-template-columns: 142px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px 0; border-bottom: 1px solid #bbc4be; opacity: 0; transform: translateY(18px); transition: opacity .75s ease, transform .75s ease; }
+.mountain-fact:nth-child(2) { transition-delay: .12s; }
+.mountain-fact:nth-child(3) { transition-delay: .24s; }
+.mountain-fact:nth-child(4) { transition-delay: .36s; }
+.global-scale-section.is-visible .mountain-fact { opacity: 1; transform: translateY(0); }
+.mountain-fact strong { color: #e2643d; font-size: 25px; line-height: 1.12; font-variant-numeric: tabular-nums; }
+.global-scale-section .mountain-fact p { margin: 0; color: #34413d; font-size: 14px; line-height: 1.55; }
+.mountain-fact p b { color: #101615; font-weight: 900; }
 .global-mountain-panel { padding: 0; overflow: hidden; background: #f6f8f2; border-color: #cbd5ca; }
 .mountain-scene { --mountain-shape: polygon(2% 100%, 8% 94%, 14% 89%, 19% 82%, 25% 73%, 31% 62%, 37% 50%, 42% 38%, 46% 33%, 49% 35%, 53% 46%, 57% 38%, 61% 30%, 65% 25%, 69% 26%, 73% 34%, 77% 48%, 81% 37%, 84% 25%, 87% 19%, 91% 20%, 94% 31%, 97% 62%, 98% 100%); position: relative; min-height: 1640px; overflow: hidden; background: linear-gradient(180deg, #ffffff 0%, #fbfbf7 36%, #f5f4ec 70%, #e5e3d7 100%); }
-.mountain-title { position: absolute; left: 34px; top: 86px; z-index: 6; display: grid; gap: 5px; color: #101413; }
+.mountain-title { position: absolute; left: 34px; top: 40px; z-index: 6; display: grid; gap: 5px; color: #101413; }
 .mountain-title span { color: var(--orange); font-size: 14px; font-weight: 900; text-transform: uppercase; }
 .mountain-title strong { display: flex; align-items: baseline; gap: 8px; font-size: clamp(52px, 6.4vw, 86px); line-height: .95; font-weight: 900; }
 .mountain-title strong i { color: var(--green); font-size: .32em; font-style: normal; }
@@ -166,7 +175,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .mountain-slope { position: absolute; left: 22%; right: 5%; bottom: 86px; height: 80%; clip-path: var(--mountain-shape); background: linear-gradient(0deg, rgba(153,68,38,.92), rgba(226,100,61,.58) 54%, rgba(226,100,61,.28)); opacity: .32; transform: scaleY(.08); transform-origin: bottom; transition: transform 3.15s cubic-bezier(.2,.8,.2,1), opacity 1.9s ease; }
 .mountain-slope::after { content: ""; position: absolute; inset: 0; background: linear-gradient(70deg, rgba(16,22,21,.35), rgba(200,240,0,.16) 58%, rgba(255,174,0,.25)); mix-blend-mode: multiply; }
 .is-visible .mountain-slope { opacity: 1; transform: scaleY(1); }
-.mountain-pieces { position: absolute; right: -3%; bottom: 94px; height: 78%; aspect-ratio: 2 / 3; z-index: 4; overflow: visible; pointer-events: none; }
+.mountain-pieces { position: absolute; right: -1%; bottom: 94px; height: 78%; aspect-ratio: 1 / 2; z-index: 4; overflow: visible; pointer-events: none; }
 .e-waste-collage-mountain { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; opacity: 0; transform: translateY(120px) scale(.96); transform-origin: center bottom; filter: drop-shadow(0 22px 26px rgba(0,0,0,.24)); transition: transform 2.35s cubic-bezier(.2,.8,.2,1) .28s, opacity 1.25s ease .28s; }
 .is-visible .e-waste-collage-mountain { opacity: 1; transform: translateY(0) scale(1); }
 
@@ -206,6 +215,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .mountain-rate span { color: rgba(255,255,255,.8); font-size: 14px; }
 .mountain-rate i { display: block; height: 8px; margin-top: 6px; background: linear-gradient(90deg, var(--green) 22.3%, rgba(255,255,255,.16) 22.3%); }
 .mountain-axis { position: absolute; left: 4%; right: 4%; bottom: 36px; z-index: 9; display: flex; justify-content: space-between; color: #101615; font-size: 18px; font-weight: 900; border-top: 3px solid #101615; padding-top: 8px; background: linear-gradient(180deg, rgba(246,248,242,.88), rgba(246,248,242,.98)); }
+.mountain-source { position: absolute; left: 4%; bottom: 5px; z-index: 10; max-width: 76%; margin: 0; color: #5b6763; font-size: 10px; line-height: 1.25; }
 .chart-toolbar, .route-tabs { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-bottom: 18px; padding: 4px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14); }
 .route-tabs { background: #eff2ef; border-color: var(--line); }
 .chart-toolbar--light { background: #eff2ef; border-color: var(--line); }
@@ -297,7 +307,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .mountain-title { left: 20px; top: 22px; }
   .mountain-title strong { font-size: 50px; }
   .mountain-slope { left: 22%; right: 5%; bottom: 72px; height: 78%; }
-  .mountain-pieces { left: auto; right: -2%; bottom: 86px; height: 78%; aspect-ratio: 2 / 3; }
+  .mountain-pieces { left: auto; right: -1%; bottom: 86px; height: 78%; aspect-ratio: 1 / 2; }
   .mountain-callout { max-width: 165px; font-size: 12.5px; padding: 4px 6px 5px; }
   .mountain-callout b { font-size: 21px; }
   .mountain-rate { right: 7%; bottom: 112px; }
@@ -325,7 +335,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .mountain-title span { font-size: 12px; }
   .mountain-title strong { font-size: 44px; }
   .mountain-title small { font-size: 13px; }
-  .mountain-pieces { left: auto; right: -43%; bottom: 88px; height: 74%; aspect-ratio: 2 / 3; }
+  .mountain-pieces { left: auto; right: -25%; bottom: 88px; height: 74%; aspect-ratio: 1 / 2; }
   .mountain-leaders--desktop { display: none; }
   .mountain-leaders--mobile { display: block; }
   .pin-2005 { left: 43%; top: 84%; }
@@ -345,6 +355,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .mountain-rate { width: 126px; right: 5%; bottom: 104px; padding: 12px; }
   .mountain-rate b { font-size: 28px; }
   .mountain-axis { left: 4%; right: 3%; font-size: 12px; bottom: 42px; }
+  .mountain-source { bottom: 5px; max-width: 91%; font-size: 8px; line-height: 1.2; }
   .chart { min-height: 360px; }
   .time-box strong { font-size: 2.35rem; }
   .time-box span { font-size: 1rem; }
