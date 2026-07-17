@@ -146,6 +146,40 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .is-visible .radar-poly { transform: scale(1); opacity: .92; }
 .donut-arc { transform-box: fill-box; transform-origin: center; transform: scale(.28); opacity: .25; transition: transform .9s ease, opacity .9s ease; }
 .is-visible .donut-arc { transform: scale(1); opacity: 1; }
+.recovery-section { grid-template-columns: minmax(300px, .72fr) minmax(600px, 1.28fr); align-items: start; gap: 48px; }
+.recovery-section .text-column { position: sticky; top: 112px; padding-top: 120px; }
+.recovery-story-graphic { min-width: 0; margin: 0; padding: 30px 0 0; overflow: hidden; background: #fff; border-top: 4px solid var(--ink); border-bottom: 1px solid var(--line); }
+.recovery-graphic-head { display: grid; gap: 6px; padding: 0 34px 24px; }
+.recovery-graphic-head span { color: var(--orange); font-size: 14px; font-weight: 900; }
+.recovery-graphic-head b { max-width: 560px; font-size: clamp(28px, 2.65vw, 40px); line-height: 1.16; }
+.recovery-graphic-head em { color: #e65c37; font-style: normal; }
+.recovery-photo-path { position: relative; min-height: 900px; margin: 0 20px; }
+.recovery-step { --shift: 0px; position: absolute; left: 0; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 224px minmax(0, 1fr); align-items: center; opacity: 0; transform: translateY(34px); transition: opacity .72s ease, transform .82s cubic-bezier(.2,.8,.2,1); }
+.recovery-step--total { top: 4px; --shift: -34px; }
+.recovery-step--recorded { top: 196px; --shift: 34px; }
+.recovery-step--unrecorded { top: 388px; --shift: -34px; }
+.recovery-step--trace { top: 580px; --shift: 34px; }
+.is-visible .recovery-step { opacity: 1; transform: translateY(0); }
+.is-visible .recovery-step--recorded { transition-delay: .16s; }
+.is-visible .recovery-step--unrecorded { transition-delay: .32s; }
+.is-visible .recovery-step--trace { transition-delay: .48s; }
+.recovery-diamond { grid-column: 2; width: 224px; aspect-ratio: 1; padding: 7px; overflow: hidden; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); background: #fff; transform: translateX(var(--shift)); filter: drop-shadow(0 18px 20px rgba(16,20,19,.2)); transition: transform .35s ease, filter .35s ease; }
+.recovery-diamond img { width: 100%; height: 100%; display: block; object-fit: cover; clip-path: inherit; }
+.recovery-step:hover .recovery-diamond { transform: translateX(var(--shift)) scale(1.035); filter: drop-shadow(0 22px 24px rgba(16,20,19,.28)); }
+.recovery-step--total .recovery-diamond img { object-position: 50% 48%; }
+.recovery-step--recorded .recovery-diamond img { object-position: 56% 50%; }
+.recovery-step--unrecorded .recovery-diamond img { object-position: 50% 58%; }
+.recovery-step--trace .recovery-diamond img { object-position: 48% 50%; }
+.recovery-callout { position: relative; z-index: 2; align-self: center; padding-top: 11px; border-top: 2px solid #ef8b60; }
+.recovery-callout--left { grid-column: 1; grid-row: 1; margin-right: 14px; }
+.recovery-callout--right { grid-column: 3; grid-row: 1; margin-left: 14px; }
+.recovery-callout::after { content: ""; position: absolute; top: -2px; width: 74px; height: 2px; background: #ef8b60; }
+.recovery-callout--left::after { left: 100%; transform: rotate(10deg); transform-origin: left center; }
+.recovery-callout--right::after { right: 100%; transform: rotate(-10deg); transform-origin: right center; }
+.recovery-callout strong { display: block; margin-bottom: 5px; color: #e65c37; font-size: clamp(24px, 2.1vw, 34px); line-height: 1.05; white-space: nowrap; }
+.recovery-callout strong small { color: var(--ink); font-size: .48em; font-weight: 900; }
+.recovery-callout p { margin: 0; color: #35423e; font-size: 15px; line-height: 1.58; text-align: justify; text-justify: inter-ideograph; }
+.recovery-story-graphic figcaption { padding: 16px 28px 20px; color: var(--muted); background: #f2f3ee; font-size: 12px; line-height: 1.55; }
 .material-section { align-items: start; }
 .material-section .text-column { position: sticky; top: 108px; padding-top: 0; }
 .material-lab { padding: 0; background: #f7f6f0; border-color: #c8d0ca; overflow: hidden; }
@@ -395,6 +429,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .site-nav a { font-size: 14px; padding: 8px 4px; border-bottom-width: 3px; }
   .global-scale-section .text-column { position: static; padding-top: 0; }
   .material-section .text-column { position: static; padding-top: 0; }
+  .recovery-section .text-column { position: static; padding-top: 0; }
   .mountain-scene { min-height: 1380px; }
   .mountain-title { left: 20px; top: 22px; }
   .mountain-title strong { font-size: 50px; }
@@ -422,6 +457,19 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .timer-grid { grid-template-columns: 1fr 1fr; }
   .time-box--accent { grid-column: 1 / -1; }
   .viz-panel { padding: 18px; }
+  .recovery-story-graphic { padding-top: 22px; }
+  .recovery-graphic-head { padding: 0 18px 24px; }
+  .recovery-graphic-head b { font-size: 28px; }
+  .recovery-photo-path { min-height: 0; margin: 0 14px; display: grid; gap: 18px; }
+  .recovery-step { position: relative; top: auto; width: 100%; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; }
+  .recovery-diamond { grid-column: 1; grid-row: 1; width: 112px; transform: none; }
+  .recovery-step:hover .recovery-diamond { transform: scale(1.025); }
+  .recovery-callout--left, .recovery-callout--right { grid-column: 2; grid-row: 1; margin: 0; padding: 3px 0 3px 13px; border-top: 0; border-left: 3px solid #ef8b60; }
+  .recovery-callout::after { display: none; }
+  .recovery-callout strong { font-size: 21px; white-space: normal; }
+  .recovery-callout strong small { display: block; margin-top: 3px; font-size: 12px; }
+  .recovery-callout p { font-size: 13px; line-height: 1.48; }
+  .recovery-story-graphic figcaption { margin-top: 22px; padding: 14px 16px 18px; font-size: 10px; }
   .material-lab { padding: 0; }
   .material-lab-header { padding: 20px 18px; }
   .material-lab-header h3 { font-size: 25px; }
