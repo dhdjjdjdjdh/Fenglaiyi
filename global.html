@@ -127,8 +127,8 @@
             <div class="dashboard-panel-title"><span>各洲电子废弃物产生量</span><small>单位：万吨</small></div>
             <div id="globalDistributionMap" class="distribution-map" role="img" aria-label="2022年全球各洲电子废弃物产生量地图"></div>
             <div class="continent-story" aria-live="polite">
-              <span id="continentStoryLabel">点击圆圈，读取洲际增量</span>
-              <p id="continentStoryText">地图不只标出电子废弃物落在哪里，也记录它增长得有多快。</p>
+              <span id="continentStoryLabel">点击圆圈，比较增长与回收</span>
+              <p id="continentStoryText">一台设备离开正规回收链后，并不会从世界上消失，只会从统计中消失。点击各洲，看废弃速度是否已经越过回收能力。</p>
             </div>
             <div class="continent-legend" aria-label="各洲电子废弃物正式回收率">
               <span><i style="--rate:12%"></i>亚洲 12%</span>
@@ -161,49 +161,61 @@
       </div>
     </section>
 
-    <section class="story-section two-col-section recovery-section">
+    <section class="story-section two-col-section voices-section">
       <div class="text-column">
-        <p class="eyebrow">Recorded rate</p>
-        <h2>全球被正式记录回收的部分，只有五分之一多一点。</h2>
-        <p>2022 年，全球只有 22.3% 的电子废弃物被正式记录为妥善收集和回收。剩下的部分，可能留在家中，混入普通废物流，进入非正规回收，也可能在跨境流动中失去可追踪性。</p>
-        <p>看不见，不代表不存在；没有被记录，往往意味着责任还没有被分配。</p>
+        <p class="eyebrow">Global voices</p>
+        <h2>垃圾跨越边界，责任不能止于国界。</h2>
+        <p>电子产品由跨国供应链制造，废弃后却常由一座城市、一个社区甚至一个家庭独自承担。不同国家的制度起点并不相同，但公开呼声正在汇向同一个问题：谁把设备推向市场，谁就不能在设备报废时离场。</p>
+        <p>从“送进正规渠道”到“生产者负责”，再到禁止焚烧和混入生活垃圾，政策语言正在改变电子废弃物的定义。它不再只是消费者扔掉的旧物，而是一笔必须沿供应链向前追溯的公共责任。</p>
       </div>
-      <figure class="recovery-story-graphic" role="img" aria-label="2022年全球电子废弃物去向图：6200万吨电子废弃物中，22.3%被正式记录回收，77.7%未进入正式记录">
-        <div class="recovery-graphic-head">
-          <span>THE UNRECORDED 77.7%</span>
-          <b>一座环形图之外，<em>去向开始分岔</em></b>
+      <figure class="voices-graphic" aria-label="中国、加纳、卢旺达、澳大利亚和尼日利亚政府及监管机构关于电子废弃物治理的公开呼声">
+        <div class="voices-graphic-head">
+          <span>FIVE COUNTRIES / ONE QUESTION</span>
+          <b>制度各不相同，<em>追问指向同一条责任链</em></b>
         </div>
-        <div class="recovery-photo-path">
-          <article class="recovery-step recovery-step--total">
-            <div class="recovery-callout recovery-callout--left">
-              <strong>6200<small> 万吨</small></strong>
-              <p>2022 年全球产生的电子废弃物总量，先从家庭、商店和办公场所离开。</p>
+        <div class="voices-photo-path">
+          <article class="voice-step voice-step--china">
+            <div class="voice-callout voice-callout--left">
+              <strong>中国</strong>
+              <p>“引导废电器进入正规渠道进行拆解和回收利用。”</p>
+              <span>生态环境部，2026</span>
             </div>
-            <div class="recovery-diamond"><img src="assets/images/old-phones.jpg" alt="堆积的旧手机"></div>
+            <div class="voice-diamond"><img src="assets/images/recycling-center.jpg" alt="集中堆放的废旧电视和显示器"></div>
           </article>
-          <article class="recovery-step recovery-step--recorded">
-            <div class="recovery-diamond"><img src="assets/images/workshop.jpg" alt="工作人员在电子设备处理工作台前操作"></div>
-            <div class="recovery-callout recovery-callout--right">
-              <strong>22.3%<small> / 1382.6 万吨</small></strong>
-              <p>进入正式系统，被记录为妥善收集和回收。只有这一部分拥有较完整的统计轨迹。</p>
+          <article class="voice-step voice-step--ghana">
+            <div class="voice-diamond"><img src="assets/images/old-phones.jpg" alt="堆积的废旧手机"></div>
+            <div class="voice-callout voice-callout--right">
+              <strong>加纳</strong>
+              <p>“每一台设备都重要。报告你的电子垃圾，让我们负责任地处理。”</p>
+              <span>加纳环境保护署 GH Waste</span>
             </div>
           </article>
-          <article class="recovery-step recovery-step--unrecorded">
-            <div class="recovery-callout recovery-callout--left">
-              <strong>77.7%<small> / 4817.4 万吨</small></strong>
-              <p>没有进入正式记录。它们可能被闲置、转卖、维修，也可能混入普通废物流或非正规拆解链。</p>
+          <article class="voice-step voice-step--rwanda">
+            <div class="voice-callout voice-callout--left">
+              <strong>卢旺达</strong>
+              <p>“既要看到电子废弃物对下一代的影响，也要把这个问题转化为循环经济的机会。”</p>
+              <span>信息通信技术与创新部长 Paula Ingabire</span>
             </div>
-            <div class="recovery-diamond"><img src="assets/images/repair-shop.jpg" alt="维修人员正在拆修电子设备"></div>
+            <div class="voice-diamond"><img src="assets/images/workshop.jpg" alt="工作人员在电子设备处理工作台前操作"></div>
           </article>
-          <article class="recovery-step recovery-step--trace">
-            <div class="recovery-diamond"><img src="assets/images/wires.jpg" alt="成堆的废旧线缆和电子零件"></div>
-            <div class="recovery-callout recovery-callout--right">
-              <strong>统计的断点</strong>
-              <p>“未被记录”不是一种单一去向，而是多条路径共同留下的空白。数字消失的地方，也是责任最难追问的地方。</p>
+          <article class="voice-step voice-step--australia">
+            <div class="voice-diamond"><img src="assets/images/repair-shop.jpg" alt="维修人员正在拆修电子设备"></div>
+            <div class="voice-callout voice-callout--right">
+              <strong>澳大利亚</strong>
+              <p>“每个人都有责任，包括制造它、销售它和使用它的人。”</p>
+              <span>气候变化、能源、环境与水资源部</span>
             </div>
+          </article>
+          <article class="voice-step voice-step--nigeria">
+            <div class="voice-callout voice-callout--left">
+              <strong>尼日利亚</strong>
+              <p>法规明确禁止露天焚烧电子废弃物，也禁止将其与生活垃圾一同处置。</p>
+              <span>国家环境标准与法规执行局</span>
+            </div>
+            <div class="voice-diamond"><img src="assets/images/wires.jpg" alt="成堆的废旧线缆和电子零件"></div>
           </article>
         </div>
-        <figcaption>数据来源：联合国训练研究所（United Nations Institute for Training and Research）与国际电信联盟（International Telecommunication Union）《Global E-waste Monitor 2024》。分项吨数按 6200 万吨及报告所列 22.3% 正式记录回收率计算。</figcaption>
+        <figcaption>呼声来源：<a href="https://www.mee.gov.cn/ywdt/zbft/202602/t20260227_1144967.shtml" target="_blank" rel="noreferrer">中国生态环境部</a>、<a href="https://ehpmp.epa.gov.gh/gh-wasteapp/" target="_blank" rel="noreferrer">加纳环境保护署</a>、<a href="https://www.minict.gov.rw/news-detail/rwanda-launches-campaign-to-boost-e-waste-collection-and-recycling" target="_blank" rel="noreferrer">卢旺达信息通信技术与创新部</a>、<a href="https://www.dcceew.gov.au/environment/protection/waste/e-waste" target="_blank" rel="noreferrer">澳大利亚气候变化、能源、环境与水资源部</a>、<a href="https://nesrea.gov.ng/wp-content/uploads/2025/05/Electrical_Electronics.pdf" target="_blank" rel="noreferrer">尼日利亚国家环境标准与法规执行局</a>。中文引文据官方原文翻译、节录；图片用于呈现电子废弃物流转现场，不对应具体发言者。</figcaption>
       </figure>
     </section>
 

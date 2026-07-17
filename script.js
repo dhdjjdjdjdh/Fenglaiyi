@@ -643,8 +643,9 @@ async function drawGlobalDistributionMap() {
   };
   regions.forEach((region, index) => {
     const [x, y] = project([region.lon, region.lat]);
+    const bubbleRadius = Math.max(region.r, 20 + region.value.length * 3);
     const group = svgEl("g", { class: "map-bubble", style: `--map-delay:${.3 + index * .14}s`, role: "button", tabindex: "0", "aria-label": `查看${region.name}电子废弃物增量` });
-    group.appendChild(svgEl("circle", { cx: x, cy: y, r: region.r }));
+    group.appendChild(svgEl("circle", { cx: x, cy: y, r: bubbleRadius }));
     const label = svgEl("text", { class: "map-region", x, y: y - 4, "text-anchor": "middle" });
     label.textContent = region.name;
     const value = svgEl("text", { class: "map-value", x, y: y + 18, "text-anchor": "middle" });
