@@ -372,7 +372,7 @@ async function drawCountryMap(mode = "total") {
     const location = countryMapLocations[item.country];
     if (!location) return;
     const [x, y] = project([location.lon, location.lat]);
-    const radius = (mode === "total" ? 12 : 10) + Math.sqrt(item[mode] / max) * (mode === "total" ? 29 : 25);
+    const radius = (mode === "total" ? 8 : 7) + Math.sqrt(item[mode] / max) * (mode === "total" ? 22 : 19);
     const labelX = x + location.dx;
     const labelY = y + location.dy;
     const anchor = location.dx < 0 ? "end" : "start";

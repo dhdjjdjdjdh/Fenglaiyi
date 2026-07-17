@@ -446,6 +446,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .china-map-bubble { fill: rgba(226,100,61,.74); stroke: #fff; stroke-width: 3; transform-box: fill-box; transform-origin: center; transform: scale(.08); opacity: 0; transition: transform .75s cubic-bezier(.18,.86,.22,1) var(--map-delay), opacity .45s ease var(--map-delay), filter .25s ease; }
 .china-map-marker.is-china .china-map-bubble { fill: rgba(200,240,0,.84); stroke: #101413; }
 .china-map-marker:hover .china-map-bubble { filter: brightness(1.03) drop-shadow(0 8px 12px rgba(16,20,19,.2)); }
+.china-country-map.is-ready .china-map-marker:hover .china-map-bubble { transform: scale(1.24); }
 .china-map-label, .china-map-value { fill: #101413; opacity: 0; transition: opacity .5s ease calc(var(--map-delay) + .18s); }
 .china-map-label { font-size: 16px; font-weight: 900; }
 .china-map-value { font-size: 14px; font-weight: 800; }
@@ -482,14 +483,14 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .production-panel--kpi > strong { display: block; margin: 22px 0 8px; color: var(--orange); font-size: clamp(32px, 3.3vw, 48px); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .production-panel--computer > strong { color: #8cb0ba; }
 .production-panel--kpi small { color: rgba(255,255,255,.62); font-size: 11px; }
-.production-panel--output { grid-column: span 7; min-height: 354px; }
+.production-panel--output { grid-column: span 7; min-height: 354px; display: flex; flex-direction: column; justify-content: center; }
 .production-output-bars { display: grid; gap: 16px; }
 .production-output-row { display: grid; grid-template-columns: 122px minmax(0, 1fr) 92px; gap: 12px; align-items: center; }
 .production-output-row > span { color: rgba(255,255,255,.78); font-size: 12px; font-weight: 800; }
 .production-output-row > div { height: 18px; overflow: hidden; background: #303735; }
 .production-output-fill { display: block; width: 0; height: 100%; background: var(--color); transition: width 1.15s cubic-bezier(.2,.8,.2,1); }
 .production-output-row b { color: #fff; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
-.production-panel--growth { grid-column: span 5; min-height: 354px; }
+.production-panel--growth { grid-column: span 5; min-height: 354px; display: flex; flex-direction: column; justify-content: center; }
 .production-growth-bars { display: grid; gap: 15px; }
 .production-growth-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) 52px; gap: 9px; align-items: center; }
 .production-growth-row span, .production-growth-row b { color: rgba(255,255,255,.74); font-size: 11px; }
@@ -523,6 +524,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .production-dashboard.is-ready .production-donut { transform: scale(1) rotate(0); opacity: 1; }
 .production-dashboard.is-ready .production-compare-bars b { height: var(--height); }
 .production-dashboard-source { margin: 0; padding: 8px 26px 22px; color: rgba(255,255,255,.5); font-size: 11px; line-height: 1.5; }
+.chapter-page.china-page .story-section { padding-top: 90px; padding-bottom: 90px; }
 @media (max-width: 1100px) {
   .global-scale-section { grid-template-columns: 1fr; }
   .global-scale-section .text-column { position: static; padding-top: 0; }
@@ -646,6 +648,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   h1 { font-size: clamp(44px, 15vw, 70px); }
   .page-hero--global h1, .page-hero--china h1 { font-size: clamp(42px, 13vw, 62px); line-height: 1.12; }
   .china-ranking-section, .china-production-section { padding-top: 78px; padding-bottom: 78px; }
+  .chapter-page.china-page .story-section { padding-top: 66px; padding-bottom: 66px; }
   .china-section-title { margin-bottom: 28px; }
   .china-section-title h2 { font-size: 34px; }
   .china-atlas-head, .production-dashboard-head { align-items: flex-start; flex-direction: column; padding: 20px 18px 16px; }
