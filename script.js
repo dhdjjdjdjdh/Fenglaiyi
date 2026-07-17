@@ -107,11 +107,12 @@ function animateCounters(root = document) {
     if (counter.dataset.done === "1") return;
     counter.dataset.done = "1";
     const target = Number(counter.dataset.count);
+    const decimals = Number(counter.dataset.decimals || 0);
     const start = performance.now();
     function tick(now) {
       const p = Math.min((now - start) / 1100, 1);
       const e = 1 - Math.pow(1 - p, 3);
-      counter.textContent = formatNumber(target * e, 0);
+      counter.textContent = formatNumber(target * e, decimals);
       if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -548,6 +549,85 @@ function drawWordCloud() {
   });
 }
 
+async function drawGlobalDistributionMap() {
+  const container = document.getElementById("globalDistributionMap");
+  if (!container) return;
+  const width = 920;
+  const height = 460;
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, "aria-hidden": "true" });
+  const project = ([lon, lat]) => [((lon + 180) / 360) * width, ((90 - lat) / 180) * height];
+
+  for (let lon = -150; lon <= 150; lon += 30) {
+    const [x] = project([lon, 0]);
+    svg.appendChild(svgEl("line", { class: "map-graticule", x1: x, y1: 0, x2: x, y2: height }));
+  }
+  for (let lat = -60; lat <= 60; lat += 30) {
+    const [, y] = project([0, lat]);
+    svg.appendChild(svgEl("line", { class: "map-graticule", x1: 0, y1: y, x2: width, y2: y }));
+  }
+
+  try {
+    const topology = await fetch("assets/data/countries-110m.json").then(response => {
+      if (!response.ok) throw new Error("map data unavailable");
+      return response.json();
+    });
+    const { scale, translate } = topology.transform;
+    const decodedArcs = topology.arcs.map(arc => {
+      let x = 0;
+      let y = 0;
+      return arc.map(([dx, dy]) => {
+        x += dx;
+        y += dy;
+        return [x * scale[0] + translate[0], y * scale[1] + translate[1]];
+      });
+    });
+    const arcPoints = index => {
+      const points = decodedArcs[index < 0 ? ~index : index];
+      return index < 0 ? [...points].reverse() : points;
+    };
+    const ringPath = ring => {
+      const points = ring.flatMap((index, i) => {
+        const arc = arcPoints(index);
+        return i === 0 ? arc : arc.slice(1);
+      });
+      return points.map((point, i) => {
+        const [x, y] = project(point);
+        return `${i ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join("") + "Z";
+    };
+    topology.objects.countries.geometries.forEach(geometry => {
+      const polygons = geometry.type === "Polygon" ? [geometry.arcs] : geometry.arcs;
+      const d = polygons.flatMap(polygon => polygon.map(ringPath)).join("");
+      const focus = Number(geometry.id) === 156;
+      svg.appendChild(svgEl("path", { class: `map-country${focus ? " is-focus" : ""}`, d }));
+    });
+  } catch (error) {
+    const fallback = svgEl("text", { x: width / 2, y: height / 2, "text-anchor": "middle", fill: "#aeb9b5", "font-size": 18 });
+    fallback.textContent = "地图轮廓载入中";
+    svg.appendChild(fallback);
+  }
+
+  const regions = [
+    { name: "美洲", value: "1442.7", lon: -92, lat: 18, r: 43 },
+    { name: "欧洲", value: "1307.6", lon: 16, lat: 54, r: 39 },
+    { name: "亚洲", value: "3014.7", lon: 96, lat: 30, r: 58 },
+    { name: "非洲", value: "355.1", lon: 20, lat: 2, r: 25 },
+    { name: "大洋洲", value: "70.7", lon: 138, lat: -30, r: 16 }
+  ];
+  regions.forEach((region, index) => {
+    const [x, y] = project([region.lon, region.lat]);
+    const group = svgEl("g", { class: "map-bubble", style: `--map-delay:${.3 + index * .14}s` });
+    group.appendChild(svgEl("circle", { cx: x, cy: y, r: region.r }));
+    const label = svgEl("text", { class: "map-region", x, y: y - 4, "text-anchor": "middle" });
+    label.textContent = region.name;
+    const value = svgEl("text", { class: "map-value", x, y: y + 18, "text-anchor": "middle" });
+    value.textContent = region.value;
+    group.append(label, value);
+    svg.appendChild(group);
+  });
+  container.replaceChildren(svg);
+}
+
 function drawPlatformClouds() {
   const platformClouds = {
     zhihu: [["隐私清除",27,38,39],["报价波动",23,72,34],["官方渠道",20,30,67],["小摊回收",18,73,72],["卖不卖",20,23,50],["数据残留",18,55,82],["旧手机",22,57,55],["回收差别",17,82,54]],
@@ -700,6 +780,7 @@ function drawAllCharts() {
   drawGapFlow();
   setupRadar();
   drawWordCloud();
+  drawGlobalDistributionMap();
   drawPlatformClouds();
   drawRouteFlow();
 }

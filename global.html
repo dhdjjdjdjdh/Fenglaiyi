@@ -75,7 +75,6 @@
           <div class="mountain-callout callout-2025"><b>2025</b><em>约 6980 万吨</em><span>可穿戴、智能家电和控制板继续增多。</span></div>
           <div class="mountain-callout callout-2026"><b>2026</b><em>约 7240 万吨</em><span>混合设备越来越难追踪去向。</span></div>
           <div class="mountain-rate"><b>22.3%</b><span>被正式记录回收</span><i></i></div>
-          <div class="mountain-axis"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2025</span><span>2026</span></div>
           <p class="mountain-source">数据来源：联合国训练研究所（United Nations Institute for Training and Research）、国际电信联盟（International Telecommunication Union）《Global E-waste Monitor 2024》</p>
         </div>
       </div>
@@ -111,9 +110,51 @@
       </div>
     </section>
 
-    <section class="story-section">
-      <div class="section-title"><p class="eyebrow">Keywords</p><h2>电子废弃物的关键词，不只是不环保。</h2></div>
-      <div class="word-cloud" data-cloud="global" aria-label="电子废弃物关键词词云"></div>
+    <section class="story-section global-distribution-section">
+      <div class="section-title">
+        <p class="eyebrow">Global distribution / 2022</p>
+        <h2>同一张世界地图，两种完全不同的可见度。</h2>
+        <p class="wide-text">电子废弃物并不平均落在地图上。亚洲产生量接近全球一半，正式回收率却只有 12%；欧洲总量不到亚洲的一半，正式回收率达到 43%。制造、消费和回收记录叠在一起，才显出真正的全球分布。</p>
+      </div>
+      <div class="ewaste-dashboard" aria-label="2022年全球电子废弃物分布数据仪表盘">
+        <div class="distribution-kpis">
+          <div><span>亚洲占全球</span><strong><b data-count="48.6" data-decimals="1">48.6</b><em>%</em></strong><small>3014.7 万吨</small></div>
+          <div><span>洲际回收率差距</span><strong><b data-count="42">42</b><em>百分点</em></strong><small>欧洲 43% / 非洲 1%</small></div>
+          <div><span>中美俄合计</span><strong><b data-count="34.2" data-decimals="1">34.2</b><em>%</em></strong><small>占全球产生总量</small></div>
+        </div>
+        <div class="distribution-grid">
+          <div class="world-map-panel">
+            <div class="dashboard-panel-title"><span>各洲电子废弃物产生量</span><small>单位：万吨</small></div>
+            <div id="globalDistributionMap" class="distribution-map" role="img" aria-label="2022年全球各洲电子废弃物产生量地图"></div>
+            <div class="continent-legend" aria-label="各洲电子废弃物正式回收率">
+              <span><i style="--rate:12%"></i>亚洲 12%</span>
+              <span><i style="--rate:43%"></i>欧洲 43%</span>
+              <span><i style="--rate:30%"></i>美洲 30%</span>
+              <span><i style="--rate:1%"></i>非洲 1%</span>
+              <span><i style="--rate:41%"></i>大洋洲 41%</span>
+            </div>
+          </div>
+          <div class="country-share-panel">
+            <div class="dashboard-panel-title"><span>三国占全球总量</span><small>份额 / 正式回收率</small></div>
+            <article class="country-share-card" style="--share:19.5%;--collection:16%">
+              <header><b>中国</b><strong>1206.6<em>万吨</em></strong></header>
+              <div><span>全球份额 19.5%</span><i class="share-bar"></i></div>
+              <div><span>正式回收率 16%</span><i class="collection-bar"></i></div>
+            </article>
+            <article class="country-share-card" style="--share:11.6%;--collection:56%">
+              <header><b>美国</b><strong>718.8<em>万吨</em></strong></header>
+              <div><span>全球份额 11.6%</span><i class="share-bar"></i></div>
+              <div><span>正式回收率 56%</span><i class="collection-bar"></i></div>
+            </article>
+            <article class="country-share-card" style="--share:3.1%;--collection:6%">
+              <header><b>俄罗斯</b><strong>191.0<em>万吨</em></strong></header>
+              <div><span>全球份额 3.1%</span><i class="share-bar"></i></div>
+              <div><span>正式回收率 6%</span><i class="collection-bar"></i></div>
+            </article>
+          </div>
+        </div>
+        <p class="dashboard-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 年各洲与国家数据。全球份额按各洲数据合计 6190.8 万吨计算；《Global E-waste Monitor 2024》正文将其取整为 6200 万吨。地图圆点表示各洲产生量，横条分别表示国家占全球份额与正式回收率。</p>
+      </div>
     </section>
 
     <section class="story-section two-col-section">
