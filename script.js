@@ -12,6 +12,17 @@ const countryData = [
   { country: "法国", total: 144.5, perCapita: 22.4, rate: 60, market: 166.7, collected: 86.1 }
 ];
 
+const countryMapLocations = {
+  "中国": { lon: 104, lat: 35, dx: 62, dy: 45 },
+  "美国": { lon: -100, lat: 38, dx: -62, dy: 48 },
+  "印度": { lon: 78, lat: 22, dx: 56, dy: 54 },
+  "日本": { lon: 138, lat: 37, dx: 54, dy: -28 },
+  "巴西": { lon: -52, lat: -10, dx: -64, dy: 54 },
+  "德国": { lon: 10, lat: 51, dx: 82, dy: -18 },
+  "英国": { lon: -3, lat: 55, dx: -84, dy: -28 },
+  "法国": { lon: 2, lat: 46, dx: -76, dy: 46 }
+};
+
 const chinaTrend = [
   { year: 2018, generated: 955.8, collected: 154.6 },
   { year: 2019, generated: 1022.8, collected: 165.4 },
@@ -277,28 +288,196 @@ animateSvg = function(root = document) {
   animateVerticalBars(root);
 };
 
-function drawCountryChart(mode = "total") {
-  const sorted = [...countryData].sort((a, b) => b[mode] - a[mode]);
-  horizontalBarChart("countryChart", sorted.map(d => ({
-    label: d.country,
-    value: d[mode],
-    color: d.country === "中国" ? "#c8f000" : "#5f8792"
-  })), {
-    dark: true,
-    title: mode === "total" ? "跨国统一口径：2022年电子废弃物产生量" : "跨国统一口径：2022年人均电子废弃物产生量",
-    unit: mode === "total" ? " 万吨" : " kg/人",
-    decimal: 1,
-    source: "数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 country sheets；用于跨国比较"
+async function drawCountryMap(mode = "total") {
+  const container = document.getElementById("countryMap");
+  if (!container) return;
+  const title = document.getElementById("countryMapTitle");
+  const width = 1100;
+  const height = 540;
+  const unit = mode === "total" ? "万吨" : "千克/人";
+  if (title) title.textContent = mode === "total" ? "电子废弃物产生总量" : "人均电子废弃物产生量";
+  container.classList.remove("is-ready");
+  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, "aria-hidden": "true" });
+  const project = ([lon, lat]) => [((lon + 180) / 360) * width, ((90 - lat) / 180) * height];
+
+  for (let lon = -150; lon <= 150; lon += 30) {
+    const [x] = project([lon, 0]);
+    svg.appendChild(svgEl("line", { class: "china-map-graticule", x1: x, y1: 0, x2: x, y2: height }));
+  }
+  for (let lat = -60; lat <= 60; lat += 30) {
+    const [, y] = project([0, lat]);
+    svg.appendChild(svgEl("line", { class: "china-map-graticule", x1: 0, y1: y, x2: width, y2: y }));
+  }
+
+  try {
+    const topology = await fetch("assets/data/countries-110m.json").then(response => {
+      if (!response.ok) throw new Error("map data unavailable");
+      return response.json();
+    });
+    const { scale, translate } = topology.transform;
+    const decodedArcs = topology.arcs.map(arc => {
+      let x = 0;
+      let y = 0;
+      return arc.map(([dx, dy]) => {
+        x += dx;
+        y += dy;
+        return [x * scale[0] + translate[0], y * scale[1] + translate[1]];
+      });
+    });
+    const arcPoints = index => {
+      const points = decodedArcs[index < 0 ? ~index : index];
+      return index < 0 ? [...points].reverse() : points;
+    };
+    const ringPath = ring => {
+      const points = ring.flatMap((index, i) => {
+        const arc = arcPoints(index);
+        return i === 0 ? arc : arc.slice(1);
+      });
+      return points.map((point, i) => {
+        const [x, y] = project(point);
+        return `${i ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join("") + "Z";
+    };
+    topology.objects.countries.geometries.forEach(geometry => {
+      const polygons = geometry.type === "Polygon" ? [geometry.arcs] : geometry.arcs;
+      const d = polygons.flatMap(polygon => polygon.map(ringPath)).join("");
+      const focus = Number(geometry.id) === 156;
+      svg.appendChild(svgEl("path", { class: `china-map-country${focus ? " is-china" : ""}`, d }));
+    });
+  } catch (error) {
+    const fallback = svgEl("text", { x: width / 2, y: height / 2, "text-anchor": "middle", fill: "#65716d", "font-size": 22 });
+    fallback.textContent = "地图数据暂时未能载入";
+    svg.appendChild(fallback);
+  }
+
+  const values = countryData.map(item => item[mode]);
+  const max = Math.max(...values);
+  countryData.forEach((item, index) => {
+    const location = countryMapLocations[item.country];
+    if (!location) return;
+    const [x, y] = project([location.lon, location.lat]);
+    const radius = (mode === "total" ? 12 : 10) + Math.sqrt(item[mode] / max) * (mode === "total" ? 29 : 25);
+    const labelX = x + location.dx;
+    const labelY = y + location.dy;
+    const anchor = location.dx < 0 ? "end" : "start";
+    const lineEndX = labelX + (location.dx < 0 ? 10 : -10);
+    const group = svgEl("g", {
+      class: `china-map-marker${item.country === "中国" ? " is-china" : ""}`,
+      style: `--map-delay:${.12 + index * .07}s`
+    });
+    group.appendChild(svgEl("line", { class: "china-map-leader", x1: x, y1: y, x2: lineEndX, y2: labelY - 5 }));
+    const bubble = svgEl("circle", { class: "china-map-bubble", cx: x, cy: y, r: radius });
+    const tooltip = svgEl("title");
+    tooltip.textContent = `${item.country}：${formatNumber(item[mode], 1)} ${unit}`;
+    bubble.appendChild(tooltip);
+    group.appendChild(bubble);
+    const country = svgEl("text", { class: "china-map-label", x: labelX, y: labelY - 10, "text-anchor": anchor });
+    country.textContent = item.country;
+    const value = svgEl("text", { class: "china-map-value", x: labelX, y: labelY + 15, "text-anchor": anchor });
+    value.textContent = `${formatNumber(item[mode], 1)} ${unit}`;
+    group.append(country, value);
+    svg.appendChild(group);
   });
+  container.replaceChildren(svg);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (matchMedia("(max-width: 620px)").matches) {
+      container.scrollLeft = Math.max(0, container.scrollWidth - container.clientWidth - 30);
+    }
+    container.classList.add("is-ready");
+  }));
 }
 
-function drawProductionChart(year = "2024") {
-  horizontalBarChart("productionChart", productionData[year], {
-    title: `${year}年中国主要电子电器产品产量`,
-    unit: " 万台",
-    decimal: 1,
-    source: `数据来源：国家统计局《${year}年国民经济和社会发展统计公报》`
-  });
+function drawProductionDashboard(year = "2024") {
+  const container = document.getElementById("productionDashboard");
+  if (!container) return;
+  const current = productionData[year];
+  const baseline = productionData["2023"];
+  const latest = productionData["2024"];
+  const sum = data => data.reduce((total, item) => total + item.value, 0);
+  const currentTotal = sum(current);
+  const baselineTotal = sum(baseline);
+  const latestTotal = sum(latest);
+  const totalGrowth = (latestTotal / baselineTotal - 1) * 100;
+  const maxOutput = Math.max(...current.map(item => item.value));
+  const growth = latest.map((item, index) => ({
+    label: item.label,
+    value: (item.value / baseline[index].value - 1) * 100,
+    color: item.color
+  }));
+  const maxGrowth = Math.max(...growth.map(item => item.value));
+  const shares = current.map(item => ({ ...item, share: item.value / currentTotal * 100 }));
+  let stop = 0;
+  const donutStops = shares.map(item => {
+    const start = stop;
+    stop += item.share;
+    return `${item.color} ${start.toFixed(2)}% ${stop.toFixed(2)}%`;
+  }).join(",");
+  const selectedGrowth = year === "2024" ? totalGrowth : null;
+  const phone = current[0];
+  const computer = current[1];
+  const outputRows = current.map(item => `
+    <div class="production-output-row">
+      <span>${item.label}</span>
+      <div><i class="production-output-fill" style="--bar:${(item.value / maxOutput * 100).toFixed(2)}%;--color:${item.color}"></i></div>
+      <b>${formatNumber(item.value, 1)}</b>
+    </div>`).join("");
+  const growthRows = growth.map(item => `
+    <div class="production-growth-row">
+      <span>${item.label.replace("移动通信手持机", "手机").replace("微型计算机设备", "计算机").replace("房间空气调节器", "空调").replace("彩色电视机", "电视").replace("家用电冰箱", "冰箱")}</span>
+      <div><i style="--bar:${(item.value / maxGrowth * 100).toFixed(2)}%;--color:${item.color}"></i></div>
+      <b>+${formatNumber(item.value, 1)}%</b>
+    </div>`).join("");
+  const shareLegend = shares.map(item => `
+    <li><i style="--color:${item.color}"></i><span>${item.label.replace("移动通信手持机", "手机").replace("微型计算机设备", "计算机").replace("房间空气调节器", "空调").replace("彩色电视机", "电视").replace("家用电冰箱", "冰箱")}</span><b>${formatNumber(item.share, 1)}%</b></li>`).join("");
+  const comparisonMax = Math.max(baselineTotal, latestTotal);
+  container.classList.remove("is-ready");
+  container.innerHTML = `
+    <div class="production-dashboard-grid">
+      <section class="production-panel production-panel--overview">
+        <span class="production-panel-kicker">五类产品合计</span>
+        <div class="production-big-number"><strong data-count="${currentTotal}" data-decimals="1">0.0</strong><em>万台</em></div>
+        <p>${year === "2024" ? `较 2023 年增长 <b>+${formatNumber(selectedGrowth, 1)}%</b>` : "作为 2024 年同比计算的基准年"}</p>
+      </section>
+      <section class="production-panel production-panel--kpi">
+        <span class="production-panel-kicker">移动通信手持机</span>
+        <strong data-count="${phone.value}" data-decimals="1">0.0</strong>
+        <small>万台 / 占五类总量 ${formatNumber(phone.value / currentTotal * 100, 1)}%</small>
+      </section>
+      <section class="production-panel production-panel--kpi production-panel--computer">
+        <span class="production-panel-kicker">微型计算机设备</span>
+        <strong data-count="${computer.value}" data-decimals="1">0.0</strong>
+        <small>万台 / 占五类总量 ${formatNumber(computer.value / currentTotal * 100, 1)}%</small>
+      </section>
+      <section class="production-panel production-panel--output">
+        <header><h3>${year} 年主要产品产量</h3><span>单位：万台</span></header>
+        <div class="production-output-bars">${outputRows}</div>
+      </section>
+      <section class="production-panel production-panel--growth">
+        <header><h3>2024 年同比增幅</h3><span>对照 2023 年</span></header>
+        <div class="production-growth-bars">${growthRows}</div>
+      </section>
+      <section class="production-panel production-panel--share">
+        <header><h3>${year} 年产品结构</h3><span>五类合计 = 100%</span></header>
+        <div class="production-share-layout">
+          <div class="production-donut" style="background:conic-gradient(${donutStops})"><span><b>${year}</b>结构</span></div>
+          <ul>${shareLegend}</ul>
+        </div>
+      </section>
+      <section class="production-panel production-panel--compare">
+        <header><h3>两年之间，多出多少设备？</h3><span>五类产品合计</span></header>
+        <div class="production-compare-layout">
+          <div class="production-compare-bars">
+            <div class="${year === "2023" ? "is-selected" : ""}"><b style="--height:${(baselineTotal / comparisonMax * 100).toFixed(2)}%"></b><span>2023</span><em>${formatNumber(baselineTotal, 1)}</em></div>
+            <div class="${year === "2024" ? "is-selected" : ""}"><b style="--height:${(latestTotal / comparisonMax * 100).toFixed(2)}%"></b><span>2024</span><em>${formatNumber(latestTotal, 1)}</em></div>
+          </div>
+          <div class="production-gain"><span>一年净增</span><strong>+${formatNumber(latestTotal - baselineTotal, 1)}</strong><em>万台</em><small>这不是当年废弃量，而是未来回收压力的新增入口。</small></div>
+        </div>
+      </section>
+    </div>`;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    container.classList.add("is-ready");
+    if (container.closest(".is-visible")) animateCounters(container);
+  }));
 }
 
 function drawDigitalUsersChart() {
@@ -766,14 +945,14 @@ function setupToolbar() {
     btn.addEventListener("click", () => {
       document.querySelectorAll("[data-mode]").forEach(b => b.classList.remove("is-active"));
       btn.classList.add("is-active");
-      drawCountryChart(btn.dataset.mode);
+      drawCountryMap(btn.dataset.mode);
     });
   });
   document.querySelectorAll("[data-year]").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll("[data-year]").forEach(b => b.classList.remove("is-active"));
       btn.classList.add("is-active");
-      drawProductionChart(btn.dataset.year);
+      drawProductionDashboard(btn.dataset.year);
     });
   });
 }
@@ -804,8 +983,8 @@ function drawAllCharts() {
   drawGlobalTimeline();
   drawGlobalCollectionMini();
   drawGlobalGauge();
-  drawCountryChart("total");
-  drawProductionChart("2024");
+  drawCountryMap("total");
+  drawProductionDashboard("2024");
   drawDigitalUsersChart();
   drawMarketVsWaste();
   drawChinaTrend();

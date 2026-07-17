@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>中国：总量最重的一端</title>
-  <link rel="stylesheet" href="styles.css?v=20260717-8">
+  <link rel="stylesheet" href="styles.css?v=20260717-9">
   <link rel="icon" href="data:,">
 </head>
 <body class="chapter-page">
@@ -21,30 +21,58 @@
   </header>
 
   <main>
-    <section class="story-section two-col-section">
-      <div class="text-column">
+    <section class="story-section china-ranking-section">
+      <div class="section-title china-section-title">
         <p class="eyebrow">Country ranking</p>
-        <h2>跨国统一口径下，中国的电子废弃物总量最高。</h2>
-        <p>全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）的国家页显示，中国 2022 年电子废弃物产生量为 1206.6 万吨。在重点国家对照中，它高于美国与印度之和。</p>
-        <p>但总量第一不等于“每个人最浪费”。点击切换到人均，你会看到另一个事实：压力不是单一排名，而是人口规模、设备保有量和回收系统共同叠出的结果。</p>
+        <h2>总量第一，但地图上的压力不只有一种尺度。</h2>
       </div>
-      <div class="viz-panel viz-panel--dark">
-        <div class="chart-toolbar"><button class="segmented is-active" type="button" data-mode="total">总量</button><button class="segmented" type="button" data-mode="perCapita">人均</button></div>
-        <div id="countryChart" class="chart" role="img" aria-label="国家电子废弃物对照图"></div>
+      <figure class="china-country-atlas">
+        <div class="china-atlas-head">
+          <div>
+            <span>2022 / SELECTED COUNTRIES</span>
+            <strong id="countryMapTitle">电子废弃物产生总量</strong>
+          </div>
+          <div class="chart-toolbar chart-toolbar--light" aria-label="切换国家对照尺度">
+            <button class="segmented is-active" type="button" data-mode="total">总量</button>
+            <button class="segmented" type="button" data-mode="perCapita">人均</button>
+          </div>
+        </div>
+        <div id="countryMap" class="china-country-map" role="img" aria-label="2022年重点国家电子废弃物总量与人均产生量地图"></div>
+        <div class="china-map-legend" aria-hidden="true">
+          <span><i class="is-china"></i>中国</span>
+          <span><i></i>重点对照国家</span>
+          <span>圆面积随所选指标变化</span>
+        </div>
+        <figcaption>数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 country sheets；地图仅呈现用于对照的八个国家。</figcaption>
+      </figure>
+      <div class="china-ranking-copy">
+        <p>2022 年，中国产生 <mark>1206.6 万吨</mark>电子废弃物，约占全球总量的五分之一；在这组重点国家中，它甚至高于<mark>美国与印度之和</mark>。庞大人口、设备保有量与完整电子产业链在同一张地图上叠加，才形成了这个醒目的总量。</p>
+        <p>但切换到人均，排序会被重新改写：中国为每人 8.5 千克，低于美国、日本、德国、英国和法国。<mark>总量第一不等于“每个人最浪费”</mark>，它更像是一场系统压力测试：设备越多、周转越快，收集、追踪和拆解体系就越不能缺位。</p>
       </div>
     </section>
 
-    <section class="story-section two-col-section reverse">
-      <div class="viz-panel">
-        <div class="chart-toolbar chart-toolbar--light"><button class="segmented" type="button" data-year="2023">2023</button><button class="segmented is-active" type="button" data-year="2024">2024</button></div>
-        <div id="productionChart" class="chart" role="img" aria-label="中国主要电子电器产品产量图"></div>
-      </div>
-      <div class="text-column">
+    <section class="story-section china-production-section">
+      <div class="section-title china-section-title">
         <p class="eyebrow">Domestic data</p>
-        <h2>旧设备的未来，先藏在新设备的产量里。</h2>
-        <p>国家统计局公报显示，2024 年中国移动通信手持机产量为 166952.9 万台，微型计算机设备产量为 33912.9 万台，房间空气调节器、彩色电视机、家用电冰箱也都以“万台”为单位进入家庭和市场。</p>
-        <p>这些数字不是电子废弃物本身，却是未来废弃物流的入口。今天被装进购物车、办公室和出租屋的设备，几年后会变成另一张回收压力表。</p>
-        <p class="source-note">图中数据来源为国家统计局《2023年/2024年国民经济和社会发展统计公报》。华强北图片为深圳电子流通场景，不代表废弃处理现场。</p>
+        <h2>旧设备的未来，先写在新设备的产量里。</h2>
+      </div>
+      <div class="production-dashboard-shell">
+        <div class="production-dashboard-head">
+          <div>
+            <span>CHINA ELECTRONICS OUTPUT</span>
+            <strong>主要电子电器产品产量看板</strong>
+          </div>
+          <div class="chart-toolbar" aria-label="切换统计年份">
+            <button class="segmented" type="button" data-year="2023">2023</button>
+            <button class="segmented is-active" type="button" data-year="2024">2024</button>
+          </div>
+        </div>
+        <div id="productionDashboard" class="production-dashboard" role="img" aria-label="中国主要电子电器产品产量多图联动看板"></div>
+        <p class="production-dashboard-source">数据来源：国家统计局《2023年国民经济和社会发展统计公报》《2024年国民经济和社会发展统计公报》；同比增幅由公报数据计算。</p>
+      </div>
+      <div class="china-production-copy">
+        <p>把五类主要产品相加，2024 年产量达到<mark>258605.3 万台</mark>，比 2023 年增长约<mark>6.3%</mark>。其中移动通信手持机超过 16.6 亿台，房间空气调节器和彩色电视机的增幅也都超过 7%。</p>
+        <p>这些数字不是当年的电子废弃物，却是未来废弃物流的入口。今天被装进购物车、办公室和出租屋的设备，会在不同使用寿命之后抵达回收系统。<mark>生产高峰与报废高峰之间，只隔着一段可以预估、却常被忽略的时间。</mark></p>
       </div>
     </section>
 
@@ -84,7 +112,7 @@
 
     <a class="next-gate" href="missing.html"><span>正式回收为什么接不住？</span><small>点击进入下一页</small></a>
   </main>
-  <script src="script.js?v=20260717-8"></script>
+  <script src="script.js?v=20260717-9"></script>
 </body>
 </html>
 

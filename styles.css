@@ -63,6 +63,7 @@ p, li, .source-note, .mountain-estimate-note { word-break: normal; overflow-wrap
 .text-column > p:not(.eyebrow), .wide-text { text-align: justify; text-justify: inter-ideograph; }
 h1 { max-width: 980px; margin-bottom: 22px; font-size: clamp(50px, 8.4vw, 124px); line-height: .98; letter-spacing: 0; }
 .page-hero h1 { max-width: 1060px; font-size: clamp(48px, 7.2vw, 104px); line-height: 1.1; }
+.page-hero--global h1, .page-hero--china h1 { font-size: clamp(48px, 6.6vw, 96px); line-height: 1.12; }
 .page-hero p:not(.eyebrow) { line-height: 1.58; }
 h2 { margin-bottom: 22px; font-size: clamp(30px, 4vw, 54px); line-height: 1.12; letter-spacing: 0; }
 h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; }
@@ -424,6 +425,104 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   border-color: var(--orange);
   color: var(--orange);
 }
+
+/* China: one dataset, two scales. */
+.china-ranking-section, .china-production-section { padding-top: 112px; padding-bottom: 112px; }
+.china-section-title { max-width: 920px; margin-bottom: 42px; }
+.china-section-title h2 { max-width: 900px; }
+.china-country-atlas { margin: 0; overflow: hidden; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
+.china-atlas-head, .production-dashboard-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.china-atlas-head { padding: 28px 32px 16px; border-bottom: 1px solid #dce2dc; }
+.china-atlas-head > div:first-child, .production-dashboard-head > div:first-child { display: grid; gap: 3px; }
+.china-atlas-head span, .production-dashboard-head span { color: var(--orange); font-size: 13px; font-weight: 900; }
+.china-atlas-head strong { font-size: clamp(24px, 2.8vw, 38px); line-height: 1.14; }
+.china-atlas-head .chart-toolbar, .production-dashboard-head .chart-toolbar { flex: 0 0 auto; margin: 0; }
+.china-country-map { min-height: 0; overflow: hidden; background: linear-gradient(180deg, #f8faf7 0%, #f1f4ee 100%); }
+.china-country-map svg { display: block; width: 100%; height: auto; }
+.china-map-graticule { stroke: #dce4dc; stroke-width: 1; }
+.china-map-country { fill: #dce3dd; stroke: #89958f; stroke-width: .8; vector-effect: non-scaling-stroke; }
+.china-map-country.is-china { fill: #d9e8a1; stroke: #8ba000; stroke-width: 1.5; }
+.china-map-leader { stroke: #46534e; stroke-width: 1.4; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity .5s ease var(--map-delay); }
+.china-map-bubble { fill: rgba(226,100,61,.74); stroke: #fff; stroke-width: 3; transform-box: fill-box; transform-origin: center; transform: scale(.08); opacity: 0; transition: transform .75s cubic-bezier(.18,.86,.22,1) var(--map-delay), opacity .45s ease var(--map-delay), filter .25s ease; }
+.china-map-marker.is-china .china-map-bubble { fill: rgba(200,240,0,.84); stroke: #101413; }
+.china-map-marker:hover .china-map-bubble { filter: brightness(1.03) drop-shadow(0 8px 12px rgba(16,20,19,.2)); }
+.china-map-label, .china-map-value { fill: #101413; opacity: 0; transition: opacity .5s ease calc(var(--map-delay) + .18s); }
+.china-map-label { font-size: 18px; font-weight: 900; }
+.china-map-value { font-size: 16px; font-weight: 800; }
+.china-country-map.is-ready .china-map-bubble { transform: scale(1); opacity: 1; }
+.china-country-map.is-ready .china-map-leader, .china-country-map.is-ready .china-map-label, .china-country-map.is-ready .china-map-value { opacity: 1; }
+.china-map-legend { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; padding: 15px 32px; color: #4f5d58; background: #f8faf7; border-top: 1px solid #dde3dc; font-size: 13px; font-weight: 800; }
+.china-map-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.china-map-legend i { width: 13px; height: 13px; display: inline-block; border-radius: 50%; background: var(--red); border: 2px solid #fff; box-shadow: 0 0 0 1px #c5cec7; }
+.china-map-legend i.is-china { background: var(--green); border-color: #101413; box-shadow: none; }
+.china-country-atlas figcaption { padding: 14px 32px 18px; color: #64706c; font-size: 12px; line-height: 1.55; }
+.china-ranking-copy, .china-production-copy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 42px; margin-top: 38px; padding-top: 28px; border-top: 4px solid #101413; }
+.china-ranking-copy p, .china-production-copy p { margin: 0; color: var(--muted); font-size: 19px; line-height: 1.9; text-align: justify; text-justify: inter-ideograph; }
+.china-ranking-copy mark, .china-production-copy mark { padding: 0 .12em; color: #e65c37; background: transparent; font-weight: 900; }
+
+/* China: production output dashboard. */
+.production-dashboard-shell { overflow: hidden; color: #fff; background: #090d0c; border: 1px solid #252d2a; box-shadow: var(--shadow); }
+.production-dashboard-head { padding: 24px 26px 18px; border-bottom: 1px solid rgba(255,255,255,.13); }
+.production-dashboard-head strong { color: #fff; font-size: clamp(22px, 2.5vw, 34px); line-height: 1.12; }
+.production-dashboard { padding: 14px; }
+.production-dashboard-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 12px; }
+.production-panel { min-width: 0; padding: 20px; overflow: hidden; color: #fff; background: #171c1b; border: 1px solid rgba(255,255,255,.1); }
+.production-panel h3 { margin: 0; color: #fff; font-size: 17px; line-height: 1.22; }
+.production-panel header { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+.production-panel header span { color: rgba(255,255,255,.55); font-size: 11px; font-weight: 700; }
+.production-panel-kicker { display: block; margin-bottom: 7px; color: rgba(255,255,255,.64); font-size: 12px; font-weight: 800; }
+.production-panel--overview { grid-column: span 5; min-height: 180px; background: linear-gradient(120deg, #16201e, #202724); border-top: 4px solid var(--green); }
+.production-big-number { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.production-big-number strong { min-width: 0; font-size: clamp(42px, 5vw, 68px); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.production-big-number em { color: var(--green); font-size: 20px; font-style: normal; font-weight: 900; }
+.production-panel--overview p { margin: 14px 0 0; color: rgba(255,255,255,.68); font-size: 14px; }
+.production-panel--overview p b { color: var(--green); font-size: 20px; }
+.production-panel--kpi { grid-column: span 3; min-height: 180px; border-top: 4px solid var(--orange); }
+.production-panel--computer { grid-column: span 4; border-top-color: var(--steel); }
+.production-panel--kpi > strong { display: block; margin: 22px 0 8px; color: var(--orange); font-size: clamp(32px, 3.3vw, 48px); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.production-panel--computer > strong { color: #8cb0ba; }
+.production-panel--kpi small { color: rgba(255,255,255,.62); font-size: 11px; }
+.production-panel--output { grid-column: span 7; min-height: 354px; }
+.production-output-bars { display: grid; gap: 16px; }
+.production-output-row { display: grid; grid-template-columns: 122px minmax(0, 1fr) 92px; gap: 12px; align-items: center; }
+.production-output-row > span { color: rgba(255,255,255,.78); font-size: 12px; font-weight: 800; }
+.production-output-row > div { height: 18px; overflow: hidden; background: #303735; }
+.production-output-fill { display: block; width: 0; height: 100%; background: var(--color); transition: width 1.15s cubic-bezier(.2,.8,.2,1); }
+.production-output-row b { color: #fff; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.production-panel--growth { grid-column: span 5; min-height: 354px; }
+.production-growth-bars { display: grid; gap: 15px; }
+.production-growth-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) 52px; gap: 9px; align-items: center; }
+.production-growth-row span, .production-growth-row b { color: rgba(255,255,255,.74); font-size: 11px; }
+.production-growth-row b { color: #fff; text-align: right; font-variant-numeric: tabular-nums; }
+.production-growth-row > div { height: 9px; background: #303735; }
+.production-growth-row i { display: block; width: 0; height: 100%; background: var(--color); transition: width 1.15s cubic-bezier(.2,.8,.2,1) .12s; }
+.production-panel--share { grid-column: span 5; min-height: 280px; }
+.production-share-layout { display: grid; grid-template-columns: 142px minmax(0, 1fr); gap: 22px; align-items: center; }
+.production-donut { width: 142px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; transform: scale(.3) rotate(-24deg); opacity: .1; transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .65s ease; }
+.production-donut::before { content: ""; width: 78%; aspect-ratio: 1; border-radius: 50%; background: #171c1b; }
+.production-donut span { position: absolute; display: grid; color: rgba(255,255,255,.7); font-size: 10px; line-height: 1.25; text-align: center; }
+.production-donut span b { color: #fff; font-size: 17px; }
+.production-share-layout ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.production-share-layout li { display: grid; grid-template-columns: 9px minmax(0, 1fr) auto; gap: 7px; align-items: center; color: rgba(255,255,255,.7); font-size: 10px; }
+.production-share-layout li i { width: 9px; height: 9px; background: var(--color); }
+.production-share-layout li b { color: #fff; font-variant-numeric: tabular-nums; }
+.production-panel--compare { grid-column: span 7; min-height: 280px; }
+.production-compare-layout { display: grid; grid-template-columns: minmax(240px, 1.1fr) minmax(180px, .9fr); gap: 28px; align-items: center; }
+.production-compare-bars { height: 166px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: end; border-bottom: 1px solid rgba(255,255,255,.22); }
+.production-compare-bars > div { height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) auto auto; justify-items: center; align-items: end; }
+.production-compare-bars b { width: 62%; height: 0; max-height: 112px; background: #5f8792; transition: height 1.15s cubic-bezier(.2,.8,.2,1); }
+.production-compare-bars .is-selected b { background: var(--green); }
+.production-compare-bars span { margin-top: 5px; color: #fff; font-size: 12px; font-weight: 900; }
+.production-compare-bars em { color: rgba(255,255,255,.56); font-size: 9px; font-style: normal; }
+.production-gain { display: grid; align-content: center; }
+.production-gain span { color: rgba(255,255,255,.58); font-size: 11px; font-weight: 800; }
+.production-gain strong { color: var(--orange); font-size: clamp(28px, 3vw, 42px); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.production-gain em { color: #fff; font-size: 13px; font-style: normal; font-weight: 900; }
+.production-gain small { margin-top: 12px; color: rgba(255,255,255,.58); font-size: 10px; line-height: 1.55; }
+.production-dashboard.is-ready .production-output-fill, .production-dashboard.is-ready .production-growth-row i { width: var(--bar); }
+.production-dashboard.is-ready .production-donut { transform: scale(1) rotate(0); opacity: 1; }
+.production-dashboard.is-ready .production-compare-bars b { height: var(--height); }
+.production-dashboard-source { margin: 0; padding: 8px 26px 22px; color: rgba(255,255,255,.5); font-size: 11px; line-height: 1.5; }
 @media (max-width: 1100px) {
   .global-scale-section { grid-template-columns: 1fr; }
   .global-scale-section .text-column { position: static; padding-top: 0; }
@@ -456,6 +555,11 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .time-box--accent { padding-left: 18px; padding-right: 18px; }
   .time-box strong { font-size: 3.2rem; }
   .question-list, .stat-duo, .metric-strip { grid-template-columns: 1fr; }
+  .production-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .production-panel--overview, .production-panel--output, .production-panel--growth { grid-column: 1 / -1; }
+  .production-panel--kpi, .production-panel--computer, .production-panel--share, .production-panel--compare { grid-column: span 1; }
+  .production-share-layout, .production-compare-layout { grid-template-columns: 1fr; }
+  .production-donut { margin: 0 auto; }
 }
 @media (max-width: 620px) {
   .home-map, .story-section { width: calc(100% - 28px); padding: 74px 0; }
@@ -539,4 +643,26 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .hundred-grid { grid-template-columns: repeat(10, 1fr); }
   .next-gate { min-height: 300px; padding: 30px 14px; }
   h1 { font-size: clamp(44px, 15vw, 70px); }
+  .page-hero--global h1, .page-hero--china h1 { font-size: clamp(42px, 13vw, 62px); line-height: 1.12; }
+  .china-ranking-section, .china-production-section { padding-top: 78px; padding-bottom: 78px; }
+  .china-section-title { margin-bottom: 28px; }
+  .china-section-title h2 { font-size: 34px; }
+  .china-atlas-head, .production-dashboard-head { align-items: flex-start; flex-direction: column; padding: 20px 18px 16px; }
+  .china-country-map { overflow-x: auto; scrollbar-color: var(--orange) #e2e7e1; }
+  .china-country-map svg { width: 720px; max-width: none; }
+  .china-map-legend { gap: 10px 18px; padding: 13px 18px; }
+  .china-country-atlas figcaption { padding: 12px 18px 16px; font-size: 10px; }
+  .china-ranking-copy, .china-production-copy { grid-template-columns: 1fr; gap: 20px; margin-top: 28px; padding-top: 22px; }
+  .china-ranking-copy p, .china-production-copy p { font-size: 17px; line-height: 1.82; }
+  .production-dashboard { padding: 8px; }
+  .production-dashboard-grid { grid-template-columns: 1fr; gap: 8px; }
+  .production-panel, .production-panel--overview, .production-panel--kpi, .production-panel--computer, .production-panel--output, .production-panel--growth, .production-panel--share, .production-panel--compare { grid-column: 1; min-height: 0; padding: 17px; }
+  .production-big-number strong { font-size: clamp(38px, 11.5vw, 52px); }
+  .production-panel--kpi > strong { font-size: 36px; }
+  .production-output-row { grid-template-columns: 92px minmax(0, 1fr) 76px; gap: 8px; }
+  .production-output-row > span, .production-output-row b { font-size: 10px; }
+  .production-share-layout { grid-template-columns: 120px minmax(0, 1fr); }
+  .production-donut { width: 120px; }
+  .production-compare-layout { grid-template-columns: 1fr; }
+  .production-dashboard-source { padding: 7px 16px 18px; font-size: 9px; }
 }
