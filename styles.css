@@ -60,6 +60,7 @@ button { font: inherit; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3, .page-hero p, .next-gate span { text-wrap: balance; }
 p, li, .source-note, .mountain-estimate-note { word-break: normal; overflow-wrap: break-word; text-wrap: pretty; }
+.text-column > p:not(.eyebrow), .wide-text { text-align: justify; text-justify: inter-ideograph; }
 h1 { max-width: 980px; margin-bottom: 22px; font-size: clamp(50px, 8.4vw, 124px); line-height: .98; letter-spacing: 0; }
 .page-hero h1 { max-width: 1060px; font-size: clamp(48px, 7.2vw, 104px); line-height: 1.1; }
 .page-hero p:not(.eyebrow) { line-height: 1.58; }
@@ -195,12 +196,12 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .global-scale-section .text-column { position: sticky; top: 88px; align-self: start; padding-top: 0; }
 .global-scale-section .text-column p { font-size: 19px; line-height: 1.76; }
 .mountain-facts { margin: 28px 0 30px; border-top: 1px solid #bbc4be; }
-.mountain-fact { display: grid; grid-template-columns: 142px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px 0; border-bottom: 1px solid #bbc4be; opacity: 0; transform: translateY(18px); transition: opacity .75s ease, transform .75s ease; }
+.mountain-fact { display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px 0; border-bottom: 1px solid #bbc4be; opacity: 0; transform: translateY(18px); transition: opacity .75s ease, transform .75s ease; }
 .mountain-fact:nth-child(2) { transition-delay: .12s; }
 .mountain-fact:nth-child(3) { transition-delay: .24s; }
 .mountain-fact:nth-child(4) { transition-delay: .36s; }
 .global-scale-section.is-visible .mountain-fact { opacity: 1; transform: translateY(0); }
-.mountain-fact strong { color: #e2643d; font-size: 25px; line-height: 1.12; font-variant-numeric: tabular-nums; }
+.mountain-fact strong { color: #e2643d; font-size: clamp(21px, 1.7vw, 25px); line-height: 1.12; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .global-scale-section .mountain-fact p { margin: 0; color: #34413d; font-size: 14px; line-height: 1.55; }
 .mountain-fact p b { color: #101615; font-weight: 900; }
 .global-scale-section .mountain-estimate-note { margin: -12px 0 24px; padding-left: 12px; color: #68736f; font-size: 12px; line-height: 1.6; border-left: 3px solid #c9d1cc; }
@@ -286,12 +287,19 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .map-country { fill: #26332f; stroke: #52605b; stroke-width: .45; transition: fill .35s ease, opacity .8s ease; }
 .map-country.is-focus { fill: #5f8792; }
 .map-graticule { fill: none; stroke: rgba(255,255,255,.08); stroke-width: .7; }
-.map-bubble { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.18); transition: opacity .65s ease var(--map-delay, .2s), transform .85s cubic-bezier(.2,.8,.2,1) var(--map-delay, .2s); }
+.map-bubble { cursor: pointer; opacity: 0; outline: none; transform-box: fill-box; transform-origin: center; transform: scale(.18); transition: opacity .65s ease var(--map-delay, .2s), transform .85s cubic-bezier(.2,.8,.2,1) var(--map-delay, .2s); }
 .is-visible .map-bubble { opacity: 1; transform: scale(1); }
 .map-bubble circle { fill: rgba(200,240,0,.28); stroke: var(--green); stroke-width: 2.5; }
+.map-bubble:hover circle, .map-bubble:focus circle, .map-bubble.is-active circle { fill: rgba(255,174,0,.34); stroke: var(--orange); stroke-width: 4; }
 .map-bubble text { fill: #fff; paint-order: stroke; stroke: #07100e; stroke-width: 3px; stroke-linejoin: round; }
 .map-bubble .map-region { fill: var(--orange); font-size: 14px; font-weight: 900; }
 .map-bubble .map-value { font-size: 18px; font-weight: 900; }
+.continent-story { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 18px; align-items: start; min-height: 86px; margin-top: 12px; padding: 14px 16px; background: #15201d; border-left: 4px solid var(--orange); }
+.continent-story span { color: var(--orange); font-size: 13px; line-height: 1.5; font-weight: 900; }
+.continent-story p { min-height: 48px; margin: 0; color: rgba(255,255,255,.82); font-size: 14px; line-height: 1.7; text-align: justify; text-justify: inter-ideograph; }
+.continent-story p::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 4px; vertical-align: -.12em; background: var(--green); animation: typing-caret .8s steps(1) infinite; }
+.continent-story.is-complete p::after { display: none; }
+@keyframes typing-caret { 50% { opacity: 0; } }
 .continent-legend { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
 .continent-legend span { color: rgba(255,255,255,.7); font-size: 11px; white-space: nowrap; }
 .continent-legend i { display: block; width: 100%; height: 5px; margin-bottom: 6px; background: linear-gradient(90deg, var(--green) var(--rate), rgba(255,255,255,.12) var(--rate)); }
@@ -461,6 +469,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .world-map-panel, .country-share-panel { padding: 12px; }
   .dashboard-panel-title { align-items: flex-start; flex-direction: column; gap: 2px; }
   .distribution-map { min-height: 0; }
+  .continent-story { grid-template-columns: 1fr; gap: 6px; min-height: 138px; }
   .continent-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chart { min-height: 360px; }
   .time-box strong { font-size: 2.35rem; }

@@ -552,6 +552,10 @@ function drawWordCloud() {
 async function drawGlobalDistributionMap() {
   const container = document.getElementById("globalDistributionMap");
   if (!container) return;
+  const storyBox = document.querySelector(".continent-story");
+  const storyLabel = document.getElementById("continentStoryLabel");
+  const storyText = document.getElementById("continentStoryText");
+  let typingTimer;
   const width = 920;
   const height = 460;
   const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, "aria-hidden": "true" });
@@ -608,21 +612,50 @@ async function drawGlobalDistributionMap() {
   }
 
   const regions = [
-    { name: "美洲", value: "1442.7", lon: -92, lat: 18, r: 43 },
-    { name: "欧洲", value: "1307.6", lon: 16, lat: 54, r: 39 },
-    { name: "亚洲", value: "3014.7", lon: 96, lat: 30, r: 58 },
-    { name: "非洲", value: "355.1", lon: 20, lat: 2, r: 25 },
-    { name: "大洋洲", value: "70.7", lon: 138, lat: -30, r: 16 }
+    { name: "美洲", value: "1442.7", lon: -92, lat: 18, r: 43, story: "2019 年，美洲产生 1347.8 万吨电子废弃物；到 2022 年升至 1442.7 万吨。三年增加 94.9 万吨，折合每天约新增 867 吨，正式回收率为 30%。" },
+    { name: "欧洲", value: "1307.6", lon: 16, lat: 54, r: 39, story: "2019 年，欧洲产生 1251.3 万吨电子废弃物；到 2022 年升至 1307.6 万吨。三年增加 56.3 万吨，折合每天约新增 514 吨；正式回收率为 43%，居各洲首位。" },
+    { name: "亚洲", value: "3014.7", lon: 96, lat: 30, r: 58, story: "2019 年，亚洲产生 2568.0 万吨电子废弃物；到 2022 年升至 3014.7 万吨。仅三年就增加 446.7 万吨，折合每天约新增 4080 吨，但正式回收率仍只有 12%。" },
+    { name: "非洲", value: "355.1", lon: 20, lat: 2, r: 25, story: "2019 年，非洲产生 312.1 万吨电子废弃物；到 2022 年升至 355.1 万吨。三年增加 43.0 万吨，折合每天约新增 393 吨；正式回收率仅 1%。" },
+    { name: "大洋洲", value: "70.7", lon: 138, lat: -30, r: 16, story: "2022 年，大洋洲产生 70.7 万吨电子废弃物。总量最小，人均产生量却达到 16.1 千克，正式回收率为 41%；总量小并不意味着消费压力低。" }
   ];
+  const typeStory = (region, group) => {
+    if (!storyBox || !storyLabel || !storyText) return;
+    clearInterval(typingTimer);
+    svg.querySelectorAll(".map-bubble").forEach(bubble => bubble.classList.remove("is-active"));
+    group.classList.add("is-active");
+    storyBox.classList.remove("is-complete");
+    storyLabel.textContent = `${region.name} / 2019—2022`;
+    storyText.textContent = "";
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      storyText.textContent = region.story;
+      storyBox.classList.add("is-complete");
+      return;
+    }
+    let index = 0;
+    typingTimer = setInterval(() => {
+      index += 1;
+      storyText.textContent = region.story.slice(0, index);
+      if (index >= region.story.length) {
+        clearInterval(typingTimer);
+        storyBox.classList.add("is-complete");
+      }
+    }, 34);
+  };
   regions.forEach((region, index) => {
     const [x, y] = project([region.lon, region.lat]);
-    const group = svgEl("g", { class: "map-bubble", style: `--map-delay:${.3 + index * .14}s` });
+    const group = svgEl("g", { class: "map-bubble", style: `--map-delay:${.3 + index * .14}s`, role: "button", tabindex: "0", "aria-label": `查看${region.name}电子废弃物增量` });
     group.appendChild(svgEl("circle", { cx: x, cy: y, r: region.r }));
     const label = svgEl("text", { class: "map-region", x, y: y - 4, "text-anchor": "middle" });
     label.textContent = region.name;
     const value = svgEl("text", { class: "map-value", x, y: y + 18, "text-anchor": "middle" });
     value.textContent = region.value;
     group.append(label, value);
+    group.addEventListener("click", () => typeStory(region, group));
+    group.addEventListener("keydown", event => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      typeStory(region, group);
+    });
     svg.appendChild(group);
   });
   container.replaceChildren(svg);
