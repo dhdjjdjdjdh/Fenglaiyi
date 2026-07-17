@@ -7,20 +7,36 @@ const countryData = [
   { country: "印度", total: 413.7, perCapita: 2.9, rate: 1, market: 1027.1, collected: 6.0 },
   { country: "日本", total: 263.8, perCapita: 21.2, rate: 23, market: 375.0, collected: 61.3 },
   { country: "巴西", total: 244.3, perCapita: 11.4, rate: 3, market: 321.0, collected: 7.9 },
+  { country: "俄罗斯", total: 191.0, perCapita: 13.2 },
+  { country: "印度尼西亚", total: 188.6, perCapita: 6.9 },
   { country: "德国", total: 176.7, perCapita: 21.2, rate: 54, market: 175.6, collected: 95.7 },
   { country: "英国", total: 165.2, perCapita: 24.5, rate: 30, market: 159.4, collected: 50.2 },
-  { country: "法国", total: 144.5, perCapita: 22.4, rate: 60, market: 166.7, collected: 86.1 }
+  { country: "墨西哥", total: 149.9, perCapita: 11.8 },
+  { country: "法国", total: 144.5, perCapita: 22.4, rate: 60, market: 166.7, collected: 86.1 },
+  { country: "意大利", total: 112.3, perCapita: 19.0 },
+  { country: "韩国", total: 93.0, perCapita: 17.9 },
+  { country: "加拿大", total: 77.4, perCapita: 20.2 },
+  { country: "澳大利亚", total: 58.3, perCapita: 22.4 },
+  { country: "阿根廷", total: 51.7, perCapita: 11.4 }
 ];
 
 const countryMapLocations = {
-  "中国": { lon: 104, lat: 35, dx: 62, dy: 45 },
-  "美国": { lon: -100, lat: 38, dx: -62, dy: 48 },
-  "印度": { lon: 78, lat: 22, dx: 56, dy: 54 },
-  "日本": { lon: 138, lat: 37, dx: 54, dy: -28 },
-  "巴西": { lon: -52, lat: -10, dx: -64, dy: 54 },
-  "德国": { lon: 10, lat: 51, dx: 82, dy: -18 },
-  "英国": { lon: -3, lat: 55, dx: -84, dy: -28 },
-  "法国": { lon: 2, lat: 46, dx: -76, dy: 46 }
+  "中国": { lon: 104, lat: 35, dx: 54, dy: 49 },
+  "美国": { lon: -100, lat: 38, dx: -56, dy: 47 },
+  "印度": { lon: 78, lat: 22, dx: 54, dy: 52 },
+  "日本": { lon: 138, lat: 37, dx: 48, dy: -31 },
+  "巴西": { lon: -52, lat: -10, dx: -58, dy: 51 },
+  "俄罗斯": { lon: 88, lat: 60, dx: 52, dy: -35 },
+  "印度尼西亚": { lon: 118, lat: -2, dx: 50, dy: 48 },
+  "德国": { lon: 10, lat: 51, dx: 72, dy: -34 },
+  "英国": { lon: -3, lat: 55, dx: -69, dy: -34 },
+  "墨西哥": { lon: -102, lat: 23, dx: -58, dy: 54 },
+  "法国": { lon: 2, lat: 46, dx: -72, dy: 42 },
+  "意大利": { lon: 12, lat: 42, dx: 65, dy: 50 },
+  "韩国": { lon: 128, lat: 36, dx: -48, dy: -43 },
+  "加拿大": { lon: -106, lat: 56, dx: -58, dy: -40 },
+  "澳大利亚": { lon: 134, lat: -25, dx: 49, dy: 49 },
+  "阿根廷": { lon: -64, lat: -34, dx: -56, dy: 43 }
 };
 
 const chinaTrend = [
@@ -379,12 +395,13 @@ async function drawCountryMap(mode = "total") {
     svg.appendChild(group);
   });
   container.replaceChildren(svg);
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  container.classList.remove("is-ready");
+  window.setTimeout(() => {
     if (matchMedia("(max-width: 620px)").matches) {
       container.scrollLeft = Math.max(0, container.scrollWidth - container.clientWidth - 30);
     }
     container.classList.add("is-ready");
-  }));
+  }, 90);
 }
 
 function drawProductionDashboard(year = "2024") {

@@ -428,8 +428,8 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 
 /* China: one dataset, two scales. */
 .china-ranking-section, .china-production-section { padding-top: 112px; padding-bottom: 112px; }
-.china-section-title { max-width: 920px; margin-bottom: 42px; }
-.china-section-title h2 { max-width: 900px; }
+.china-section-title { max-width: none; margin-bottom: 42px; }
+.china-section-title h2 { max-width: none; font-size: clamp(34px, 3.35vw, 48px); white-space: nowrap; }
 .china-country-atlas { margin: 0; overflow: hidden; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
 .china-atlas-head, .production-dashboard-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 .china-atlas-head { padding: 28px 32px 16px; border-bottom: 1px solid #dce2dc; }
@@ -447,8 +447,8 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .china-map-marker.is-china .china-map-bubble { fill: rgba(200,240,0,.84); stroke: #101413; }
 .china-map-marker:hover .china-map-bubble { filter: brightness(1.03) drop-shadow(0 8px 12px rgba(16,20,19,.2)); }
 .china-map-label, .china-map-value { fill: #101413; opacity: 0; transition: opacity .5s ease calc(var(--map-delay) + .18s); }
-.china-map-label { font-size: 18px; font-weight: 900; }
-.china-map-value { font-size: 16px; font-weight: 800; }
+.china-map-label { font-size: 16px; font-weight: 900; }
+.china-map-value { font-size: 14px; font-weight: 800; }
 .china-country-map.is-ready .china-map-bubble { transform: scale(1); opacity: 1; }
 .china-country-map.is-ready .china-map-leader, .china-country-map.is-ready .china-map-label, .china-country-map.is-ready .china-map-value { opacity: 1; }
 .china-map-legend { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; padding: 15px 32px; color: #4f5d58; background: #f8faf7; border-top: 1px solid #dde3dc; font-size: 13px; font-weight: 800; }
@@ -456,7 +456,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .china-map-legend i { width: 13px; height: 13px; display: inline-block; border-radius: 50%; background: var(--red); border: 2px solid #fff; box-shadow: 0 0 0 1px #c5cec7; }
 .china-map-legend i.is-china { background: var(--green); border-color: #101413; box-shadow: none; }
 .china-country-atlas figcaption { padding: 14px 32px 18px; color: #64706c; font-size: 12px; line-height: 1.55; }
-.china-ranking-copy, .china-production-copy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 42px; margin-top: 38px; padding-top: 28px; border-top: 4px solid #101413; }
+.china-ranking-copy, .china-production-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; max-width: 1080px; margin-top: 38px; padding-top: 28px; border-top: 4px solid #101413; }
 .china-ranking-copy p, .china-production-copy p { margin: 0; color: var(--muted); font-size: 19px; line-height: 1.9; text-align: justify; text-justify: inter-ideograph; }
 .china-ranking-copy mark, .china-production-copy mark { padding: 0 .12em; color: #e65c37; background: transparent; font-weight: 900; }
 
@@ -560,6 +560,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .production-panel--kpi, .production-panel--computer, .production-panel--share, .production-panel--compare { grid-column: span 1; }
   .production-share-layout, .production-compare-layout { grid-template-columns: 1fr; }
   .production-donut { margin: 0 auto; }
+  .china-section-title h2 { white-space: normal; }
 }
 @media (max-width: 620px) {
   .home-map, .story-section { width: calc(100% - 28px); padding: 74px 0; }
