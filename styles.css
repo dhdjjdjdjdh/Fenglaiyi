@@ -146,13 +146,13 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .is-visible .radar-poly { transform: scale(1); opacity: .92; }
 .donut-arc { transform-box: fill-box; transform-origin: center; transform: scale(.28); opacity: .25; transition: transform .9s ease, opacity .9s ease; }
 .is-visible .donut-arc { transform: scale(1); opacity: 1; }
-.voices-section { grid-template-columns: 320px minmax(0, 1fr); align-items: start; gap: 48px; }
+.voices-section { grid-template-columns: 320px minmax(0, 1fr); align-items: start; gap: 30px; }
 .voices-section .text-column { position: sticky; top: 112px; padding-top: 30px; }
 .voices-lede-title { font-size: 44px; line-height: 1.18; }
 .voices-graphic { min-width: 0; margin: 0; padding: 30px 0 0; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line); }
 .voices-graphic-head { display: grid; gap: 6px; padding: 0 34px 24px; }
 .voices-graphic-head span { color: var(--orange); font-size: 14px; font-weight: 900; }
-.voices-graphic-head b { max-width: none; font-size: clamp(25px, 2.05vw, 30px); line-height: 1.16; white-space: nowrap; }
+.voices-graphic-head b { max-width: none; font-size: clamp(28px, 2.35vw, 36px); line-height: 1.16; white-space: nowrap; }
 .voices-graphic-head em { color: #e65c37; font-style: normal; }
 .voices-photo-path { position: relative; min-height: 480px; margin: 0 20px; }
 .voice-step { --shift: 0px; position: absolute; left: 0; width: 100%; height: 144px; display: grid; grid-template-columns: minmax(0, 1fr) 216px minmax(0, 1fr); grid-template-rows: 144px; align-items: center; opacity: 0; transform: translateY(34px); transition: opacity .72s ease, transform .82s cubic-bezier(.2,.8,.2,1); }
@@ -310,6 +310,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .cloud-word:nth-child(4n) { color: var(--white); }
 .cloud-word:hover { transform: translate(-50%, -50%) scale(1.12); color: var(--green); }
 .global-distribution-section .section-title { max-width: 1020px; }
+.global-distribution-section .section-title h2 { font-size: clamp(32px, 3.6vw, 46px); white-space: nowrap; }
 .ewaste-dashboard { padding: 18px; color: var(--white); background: #07100e; border: 1px solid #1d2a26; box-shadow: var(--shadow); }
 .distribution-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-bottom: 16px; background: rgba(255,255,255,.14); }
 .distribution-kpis > div { min-height: 132px; display: grid; align-content: center; padding: 20px 24px; background: #101a17; }
@@ -467,6 +468,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .voices-graphic { padding-top: 22px; }
   .voices-graphic-head { padding: 0 18px 24px; }
   .voices-graphic-head b { font-size: 28px; white-space: normal; }
+  .global-distribution-section .section-title h2 { font-size: 34px; white-space: normal; }
   .voices-photo-path { min-height: 0; margin: 0 14px; display: grid; gap: 14px; }
   .voice-step { --shift: 0px; position: relative; top: auto; width: 100%; height: auto; display: grid; grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto; gap: 14px; }
   .voice-diamond { grid-column: 1; grid-row: 1; width: 112px; height: 112px; transform: none; }
