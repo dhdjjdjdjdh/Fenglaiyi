@@ -146,26 +146,26 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .is-visible .radar-poly { transform: scale(1); opacity: .92; }
 .donut-arc { transform-box: fill-box; transform-origin: center; transform: scale(.28); opacity: .25; transition: transform .9s ease, opacity .9s ease; }
 .is-visible .donut-arc { transform: scale(1); opacity: 1; }
-.voices-section { grid-template-columns: minmax(300px, .72fr) minmax(600px, 1.28fr); align-items: start; gap: 48px; }
+.voices-section { grid-template-columns: 320px minmax(0, 1fr); align-items: start; gap: 48px; }
 .voices-section .text-column { position: sticky; top: 112px; padding-top: 150px; }
 .voices-graphic { min-width: 0; margin: 0; padding: 30px 0 0; overflow: hidden; background: #fff; border-top: 4px solid var(--ink); border-bottom: 1px solid var(--line); }
 .voices-graphic-head { display: grid; gap: 6px; padding: 0 34px 24px; }
 .voices-graphic-head span { color: var(--orange); font-size: 14px; font-weight: 900; }
 .voices-graphic-head b { max-width: 590px; font-size: clamp(28px, 2.65vw, 40px); line-height: 1.16; }
 .voices-graphic-head em { color: #e65c37; font-style: normal; }
-.voices-photo-path { position: relative; min-height: 760px; margin: 0 20px; }
-.voice-step { --shift: 0px; position: absolute; left: 0; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 220px minmax(0, 1fr); align-items: center; opacity: 0; transform: translateY(34px); transition: opacity .72s ease, transform .82s cubic-bezier(.2,.8,.2,1); }
-.voice-step--china { top: 0; --shift: -35px; }
-.voice-step--ghana { top: 128px; --shift: 55px; }
-.voice-step--rwanda { top: 256px; --shift: -35px; }
-.voice-step--australia { top: 384px; --shift: -125px; }
-.voice-step--nigeria { top: 512px; --shift: -35px; }
+.voices-photo-path { position: relative; min-height: 550px; margin: 0 20px; }
+.voice-step { --shift: 0px; position: absolute; left: 0; width: 100%; height: 168px; display: grid; grid-template-columns: minmax(0, 1fr) 252px minmax(0, 1fr); grid-template-rows: 168px; align-items: center; opacity: 0; transform: translateY(34px); transition: opacity .72s ease, transform .82s cubic-bezier(.2,.8,.2,1); }
+.voice-step--china { top: 0; --shift: 0px; }
+.voice-step--ghana { top: 84px; --shift: 126px; }
+.voice-step--rwanda { top: 168px; --shift: 0px; }
+.voice-step--australia { top: 252px; --shift: -126px; }
+.voice-step--nigeria { top: 336px; --shift: 0px; }
 .is-visible .voice-step { opacity: 1; transform: translateY(0); }
 .is-visible .voice-step--ghana { transition-delay: .14s; }
 .is-visible .voice-step--rwanda { transition-delay: .28s; }
 .is-visible .voice-step--australia { transition-delay: .42s; }
 .is-visible .voice-step--nigeria { transition-delay: .56s; }
-.voice-diamond { grid-column: 2; width: 220px; aspect-ratio: 1; overflow: hidden; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); transform: translateX(var(--shift)); transition: transform .35s ease, filter .35s ease; }
+.voice-diamond { grid-column: 2; width: 252px; height: 168px; overflow: hidden; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); transform: translateX(var(--shift)); transition: transform .35s ease, filter .35s ease; }
 .voice-diamond img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .voice-step:hover .voice-diamond { transform: translateX(var(--shift)) scale(1.025); filter: saturate(1.08) contrast(1.03); }
 .voice-step--china .voice-diamond img { object-position: 50% 48%; }
@@ -173,14 +173,13 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .voice-step--rwanda .voice-diamond img { object-position: 56% 50%; }
 .voice-step--australia .voice-diamond img { object-position: 50% 58%; }
 .voice-step--nigeria .voice-diamond img { object-position: 48% 50%; }
-.voice-callout { position: relative; z-index: 2; width: 170px; align-self: center; padding-top: 10px; border-top: 2px solid #ef8b60; }
+.voice-callout { position: relative; z-index: 2; width: 190px; align-self: center; padding-top: 10px; border-top: 2px solid #ef8b60; }
 .voice-callout--left { grid-column: 1; grid-row: 1; justify-self: start; }
 .voice-callout--right { grid-column: 3; grid-row: 1; justify-self: end; }
-.voice-callout::after { content: ""; position: absolute; top: -2px; width: 82px; height: 2px; background: #ef8b60; }
+.voice-callout::after { content: ""; position: absolute; top: -2px; width: 126px; height: 2px; background: #ef8b60; }
 .voice-callout--left::after { left: 100%; transform: rotate(8deg); transform-origin: left center; }
 .voice-callout--right::after { right: 100%; transform: rotate(-8deg); transform-origin: right center; }
-.voice-step--australia .voice-callout::after { width: 190px; }
-.voice-step--nigeria .voice-callout::after { width: 105px; }
+.voice-step--australia .voice-callout::after { width: 235px; }
 .voice-callout strong { display: block; margin-bottom: 6px; color: #e65c37; font-size: clamp(24px, 2.1vw, 32px); line-height: 1; }
 .voice-callout p { margin: 0; color: #26312e; font-size: 15px; line-height: 1.55; text-align: justify; text-justify: inter-ideograph; }
 .voice-callout span { display: block; margin-top: 7px; color: #68736f; font-size: 11px; line-height: 1.4; font-weight: 800; }
@@ -467,8 +466,8 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .voices-graphic-head { padding: 0 18px 24px; }
   .voices-graphic-head b { font-size: 28px; }
   .voices-photo-path { min-height: 0; margin: 0 14px; display: grid; gap: 14px; }
-  .voice-step { position: relative; top: auto; width: 100%; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; }
-  .voice-diamond { grid-column: 1; grid-row: 1; width: 112px; transform: none; }
+  .voice-step { position: relative; top: auto; width: 100%; height: auto; display: grid; grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto; gap: 14px; }
+  .voice-diamond { grid-column: 1; grid-row: 1; width: 112px; height: 112px; transform: none; }
   .voice-step:hover .voice-diamond { transform: scale(1.025); }
   .voice-callout--left, .voice-callout--right { grid-column: 2; grid-row: 1; margin: 0; padding: 3px 0 3px 13px; border-top: 0; border-left: 3px solid #ef8b60; }
   .voice-callout::after { display: none; }
