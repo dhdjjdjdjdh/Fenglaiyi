@@ -741,53 +741,92 @@ function drawGapStack() {
 function drawChinaTrend() {
   const c = document.getElementById("chinaTrendChart");
   if (!c) return;
-  const width = 860;
-  const height = 520;
-  const m = { top: 92, right: 42, bottom: 72, left: 78 };
-  const innerW = width - m.left - m.right;
-  const innerH = height - m.top - m.bottom;
-  const max = 1300;
-  const x = year => m.left + ((year - 2018) / 4) * innerW;
-  const y = value => m.top + innerH - (value / max) * innerH;
-  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}` });
-  const title = svgEl("text", { x: m.left, y: 34, fill: "#101413", "font-size": 23, "font-weight": 900 });
-  title.textContent = "中国电子废弃物产生量与正式收集量";
-  svg.appendChild(title);
-  [0, 300, 600, 900, 1200].forEach(tick => {
-    const gy = y(tick);
-    svg.appendChild(svgEl("line", { x1: m.left, x2: width - m.right, y1: gy, y2: gy, stroke: "#dce2d9" }));
-    const lab = svgEl("text", { x: m.left - 12, y: gy + 5, fill: "#65716d", "font-size": 15, "text-anchor": "end" });
-    lab.textContent = tick;
-    svg.appendChild(lab);
+  c.innerHTML = `
+    <div class="gap-radial-head">
+      <div><span>2018—2022 / FIVE RINGS</span><h3>增长向外扩张，正式收集只占每一圈的一小段</h3></div>
+      <div class="gap-radial-legend"><i></i>正式收集<b></b>未进入正式收集</div>
+    </div>
+    <div class="gap-radial-visual">
+      <svg viewBox="0 0 520 520" aria-hidden="true"></svg>
+      <div class="gap-radial-core" aria-live="polite"><small>2022</small><strong>16.2%</strong><span>正式收集率</span></div>
+    </div>
+    <div class="gap-year-key" aria-label="选择年份"></div>
+    <div class="gap-radial-readout" aria-live="polite">
+      <div><span>产生量</span><strong data-gap-generated>1206.6</strong><small>万吨</small></div>
+      <div><span>正式收集</span><strong data-gap-collected>195.2</strong><small>万吨</small></div>
+      <div><span>未正式收集</span><strong data-gap-missing>1011.4</strong><small>万吨</small></div>
+    </div>
+    <p class="gap-chart-source">单位：万吨。数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China country sheets。</p>`;
+
+  const svg = c.querySelector("svg");
+  const key = c.querySelector(".gap-year-key");
+  const core = c.querySelector(".gap-radial-core");
+  const radii = [74, 108, 142, 176, 210];
+  const groups = [];
+  const buttons = [];
+
+  [74, 108, 142, 176, 210].forEach(radius => {
+    svg.appendChild(svgEl("circle", { cx: 260, cy: 260, r: radius, fill: "none", stroke: "rgba(16,20,19,.06)", "stroke-width": 1 }));
   });
-  chinaTrend.forEach(d => {
-    const year = svgEl("text", { x: x(d.year), y: height - 42, fill: "#65716d", "font-size": 15, "text-anchor": "middle" });
-    year.textContent = d.year;
-    svg.appendChild(year);
-  });
-  function line(key, color) {
-    const d = chinaTrend.map((p, i) => `${i ? "L" : "M"} ${x(p.year)} ${y(p[key])}`).join(" ");
-    const path = svgEl("path", { class: "line-grow", d, fill: "none", stroke: color, "stroke-width": 5, "stroke-linecap": "round" });
-    path.style.strokeDasharray = 1400;
-    path.style.strokeDashoffset = 1400;
-    return path;
-  }
-  svg.appendChild(line("generated", "#ffae00"));
-  svg.appendChild(line("collected", "#5f8792"));
-  chinaTrend.forEach(d => {
-    [["generated", "#ffae00"], ["collected", "#5f8792"]].forEach(([key, color]) => {
-      svg.appendChild(svgEl("circle", { class: "dot-pop", cx: x(d.year), cy: y(d[key]), r: 5.5, fill: color, stroke: "#fff", "stroke-width": 2 }));
+
+  const update = selected => {
+    const rate = selected.collected / selected.generated * 100;
+    const missing = selected.generated - selected.collected;
+    groups.forEach(group => group.classList.toggle("is-active", Number(group.dataset.year) === selected.year));
+    buttons.forEach(button => button.classList.toggle("is-active", Number(button.dataset.year) === selected.year));
+    core.querySelector("small").textContent = selected.year;
+    core.querySelector("strong").textContent = `${rate.toFixed(1)}%`;
+    c.querySelector("[data-gap-generated]").textContent = selected.generated.toFixed(1);
+    c.querySelector("[data-gap-collected]").textContent = selected.collected.toFixed(1);
+    c.querySelector("[data-gap-missing]").textContent = missing.toFixed(1);
+  };
+
+  chinaTrend.forEach((item, index) => {
+    const rate = item.collected / item.generated * 100;
+    const group = svgEl("g", {
+      class: "gap-ring-group",
+      tabindex: 0,
+      role: "button",
+      "data-year": item.year,
+      "aria-label": `${item.year}年，产生量${item.generated.toFixed(1)}万吨，正式收集${item.collected.toFixed(1)}万吨`
     });
+    const radius = radii[index];
+    const missing = svgEl("circle", {
+      class: "gap-ring-missing",
+      cx: 260, cy: 260, r: radius,
+      fill: "none", stroke: "#ffae00", "stroke-width": 24,
+      "pathLength": 100,
+      transform: "rotate(-90 260 260)"
+    });
+    missing.style.opacity = String(.2 + index * .1);
+    const formal = svgEl("circle", {
+      class: "gap-ring-progress",
+      cx: 260, cy: 260, r: radius,
+      fill: "none", stroke: "#c8f000", "stroke-width": 24,
+      "stroke-linecap": "butt", "pathLength": 100,
+      "stroke-dasharray": `${rate.toFixed(2)} ${(100 - rate).toFixed(2)}`,
+      transform: "rotate(-90 260 260)"
+    });
+    formal.style.setProperty("--ring-delay", `${index * 120 + 180}ms`);
+    const hit = svgEl("circle", {
+      class: "gap-ring-hit",
+      cx: 260, cy: 260, r: radius,
+      fill: "none", stroke: "transparent", "stroke-width": 31
+    });
+    group.append(missing, formal, hit);
+    ["mouseenter", "focus", "click"].forEach(eventName => group.addEventListener(eventName, () => update(item)));
+    svg.appendChild(group);
+    groups.push(group);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.year = item.year;
+    button.textContent = item.year;
+    ["mouseenter", "focus", "click"].forEach(eventName => button.addEventListener(eventName, () => update(item)));
+    key.appendChild(button);
+    buttons.push(button);
   });
-  const legend1 = svgEl("text", { x: m.left, y: 64, fill: "#ffae00", "font-size": 15, "font-weight": 900 });
-  legend1.textContent = "产生量";
-  const legend2 = svgEl("text", { x: m.left + 86, y: 64, fill: "#5f8792", "font-size": 15, "font-weight": 900 });
-  legend2.textContent = "正式收集量";
-  svg.appendChild(legend1);
-  svg.appendChild(legend2);
-  addSource(svg, m.left, height - 18, "单位：万吨。数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）；跨国统一口径");
-  c.replaceChildren(svg);
-  finalizeChart(c);
+  update(chinaTrend[chinaTrend.length - 1]);
 }
 
 function drawDonut(id, data, centerText, source, unit = "") {
@@ -1138,26 +1177,54 @@ function drawHundredGrid() {
 function drawGapFlow() {
   const c = document.getElementById("gapFlowChart");
   if (!c) return;
-  const svg = svgEl("svg", { viewBox: "0 0 780 410" });
-  const nodes = [
-    ["旧设备离开用户", 62, 180, "#101413", "#fff"],
-    ["闲置", 304, 70, "#fff", "#101413"],
-    ["二手/维修", 304, 150, "#fff", "#101413"],
-    ["正规回收", 304, 230, "#c8f000", "#101413"],
-    ["未记录去向", 304, 310, "#ffae00", "#101413"],
-    ["能否追踪", 594, 200, "#101413", "#fff"]
-  ];
-  nodes.forEach(([text, x, y, fill, color]) => {
-    svg.appendChild(svgEl("rect", { x, y, width: 150, height: 50, fill, stroke: "#101413" }));
-    const tx = svgEl("text", { x: x + 75, y: y + 31, "text-anchor": "middle", fill: color, "font-size": 15, "font-weight": 900 });
-    tx.textContent = text;
-    svg.appendChild(tx);
+  c.innerHTML = `
+    <header class="gap-flow-head"><div><span>TRACEABILITY DASHBOARD</span><h3>设备离开用户之后，记录在哪一步断掉？</h3></div><small>交互示意</small></header>
+    <div class="gap-flow-grid">
+      <section class="gap-sankey-panel">
+        <div class="gap-panel-title"><b>可能流向</b><span>悬停查看每条路径</span></div>
+        <svg class="gap-sankey" viewBox="0 0 640 390" aria-label="旧设备四种可能流向">
+          <rect class="gap-source-node" x="22" y="153" width="158" height="78" rx="4"></rect>
+          <text x="101" y="185" text-anchor="middle">旧设备</text><text x="101" y="208" text-anchor="middle">离开用户</text>
+          <path class="gap-sankey-flow" data-route="drawer" d="M180 167 C285 167 315 53 430 53"></path>
+          <path class="gap-sankey-flow" data-route="resale" d="M180 183 C292 183 318 143 430 143"></path>
+          <path class="gap-sankey-flow" data-route="formal" d="M180 200 C292 200 318 233 430 233"></path>
+          <path class="gap-sankey-flow" data-route="informal" d="M180 217 C285 217 315 323 430 323"></path>
+          <g class="gap-route-node" data-route="drawer"><rect x="430" y="20" width="180" height="66" rx="4"></rect><text x="454" y="59">闲置</text></g>
+          <g class="gap-route-node" data-route="resale"><rect x="430" y="110" width="180" height="66" rx="4"></rect><text x="454" y="149">二手 / 维修</text></g>
+          <g class="gap-route-node" data-route="formal"><rect x="430" y="200" width="180" height="66" rx="4"></rect><text x="454" y="239">正规回收</text></g>
+          <g class="gap-route-node" data-route="informal"><rect x="430" y="290" width="180" height="66" rx="4"></rect><text x="454" y="329">未记录去向</text></g>
+        </svg>
+        <div class="gap-flow-detail" aria-live="polite"><span>正规回收</span><p>进入有资质渠道，交接、拆解与材料去向更可能形成连续记录。</p></div>
+      </section>
+      <section class="gap-record-panel">
+        <div class="gap-panel-title"><b>四项记录检查</b><span>所有权 / 位置 / 处理 / 材料</span></div>
+        <div class="gap-record-list">
+          <button type="button" data-route="drawer"><span>闲置</span><i class="is-on"></i><i></i><i></i><i></i><b>停在原主处</b></button>
+          <button type="button" data-route="resale"><span>二手 / 维修</span><i class="is-on"></i><i class="is-on"></i><i></i><i></i><b>交接后易断点</b></button>
+          <button type="button" data-route="formal"><span>正规回收</span><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><b>记录相对完整</b></button>
+          <button type="button" data-route="informal" style="--checks:0"><span>未记录去向</span><i></i><i></i><i></i><i></i><b>链条不可见</b></button>
+        </div>
+        <p>右侧四格为编辑部示意：分别检查所有权交接、设备位置、处理方式和材料去向是否留下记录，不代表统计比例。</p>
+      </section>
+    </div>`;
+
+  const detail = c.querySelector(".gap-flow-detail");
+  const routeText = {
+    drawer: ["闲置", "设备仍在家庭或机构中，位置相对清楚，但尚未发生正式交接与末端处理。"],
+    resale: ["二手 / 维修", "设备可能延长寿命；一旦多次转手，原始所有权和最终去向容易在中途断开。"],
+    formal: ["正规回收", "进入有资质渠道，交接、拆解与材料去向更可能形成连续记录。"],
+    informal: ["未记录去向", "设备已经流动，但接手者、拆解方式和材料终点均难进入公共统计。"]
+  };
+  const routeTargets = c.querySelectorAll("[data-route]");
+  const activate = route => {
+    routeTargets.forEach(target => target.classList.toggle("is-active", target.dataset.route === route));
+    detail.querySelector("span").textContent = routeText[route][0];
+    detail.querySelector("p").textContent = routeText[route][1];
+  };
+  routeTargets.forEach(target => {
+    ["mouseenter", "focus", "click"].forEach(eventName => target.addEventListener(eventName, () => activate(target.dataset.route)));
   });
-  [[212,205,304,95],[212,205,304,175],[212,205,304,255],[212,205,304,335],[454,95,594,225],[454,175,594,225],[454,255,594,225],[454,335,594,225]].forEach(([x1,y1,x2,y2], i) => {
-    svg.appendChild(svgEl("line", { class: "flow-line", x1, y1, x2, y2, stroke: i === 6 ? "#c8f000" : "#ffae00", "stroke-width": 4, "stroke-linecap": "round" }));
-  });
-  addSource(svg, 62, 392, "示意图：根据正式收集与非正式去向问题整理");
-  c.replaceChildren(svg);
+  activate("formal");
 }
 
 function drawRouteFlow() {
