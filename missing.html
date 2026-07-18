@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>缺口：正式回收接不住的部分</title>
-  <link rel="stylesheet" href="styles.css?v=20260718-19">
+  <link rel="stylesheet" href="styles.css?v=20260718-20">
   <link rel="icon" href="data:,">
 </head>
 <body class="chapter-page missing-page">
@@ -23,16 +23,17 @@
   <main>
     <section id="gap-rings" class="story-section two-col-section missing-radial-section">
       <div class="text-column">
-        <p class="eyebrow">2018-2022</p>
+        <p class="eyebrow">2018-2025</p>
         <h2>产生量持续增加，正式收集没有同步追上。</h2>
         <p>全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）的跨国统一口径显示，2018 年中国电子废弃物产生量为 955.8 万吨；到 2022 年，这个数字变成 1206.6 万吨，五年间增加 250.8 万吨。</p>
         <p>正式收集量也在增加，但总体比例仍停在 16%。这不是一句“回收不够”可以概括的问题，它意味着大量旧设备离开用户后，统计只能看见一小部分。</p>
+        <p>若仅按 2018—2022 年的平均年增量外推，2025 年产生量可能接近 1394.7 万吨，而正式收集约为 225.7 万吨。两条线都在上升，缺口却会扩大到约 1169.0 万吨：比例看似稳定，系统需要接住的绝对重量仍在持续增大。</p>
       </div>
-      <div class="viz-panel gap-radial-panel"><div id="chinaTrendChart" class="chart chart--tall gap-radial-chart" role="img" aria-label="2018年至2022年中国电子废弃物产生量与正式收集量同心年轮图"></div></div>
+      <div class="viz-panel gap-radial-panel"><div id="chinaTrendChart" class="chart chart--tall gap-radial-chart" role="img" aria-label="2018年至2025年中国电子废弃物产生量与正式收集量同心年轮图，2023年至2025年为趋势外推"></div></div>
     </section>
 
     <section class="story-section two-col-section reverse">
-      <div class="viz-panel"><div id="gapStackChart" class="chart" role="img" aria-label="中国电子废弃物正式收集缺口堆叠图"></div></div>
+      <div class="viz-panel gap-dashboard-panel"><div id="gapStackChart" class="chart gap-dashboard-chart" role="img" aria-label="2018年至2025年中国电子废弃物正式收集缺口综合看板，2023年至2025年为趋势外推"></div></div>
       <div class="text-column">
         <p class="eyebrow">The missing majority</p>
         <h2>2022 年，约 1011.4 万吨没有进入正式收集口径。</h2>
@@ -43,51 +44,19 @@
 
     <section class="story-section">
       <div class="section-title"><p class="eyebrow">16%</p><h2>如果把 2022 年中国电子废弃物看成 100 份</h2></div>
-      <div class="hundred-grid" id="hundredGrid" aria-label="100份中16份正式收集示意图"></div>
+      <div class="hundred-interactive">
+        <div class="hundred-grid" id="hundredGrid" aria-label="100份中16份正式收集示意图，可悬停查看各类去向寓意"></div>
+        <aside class="hundred-meaning" id="hundredMeaning" aria-live="polite"><span>100 份中的记录边界</span><strong>16 份可追踪，84 份去向更模糊</strong><p>将鼠标移到任意方格，查看它在这张示意图中的含义。</p></aside>
+      </div>
       <p class="wide-text">亮起的 16 格代表正式收集，剩下的 84 格代表统计口径之外的去向：闲置、二手、维修、混入普通废物流，或进入更分散的处理链条。治理最难的部分，往往不是已经被看见的垃圾，而是尚未被追踪的去向。</p>
+      <p class="hundred-note">注：84 格内部的分组仅用于解释可能去向，不代表各去向的统计比例。</p>
     </section>
 
     <section id="gap-facts" class="story-section missing-facts-section">
-      <div class="section-title missing-facts-title"><p class="eyebrow">8 FACTS / ONE BROKEN CHAIN</p><h2>八个事实，拼出正式收集之外的巨大缺口。</h2></div>
-      <div class="fact-constellation" aria-label="关于电子废品规模、收集与去向的八个事实">
-        <div class="facts-intro">
-          <strong>8</strong>
-          <h3>个关于电子废品的事实</h3>
-          <p>从全球总量到中国末端，每个数字都是同一条物质链上的一段证词。</p>
-        </div>
-
-        <article class="ewaste-fact fact-left">
-          <div class="fact-copy"><b>全球一年产生的电子废弃物</b><p>2022 年，数字生活在全球留下 6200 万吨电子废弃物。</p></div>
-          <div class="fact-octagon" style="--fact-image:url('assets/images/circuit-boards.jpg')"><strong>6200<small>万吨</small></strong></div>
-        </article>
-        <article class="ewaste-fact fact-right">
-          <div class="fact-octagon" style="--fact-image:url('assets/images/recycling-center.jpg')"><strong>22.3<small>%</small></strong></div>
-          <div class="fact-copy"><b>进入正式收集系统的全球占比</b><p>其余 77.7% 没有形成同等完整、可核验的统计轨迹。</p></div>
-        </article>
-        <article class="ewaste-fact fact-left">
-          <div class="fact-copy"><b>中国 2022 年产生量</b><p>1206.6 万吨，相当于全球总量约五分之一。</p></div>
-          <div class="fact-octagon" style="--fact-image:url('assets/images/old-phones.jpg')"><strong>1206.6<small>万吨</small></strong></div>
-        </article>
-        <article class="ewaste-fact fact-right">
-          <div class="fact-octagon" style="--fact-image:url('assets/images/recycle-box.jpg')"><strong>195.2<small>万吨</small></strong></div>
-          <div class="fact-copy"><b>中国 2022 年正式收集量</b><p>被正式系统接住的数量，远小于同年产生量。</p></div>
-        </article>
-        <article class="ewaste-fact fact-left">
-          <div class="fact-copy"><b>没有进入正式收集口径的部分</b><p>它不等同于全部污染，却意味着去向与责任更难连续追踪。</p></div>
-          <div class="fact-octagon" style="--fact-image:url('assets/images/wires.jpg')"><strong>1011.4<small>万吨</small></strong></div>
-        </article>
-        <article class="ewaste-fact fact-right">
-          <div class="fact-octagon" style="--fact-image:url('assets/images/repair-shop.jpg')"><strong>16.2<small>%</small></strong></div>
-          <div class="fact-copy"><b>中国 2022 年正式收集率</b><p>产生量增长时，正式收集能力没有同步改写比例。</p></div>
-        </article>
-        <article class="ewaste-fact fact-left">
-          <div class="fact-copy"><b>五年间新增的电子废弃物</b><p>2018—2022 年，中国电子废弃物产生量增加 250.8 万吨。</p></div>
-          <div class="fact-octagon" style="--fact-image:url('assets/images/monitor-pile.jpg')"><strong>250.8<small>万吨</small></strong></div>
-        </article>
-        <article class="ewaste-fact fact-right">
-          <div class="fact-octagon" style="--fact-image:url('assets/images/workshop.jpg')"><strong>49.9<small>%</small></strong></div>
-          <div class="fact-copy"><b>产生量约为当年市场投入量的一半</b><p>前端持续进入市场，末端必须同时识别、接住并记录旧设备。</p></div>
-        </article>
+      <div class="section-title missing-facts-title"><p class="eyebrow">12 FACTS / ONE BROKEN CHAIN</p><h2>12 个事实，拆开电子废品的规模、价值与缺口。</h2></div>
+      <div class="fact-matrix-shell">
+        <div class="fact-matrix" id="ewasteFactMatrix" aria-label="关于电子废品规模、价值、材料与收集缺口的十二个交互事实"></div>
+        <aside class="fact-live-detail" id="factLiveDetail" aria-live="polite"><span>HOVER / FOCUS</span><h3>把数字放回物质链</h3><p>悬停或聚焦任意事实，查看它为何重要。</p></aside>
       </div>
       <p class="facts-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 country sheets；联合国训练研究所（United Nations Institute for Training and Research）与国际电信联盟（International Telecommunication Union）《Global E-waste Monitor 2024》。比例与缺口据原始值计算。</p>
     </section>
@@ -102,7 +71,7 @@
 
     <a class="next-gate" href="unequal.html"><span>接不住的部分，谁来承受？</span><small>点击进入下一页</small></a>
   </main>
-  <script src="script.js?v=20260718-19"></script>
+  <script src="script.js?v=20260718-20"></script>
 </body>
 </html>
 

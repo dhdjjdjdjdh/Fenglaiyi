@@ -44,7 +44,10 @@ const chinaTrend = [
   { year: 2019, generated: 1022.8, collected: 165.4 },
   { year: 2020, generated: 1085.3, collected: 175.6 },
   { year: 2021, generated: 1145.3, collected: 185.3 },
-  { year: 2022, generated: 1206.6, collected: 195.2 }
+  { year: 2022, generated: 1206.6, collected: 195.2 },
+  { year: 2023, generated: 1269.3, collected: 205.4, estimated: true },
+  { year: 2024, generated: 1332.0, collected: 215.5, estimated: true },
+  { year: 2025, generated: 1394.7, collected: 225.7, estimated: true }
 ];
 
 const productionData = {
@@ -726,16 +729,64 @@ function setupMarketGlobeInteraction(scene) {
 }
 
 function drawGapStack() {
-  horizontalBarChart("gapStackChart", chinaTrend.map(d => ({
-    label: String(d.year),
-    value: d.generated - d.collected,
-    color: "#ffae00"
-  })), {
-    title: "产生量减去正式收集量之后的缺口",
-    unit: " 万吨",
-    decimal: 1,
-    source: "数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）；计算：产生量-正式收集量"
+  const c = document.getElementById("gapStackChart");
+  if (!c) return;
+  const gaps = chinaTrend.map(item => ({ ...item, gap: item.generated - item.collected }));
+  const first = gaps[0];
+  const last = gaps[gaps.length - 1];
+  const averageRise = (last.gap - first.gap) / (gaps.length - 1);
+  const maxGap = Math.max(...gaps.map(item => item.gap));
+  const points = gaps.map((item, index) => {
+    const x = 34 + index * (572 / (gaps.length - 1));
+    const y = 222 - item.gap / maxGap * 152;
+    return { ...item, x, y };
   });
+  const line = points.map((point, index) => `${index ? "L" : "M"}${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+  const area = `${line} L606 222 L34 222 Z`;
+
+  c.innerHTML = `
+    <div class="gap-dash-head">
+      <div><span>THE MISSING MAJORITY</span><h3>缺口不是静止库存，而是一条继续抬升的曲线</h3></div>
+      <small>2023—2025 为趋势外推</small>
+    </div>
+    <div class="gap-kpi-row">
+      <div><span>2025 估算缺口</span><strong>${last.gap.toFixed(1)}</strong><small>万吨</small></div>
+      <div><span>七年增加</span><strong>${(last.gap - first.gap).toFixed(1)}</strong><small>万吨</small></div>
+      <div><span>2025 估算收集率</span><strong>${(last.collected / last.generated * 100).toFixed(1)}</strong><small>%</small></div>
+      <div><span>年均缺口增量</span><strong>${averageRise.toFixed(1)}</strong><small>万吨</small></div>
+    </div>
+    <div class="gap-dash-grid">
+      <section class="gap-trend-module">
+        <header><b>缺口走势</b><span>单位：万吨</span></header>
+        <svg viewBox="0 0 640 258" aria-label="2018年至2025年未进入正式收集的电子废弃物趋势">
+          <defs><linearGradient id="gapArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffae00" stop-opacity=".58"/><stop offset="1" stop-color="#ffae00" stop-opacity=".02"/></linearGradient></defs>
+          <path class="gap-area" d="${area}" fill="url(#gapArea)"></path>
+          <path class="gap-line" d="${line}" fill="none" stroke="#ffae00" stroke-width="4"></path>
+          ${points.map(point => `<g class="gap-point ${point.estimated ? "is-estimated" : ""}" tabindex="0"><circle cx="${point.x}" cy="${point.y}" r="6"></circle><text x="${point.x}" y="244" text-anchor="middle">${point.year}</text><title>${point.year} 年：缺口 ${point.gap.toFixed(1)} 万吨${point.estimated ? "（趋势外推）" : ""}</title></g>`).join("")}
+          <line class="gap-estimate-divider" x1="401" y1="34" x2="401" y2="226"></line>
+          <text class="gap-estimate-label" x="411" y="46">趋势外推</text>
+        </svg>
+      </section>
+      <section class="gap-bubble-module">
+        <header><b>每年三种重量</b><span>圆越大，重量越大</span></header>
+        <div class="gap-bubble-matrix">
+          ${gaps.map(item => `
+            <button type="button" class="gap-bubble-year ${item.estimated ? "is-estimated" : ""}" aria-label="${item.year}年产生量、正式收集量与缺口对比">
+              <span>${item.year}</span>
+              <i class="bubble-generated" style="--bubble:${Math.max(22, item.generated / 18)}px" title="产生量 ${item.generated.toFixed(1)} 万吨"></i>
+              <i class="bubble-collected" style="--bubble:${Math.max(12, item.collected / 8)}px" title="正式收集 ${item.collected.toFixed(1)} 万吨"></i>
+              <i class="bubble-gap" style="--bubble:${Math.max(20, item.gap / 19)}px" title="缺口 ${item.gap.toFixed(1)} 万吨"></i>
+            </button>`).join("")}
+        </div>
+        <div class="gap-bubble-legend"><span><i></i>产生量</span><span><i></i>正式收集</span><span><i></i>缺口</span></div>
+      </section>
+      <section class="gap-rate-module">
+        <header><b>正式收集率</b><span>比例几乎横向停滞</span></header>
+        <div>${gaps.map(item => `<span title="${item.year}：${(item.collected / item.generated * 100).toFixed(1)}%"><i style="--rate:${(item.collected / item.generated * 100).toFixed(1)}%"></i><b>${item.year}</b></span>`).join("")}</div>
+      </section>
+      <section class="gap-reading-module"><b>读图</b><p>产生量、正式收集量都在增加，但两者没有拉近。若既有增量关系延续，2025 年的未正式收集部分将比 2018 年多约 ${(last.gap - first.gap).toFixed(1)} 万吨。</p></section>
+    </div>
+    <p class="gap-dashboard-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China country sheets。2018—2022 为报告值；2023—2025 按 2018—2022 平均年增量外推，仅作趋势展示。</p>`;
 }
 
 function drawChinaTrend() {
@@ -743,8 +794,8 @@ function drawChinaTrend() {
   if (!c) return;
   c.innerHTML = `
     <div class="gap-radial-head">
-      <div><span>2018—2022 / FIVE RINGS</span><h3>增长向外扩张，正式收集只占每一圈的一小段</h3></div>
-      <div class="gap-radial-legend"><i></i>正式收集<b></b>未进入正式收集</div>
+      <div><span>2018—2025 / EIGHT RINGS</span><h3>增长向外扩张，正式收集只占每一圈的一小段</h3></div>
+      <div class="gap-radial-legend"><i></i>正式收集<b></b>未正式收集<em></em>趋势外推</div>
     </div>
     <div class="gap-radial-visual">
       <svg viewBox="0 0 520 520" aria-hidden="true"></svg>
@@ -756,16 +807,17 @@ function drawChinaTrend() {
       <div><span>正式收集</span><strong data-gap-collected>195.2</strong><small>万吨</small></div>
       <div><span>未正式收集</span><strong data-gap-missing>1011.4</strong><small>万吨</small></div>
     </div>
-    <p class="gap-chart-source">单位：万吨。数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China country sheets。</p>`;
+    <div class="gap-ring-explainer" aria-live="polite"><span data-gap-status>官方观测</span><strong data-gap-meaning>最外缘代表该年产生总量，绿色圆弧代表其中被正式收集的部分。</strong><p data-gap-detail>剩余的橙色圆弧并不等于全部污染，而是尚未进入同等完整正式收集记录的重量。</p></div>
+    <p class="gap-chart-source">单位：万吨。数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China country sheets。2018—2022 为报告值；2023—2025 按此前平均年增量外推，仅作趋势展示。</p>`;
 
   const svg = c.querySelector("svg");
   const key = c.querySelector(".gap-year-key");
   const core = c.querySelector(".gap-radial-core");
-  const radii = [74, 108, 142, 176, 210];
+  const radii = [52, 76, 100, 124, 148, 172, 196, 220];
   const groups = [];
   const buttons = [];
 
-  [74, 108, 142, 176, 210].forEach(radius => {
+  radii.forEach(radius => {
     svg.appendChild(svgEl("circle", { cx: 260, cy: 260, r: radius, fill: "none", stroke: "rgba(16,20,19,.06)", "stroke-width": 1 }));
   });
 
@@ -779,30 +831,36 @@ function drawChinaTrend() {
     c.querySelector("[data-gap-generated]").textContent = selected.generated.toFixed(1);
     c.querySelector("[data-gap-collected]").textContent = selected.collected.toFixed(1);
     c.querySelector("[data-gap-missing]").textContent = missing.toFixed(1);
+    c.querySelector("[data-gap-status]").textContent = selected.estimated ? "趋势外推" : "官方观测";
+    c.querySelector("[data-gap-status]").classList.toggle("is-estimated", Boolean(selected.estimated));
+    c.querySelector("[data-gap-meaning]").textContent = `${selected.year} 年这一圈：产生 ${selected.generated.toFixed(1)} 万吨，正式收集 ${selected.collected.toFixed(1)} 万吨。`;
+    c.querySelector("[data-gap-detail]").textContent = selected.estimated
+      ? `该圈按 2018—2022 年平均年增量外推，估算缺口为 ${missing.toFixed(1)} 万吨，不是官方发布的年度观测值。`
+      : `橙色部分约 ${missing.toFixed(1)} 万吨，表示没有进入正式收集口径的重量，并不等同于全部非法处理。`;
   };
 
   chinaTrend.forEach((item, index) => {
     const rate = item.collected / item.generated * 100;
     const group = svgEl("g", {
-      class: "gap-ring-group",
+      class: `gap-ring-group${item.estimated ? " is-estimated" : ""}`,
       tabindex: 0,
       role: "button",
       "data-year": item.year,
-      "aria-label": `${item.year}年，产生量${item.generated.toFixed(1)}万吨，正式收集${item.collected.toFixed(1)}万吨`
+      "aria-label": `${item.year}年，产生量${item.generated.toFixed(1)}万吨，正式收集${item.collected.toFixed(1)}万吨${item.estimated ? "，趋势外推" : "，官方观测"}`
     });
     const radius = radii[index];
     const missing = svgEl("circle", {
       class: "gap-ring-missing",
       cx: 260, cy: 260, r: radius,
-      fill: "none", stroke: "#ffae00", "stroke-width": 24,
+      fill: "none", stroke: "#ffae00", "stroke-width": 18,
       "pathLength": 100,
       transform: "rotate(-90 260 260)"
     });
-    missing.style.opacity = String(.2 + index * .1);
+    missing.style.opacity = String(.22 + index * .075);
     const formal = svgEl("circle", {
       class: "gap-ring-progress",
       cx: 260, cy: 260, r: radius,
-      fill: "none", stroke: "#c8f000", "stroke-width": 24,
+      fill: "none", stroke: "#c8f000", "stroke-width": 18,
       "stroke-linecap": "butt", "pathLength": 100,
       "stroke-dasharray": `${rate.toFixed(2)} ${(100 - rate).toFixed(2)}`,
       transform: "rotate(-90 260 260)"
@@ -811,7 +869,7 @@ function drawChinaTrend() {
     const hit = svgEl("circle", {
       class: "gap-ring-hit",
       cx: 260, cy: 260, r: radius,
-      fill: "none", stroke: "transparent", "stroke-width": 31
+      fill: "none", stroke: "transparent", "stroke-width": 25
     });
     group.append(missing, formal, hit);
     ["mouseenter", "focus", "click"].forEach(eventName => group.addEventListener(eventName, () => update(item)));
@@ -821,7 +879,8 @@ function drawChinaTrend() {
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.year = item.year;
-    button.textContent = item.year;
+    button.textContent = item.estimated ? `${item.year}*` : item.year;
+    if (item.estimated) button.classList.add("is-estimated");
     ["mouseenter", "focus", "click"].forEach(eventName => button.addEventListener(eventName, () => update(item)));
     key.appendChild(button);
     buttons.push(button);
@@ -1162,16 +1221,89 @@ function drawPlatformClouds() {
     });
   });
 }
+const typingTimers = new WeakMap();
+
+function typeInto(element, text, speed = 18) {
+  if (!element) return;
+  clearInterval(typingTimers.get(element));
+  element.textContent = "";
+  let index = 0;
+  const timer = setInterval(() => {
+    element.textContent = text.slice(0, index += 1);
+    if (index >= text.length) {
+      clearInterval(timer);
+      typingTimers.delete(element);
+    }
+  }, speed);
+  typingTimers.set(element, timer);
+}
+
 function drawHundredGrid() {
   const grid = document.getElementById("hundredGrid");
   if (!grid) return;
+  const meaning = document.getElementById("hundredMeaning");
+  const groups = [
+    { limit: 16, className: "formal", kicker: "正式收集", title: "记录链条相对完整", text: "设备进入有资质渠道后，所有权交接、位置、拆解方式和材料去向更可能留下连续记录。" },
+    { limit: 37, className: "drawer", kicker: "可能去向 01", title: "闲置：设备还在，回收尚未开始", text: "旧设备停在抽屉、仓库或机构资产清单中。位置可能清楚，但它尚未进入末端处理。" },
+    { limit: 58, className: "resale", kicker: "可能去向 02", title: "二手与维修：寿命延长，记录可能换手", text: "再使用能够推迟废弃，却也可能让设备在多次转卖、维修和翻新后失去原始身份。" },
+    { limit: 79, className: "mixed", kicker: "可能去向 03", title: "混入普通废物流：物质被看见，身份已丢失", text: "当电子产品与生活垃圾混在一起，电池、线路板和金属仍存在，但很难再按电子废弃物追踪。" },
+    { limit: 100, className: "dispersed", kicker: "可能去向 04", title: "分散处理：价值被回收，责任未必被记录", text: "小规模拆解可能提取有价材料，却难以同步留下污染控制、残余物和最终去向的公共记录。" }
+  ];
   grid.innerHTML = "";
   for (let i = 0; i < 100; i += 1) {
-    const s = document.createElement("span");
-    if (i < 16) s.className = "formal";
-    s.style.transitionDelay = `${i * 8}ms`;
-    grid.appendChild(s);
+    const group = groups.find(item => i < item.limit);
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = group.className;
+    cell.style.transitionDelay = `${i * 8}ms`;
+    cell.setAttribute("aria-label", `第 ${i + 1} 份：${group.title}`);
+    const activate = () => {
+      grid.querySelectorAll("button").forEach(button => button.classList.toggle("is-active", button.classList.contains(group.className)));
+      meaning.querySelector("span").textContent = group.kicker;
+      meaning.querySelector("strong").textContent = group.title;
+      typeInto(meaning.querySelector("p"), group.text, 14);
+    };
+    ["mouseenter", "focus", "click"].forEach(eventName => cell.addEventListener(eventName, activate));
+    grid.appendChild(cell);
   }
+}
+
+function drawFactMatrix() {
+  const matrix = document.getElementById("ewasteFactMatrix");
+  const live = document.getElementById("factLiveDetail");
+  if (!matrix || !live) return;
+  const facts = [
+    ["6200", "万吨", "全球产生量", "2022 年全球产生 6200 万吨电子废弃物，比 2010 年增加 82%。", "circuit-boards.jpg"],
+    ["22.3", "%", "正式回收", "全球只有 22.3% 被记录为正式收集和回收，多数物质没有同等完整的统计轨迹。", "recycling-center.jpg"],
+    ["8200", "万吨", "2030 预测", "若既有趋势延续，全球电子废弃物在 2030 年可能达到 8200 万吨。", "monitor-pile.jpg"],
+    ["260", "万吨/年", "年增量", "全球电子废弃物每年约增加 260 万吨，增长速度约为正式记录回收量增速的五倍。", "wires.jpg"],
+    ["3100", "万吨", "金属", "2022 年电子废弃物中约有 3100 万吨金属，价值与污染风险同时存在。", "material-teardown-v2.png"],
+    ["1700", "万吨", "塑料", "约 1700 万吨塑料把阻燃剂、添加剂和难回收复合材料带入末端。", "old-phones.jpg"],
+    ["910", "亿美元", "金属价值", "全球电子废弃物中所含金属价值约 910 亿美元，但大量资源仍未被合规回收。", "circuit-boards.jpg"],
+    ["1206.6", "万吨", "中国总量", "2022 年中国产生 1206.6 万吨电子废弃物，绝对总量位居重点国家前列。", "old-phones.jpg"],
+    ["195.2", "万吨", "中国正式收集", "同年只有 195.2 万吨进入正式收集口径，记录系统只接住一部分。", "recycle-box.jpg"],
+    ["16.2", "%", "中国收集率", "正式收集率约 16.2%，产生量增加并没有同步改写末端覆盖比例。", "repair-shop.jpg"],
+    ["1011.4", "万吨", "中国缺口", "产生量减去正式收集量后，约 1011.4 万吨处在正式收集口径之外。", "workshop.jpg"],
+    ["250.8", "万吨", "五年增量", "2018—2022 年中国产生量增加 250.8 万吨，末端面对的是持续扩大的绝对重量。", "phone-stack-mountain.png"]
+  ];
+  matrix.innerHTML = "";
+  facts.forEach((fact, index) => {
+    const [value, unit, title, detail, image] = fact;
+    const tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "fact-matrix-tile";
+    tile.style.setProperty("--fact-image", `url('assets/images/${image}')`);
+    tile.innerHTML = `<small>${String(index + 1).padStart(2, "0")}</small><strong>${value}<em>${unit}</em></strong><span>${title}</span><p>${detail}</p>`;
+    tile.setAttribute("aria-label", `${title}：${value}${unit}。${detail}`);
+    const activate = () => {
+      matrix.querySelectorAll("button").forEach(button => button.classList.toggle("is-active", button === tile));
+      live.querySelector("span").textContent = `${String(index + 1).padStart(2, "0")} / 12`;
+      live.querySelector("h3").textContent = `${value}${unit} · ${title}`;
+      typeInto(live.querySelector("p"), detail, 16);
+    };
+    ["mouseenter", "focus", "click"].forEach(eventName => tile.addEventListener(eventName, activate));
+    matrix.appendChild(tile);
+  });
 }
 
 function drawGapFlow() {
@@ -1205,6 +1337,27 @@ function drawGapFlow() {
           <button type="button" data-route="informal" style="--checks:0"><span>未记录去向</span><i></i><i></i><i></i><i></i><b>链条不可见</b></button>
         </div>
         <p>右侧四格为编辑部示意：分别检查所有权交接、设备位置、处理方式和材料去向是否留下记录，不代表统计比例。</p>
+        <div class="gap-mini-grid">
+          <section class="gap-mini-continuity">
+            <header><b>记录连续性</b><span>编辑部示意分值</span></header>
+            <div class="gap-mini-bars">
+              <span data-mini-route="drawer"><b>闲置</b><i style="--score:25%"></i><em>1/4</em></span>
+              <span data-mini-route="resale"><b>二手 / 维修</b><i style="--score:50%"></i><em>2/4</em></span>
+              <span data-mini-route="formal"><b>正规回收</b><i style="--score:100%"></i><em>4/4</em></span>
+              <span data-mini-route="informal"><b>未记录</b><i style="--score:2%"></i><em>0/4</em></span>
+            </div>
+          </section>
+          <section class="gap-mini-breaks">
+            <header><b>哪类记录最易缺席</b><span>四条路径对照</span></header>
+            <div class="gap-mini-columns">
+              <span style="--height:76%"><i></i><b>所有权</b></span>
+              <span style="--height:54%"><i></i><b>位置</b></span>
+              <span style="--height:33%"><i></i><b>处理</b></span>
+              <span style="--height:22%"><i></i><b>材料</b></span>
+            </div>
+          </section>
+        </div>
+        <div class="gap-mini-readout" aria-live="polite"><span>当前路径</span><strong>正规回收 · 4/4 项记录</strong></div>
       </section>
     </div>`;
 
@@ -1220,6 +1373,9 @@ function drawGapFlow() {
     routeTargets.forEach(target => target.classList.toggle("is-active", target.dataset.route === route));
     detail.querySelector("span").textContent = routeText[route][0];
     detail.querySelector("p").textContent = routeText[route][1];
+    c.querySelectorAll("[data-mini-route]").forEach(row => row.classList.toggle("is-active", row.dataset.miniRoute === route));
+    const score = { drawer: "1/4", resale: "2/4", formal: "4/4", informal: "0/4" }[route];
+    c.querySelector(".gap-mini-readout strong").textContent = `${routeText[route][0]} · ${score} 项记录`;
   };
   routeTargets.forEach(target => {
     ["mouseenter", "focus", "click"].forEach(eventName => target.addEventListener(eventName, () => activate(target.dataset.route)));
@@ -1317,6 +1473,7 @@ function drawAllCharts() {
   drawChinaTrend();
   drawGapStack();
   drawHundredGrid();
+  drawFactMatrix();
   drawGapFlow();
   setupRadar();
   drawWordCloud();
