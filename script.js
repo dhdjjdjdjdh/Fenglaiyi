@@ -736,6 +736,12 @@ function drawGapStack() {
   const last = gaps[gaps.length - 1];
   const averageRise = (last.gap - first.gap) / (gaps.length - 1);
   const maxGap = Math.max(...gaps.map(item => item.gap));
+  const maxGenerated = Math.max(...gaps.map(item => item.generated));
+  const annualIncreases = gaps.slice(1).map((item, index) => ({
+    ...item,
+    increase: item.gap - gaps[index].gap
+  }));
+  const maxIncrease = Math.max(...annualIncreases.map(item => item.increase));
   const points = gaps.map((item, index) => {
     const x = 34 + index * (572 / (gaps.length - 1));
     const y = 222 - item.gap / maxGap * 152;
@@ -752,7 +758,7 @@ function drawGapStack() {
     <div class="gap-kpi-row">
       <div><span>2025 估算缺口</span><strong>${last.gap.toFixed(1)}</strong><small>万吨</small></div>
       <div><span>七年增加</span><strong>${(last.gap - first.gap).toFixed(1)}</strong><small>万吨</small></div>
-      <div><span>2025 估算收集率</span><strong>${(last.collected / last.generated * 100).toFixed(1)}</strong><small>%</small></div>
+      <div><span>2025 估算收集率</span><strong>${(last.collected / last.generated * 100).toFixed(3)}</strong><small>%</small></div>
       <div><span>年均缺口增量</span><strong>${averageRise.toFixed(1)}</strong><small>万吨</small></div>
     </div>
     <div class="gap-dash-grid">
@@ -767,22 +773,31 @@ function drawGapStack() {
           <text class="gap-estimate-label" x="411" y="46">趋势外推</text>
         </svg>
       </section>
-      <section class="gap-bubble-module">
-        <header><b>每年三种重量</b><span>圆越大，重量越大</span></header>
-        <div class="gap-bubble-matrix">
-          ${gaps.map(item => `
-            <button type="button" class="gap-bubble-year ${item.estimated ? "is-estimated" : ""}" aria-label="${item.year}年产生量、正式收集量与缺口对比">
-              <span>${item.year}</span>
-              <i class="bubble-generated" style="--bubble:${Math.max(22, item.generated / 18)}px" title="产生量 ${item.generated.toFixed(1)} 万吨"></i>
-              <i class="bubble-collected" style="--bubble:${Math.max(12, item.collected / 8)}px" title="正式收集 ${item.collected.toFixed(1)} 万吨"></i>
-              <i class="bubble-gap" style="--bubble:${Math.max(20, item.gap / 19)}px" title="缺口 ${item.gap.toFixed(1)} 万吨"></i>
-            </button>`).join("")}
+      <section class="gap-increase-module">
+        <header><b>年度新增缺口</b><span>比上一年增加（万吨）</span></header>
+        <div class="gap-increase-bars">
+          ${annualIncreases.map(item => `
+            <span class="${item.estimated ? "is-estimated" : ""}" title="${item.year} 年缺口比上一年增加 ${item.increase.toFixed(1)} 万吨${item.estimated ? "（趋势外推）" : ""}">
+              <b>${item.increase.toFixed(1)}</b>
+              <i style="--height:${(item.increase / maxIncrease * 100).toFixed(1)}%"></i>
+              <em>${item.year}${item.estimated ? "*" : ""}</em>
+            </span>`).join("")}
         </div>
-        <div class="gap-bubble-legend"><span><i></i>产生量</span><span><i></i>正式收集</span><span><i></i>缺口</span></div>
       </section>
-      <section class="gap-rate-module">
-        <header><b>正式收集率</b><span>比例几乎横向停滞</span></header>
-        <div>${gaps.map(item => `<span title="${item.year}：${(item.collected / item.generated * 100).toFixed(1)}%"><i style="--rate:${(item.collected / item.generated * 100).toFixed(1)}%"></i><b>${item.year}</b></span>`).join("")}</div>
+      <section class="gap-composition-module">
+        <header><b>每年产生量的构成</b><span>整条长度＝当年产生量</span></header>
+        <div class="gap-composition-legend"><span><i></i>正式收集</span><span><i></i>未正式收集</span></div>
+        <div class="gap-composition-list">
+          ${gaps.map(item => {
+            const rate = item.collected / item.generated * 100;
+            return `<div class="gap-composition-row ${item.estimated ? "is-estimated" : ""}" title="${item.year} 年：产生 ${item.generated.toFixed(1)} 万吨，正式收集 ${item.collected.toFixed(1)} 万吨，未正式收集 ${item.gap.toFixed(1)} 万吨${item.estimated ? "（趋势外推）" : ""}">
+              <b>${item.year}${item.estimated ? "*" : ""}</b>
+              <span class="gap-composition-base"><span class="gap-composition-track" style="--total:${(item.generated / maxGenerated * 100).toFixed(1)}%;--formal:${rate.toFixed(3)}%"><i></i><em></em></span></span>
+              <strong>${rate.toFixed(3)}%</strong>
+            </div>`;
+          }).join("")}
+        </div>
+        <p>横条总长比较当年产生量；绿色段是正式收集，橙色段是未进入正式收集口径的重量。星号年份为趋势外推。</p>
       </section>
       <section class="gap-reading-module"><b>读图</b><p>产生量、正式收集量都在增加，但两者没有拉近。若既有增量关系延续，2025 年的未正式收集部分将比 2018 年多约 ${(last.gap - first.gap).toFixed(1)} 万吨。</p></section>
     </div>
@@ -799,7 +814,7 @@ function drawChinaTrend() {
     </div>
     <div class="gap-radial-visual">
       <svg viewBox="0 0 520 520" aria-hidden="true"></svg>
-      <div class="gap-radial-core" aria-live="polite"><small>2022</small><strong>16.2%</strong><span>正式收集率</span></div>
+      <div class="gap-radial-core" aria-live="polite"><small>2022</small><strong>16.178%</strong><span>正式收集率</span></div>
     </div>
     <div class="gap-year-key" aria-label="选择年份"></div>
     <div class="gap-radial-readout" aria-live="polite">
@@ -827,7 +842,7 @@ function drawChinaTrend() {
     groups.forEach(group => group.classList.toggle("is-active", Number(group.dataset.year) === selected.year));
     buttons.forEach(button => button.classList.toggle("is-active", Number(button.dataset.year) === selected.year));
     core.querySelector("small").textContent = selected.year;
-    core.querySelector("strong").textContent = `${rate.toFixed(1)}%`;
+    core.querySelector("strong").textContent = `${rate.toFixed(3)}%`;
     c.querySelector("[data-gap-generated]").textContent = selected.generated.toFixed(1);
     c.querySelector("[data-gap-collected]").textContent = selected.collected.toFixed(1);
     c.querySelector("[data-gap-missing]").textContent = missing.toFixed(1);
@@ -880,6 +895,7 @@ function drawChinaTrend() {
     button.type = "button";
     button.dataset.year = item.year;
     button.textContent = item.estimated ? `${item.year}*` : item.year;
+    button.title = `${item.year} 年正式收集率：${rate.toFixed(3)}%${item.estimated ? "（趋势外推）" : ""}`;
     if (item.estimated) button.classList.add("is-estimated");
     ["mouseenter", "focus", "click"].forEach(eventName => button.addEventListener(eventName, () => update(item)));
     key.appendChild(button);
