@@ -15,6 +15,213 @@
   --shadow: 0 24px 70px rgba(16, 20, 19, .14);
 }
 
+/* Cost chapter: matched hero scale and a denser health-risk dashboard. */
+.unequal-page .page-hero--unequal h1 {
+  max-width: 1120px;
+  font-size: clamp(46px, 6.75vw, 98px);
+  line-height: 1.08;
+}
+.unequal-page .page-hero--unequal h1 span { display: block; white-space: nowrap; }
+.missing-page .missing-dashboard-section .text-column h2 {
+  font-size: clamp(30px, 3.35vw, 46px);
+  line-height: 1.14;
+}
+.health-risk-panel.viz-panel {
+  padding: 0;
+  overflow: visible;
+  background: #08100e;
+  border-color: #2b3733;
+}
+.health-risk-dashboard {
+  min-height: 650px;
+  padding: 24px;
+  color: #fff;
+  background-color: #08100e;
+  background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+.health-dashboard-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid rgba(255,255,255,.16);
+}
+.health-dashboard-head span {
+  display: block;
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 900;
+}
+.health-dashboard-head h3 {
+  margin: 4px 0 0;
+  color: #fff;
+  font-size: 27px;
+}
+.health-dashboard-head > small {
+  color: rgba(255,255,255,.52);
+  font-size: 9px;
+  font-weight: 800;
+}
+.health-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(205px, .78fr) minmax(350px, 1.22fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+.health-kpi-column { display: grid; gap: 10px; align-content: start; }
+.health-kpi {
+  min-width: 0;
+  min-height: 128px;
+  padding: 14px 16px;
+  background: rgba(18,27,24,.96);
+  border-left: 4px solid var(--green);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.health-kpi--women { border-left-color: var(--steel); }
+.health-kpi > span {
+  color: rgba(255,255,255,.64);
+  font-size: 9px;
+  font-weight: 900;
+}
+.health-kpi p { display: flex; align-items: baseline; gap: 5px; margin: 2px 0 0; }
+.health-kpi strong {
+  color: #fff;
+  font-size: clamp(43px, 4vw, 62px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.health-kpi em { color: var(--green); font-size: 16px; font-style: normal; font-weight: 900; }
+.health-kpi--women em { color: #8cb0bb; }
+.health-kpi > small { display: block; color: rgba(255,255,255,.62); font-size: 9px; line-height: 1.5; }
+.health-path-panel {
+  min-height: 178px;
+  padding: 15px 16px;
+  background: rgba(18,27,24,.96);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.health-subhead { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.health-subhead strong { color: #fff; font-size: 15px; }
+.health-subhead small { color: rgba(255,255,255,.46); font-size: 8px; }
+.health-path-row {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr) 46px;
+  gap: 7px;
+  align-items: center;
+  margin-top: 15px;
+}
+.health-path-row span, .health-path-row em { color: rgba(255,255,255,.72); font-size: 8px; font-style: normal; }
+.health-path-row em { color: #fff; text-align: right; }
+.health-path-row i { position: relative; height: 7px; overflow: hidden; background: rgba(255,255,255,.12); }
+.health-path-row i::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--path);
+  background: linear-gradient(90deg, var(--orange), var(--green));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: health-path-in 1.1s .25s forwards cubic-bezier(.2,.75,.2,1);
+}
+.health-bubble-panel {
+  min-width: 0;
+  min-height: 456px;
+  padding: 15px;
+  background: rgba(18,27,24,.96);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.health-bubble-field { position: relative; min-height: 410px; margin-top: 6px; }
+.health-bubble {
+  position: absolute;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  aspect-ratio: 1;
+  padding: 8px;
+  color: #fff;
+  background: #24312d;
+  border: 2px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  box-shadow: 0 12px 28px rgba(0,0,0,.32), inset 0 0 0 4px rgba(255,255,255,.035);
+  cursor: help;
+  transform: scale(.88);
+  opacity: 0;
+  animation: health-bubble-in .7s forwards cubic-bezier(.2,.8,.2,1);
+  transition: transform .24s ease, filter .24s ease, border-color .24s ease;
+}
+.health-bubble b { font-size: clamp(15px, 1.8vw, 25px); line-height: 1; }
+.health-bubble span { margin-top: 4px; color: rgba(255,255,255,.76); font-size: 8px; line-height: 1.25; text-align: center; }
+.health-bubble i {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 7px);
+  z-index: 12;
+  width: 190px;
+  padding: 9px 10px;
+  color: rgba(255,255,255,.88);
+  background: #050a09;
+  border-left: 3px solid var(--green);
+  font-size: 9px;
+  font-style: normal;
+  line-height: 1.55;
+  text-align: left;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.health-bubble:hover, .health-bubble:focus { z-index: 10; border-color: #fff; filter: brightness(1.18); outline: none; transform: scale(1.1); }
+.health-bubble:hover i, .health-bubble:focus i { opacity: 1; transform: translate(-50%, 0); }
+.health-bubble--core { left: 39%; top: 31%; width: 150px; background: #0f1715; border-color: var(--green); animation-delay: .08s; }
+.health-bubble--core b { color: var(--green); font-size: 20px; }
+.health-bubble--child { left: 6%; top: 9%; width: 138px; background: #d77d18; animation-delay: .16s; }
+.health-bubble--women { right: 4%; top: 8%; width: 125px; background: #5f8792; animation-delay: .23s; }
+.health-bubble--dust { left: 2%; top: 56%; width: 99px; background: #9f4d31; animation-delay: .30s; }
+.health-bubble--burn { left: 29%; top: 68%; width: 91px; background: #6b4838; animation-delay: .37s; }
+.health-bubble--acid { right: 25%; top: 68%; width: 94px; background: #667f24; animation-delay: .44s; }
+.health-bubble--home { right: 1%; top: 49%; width: 84px; background: #395e68; animation-delay: .51s; }
+.health-bubble--burn i, .health-bubble--acid i { top: auto; bottom: calc(100% + 7px); }
+.health-bubble--women i, .health-bubble--home i { left: auto; right: 0; transform: translate(0, -4px); }
+.health-bubble--women:hover i, .health-bubble--women:focus i,
+.health-bubble--home:hover i, .health-bubble--home:focus i { transform: translate(0, 0); }
+.health-dashboard-foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+}
+.health-dashboard-foot > div { min-width: 0; padding: 11px 13px; }
+.health-dashboard-foot > div + div { border-left: 1px solid rgba(255,255,255,.12); }
+.health-dashboard-foot span { display: block; color: var(--orange); font-size: 8px; font-weight: 900; }
+.health-dashboard-foot b { color: rgba(255,255,255,.82); font-size: 10px; }
+@keyframes health-path-in { to { transform: scaleX(1); } }
+@keyframes health-bubble-in { to { opacity: 1; transform: scale(1); } }
+
+@media (max-width: 1100px) {
+  .health-dashboard-grid { grid-template-columns: 1fr; }
+  .health-kpi-column { grid-template-columns: 1fr 1fr; }
+  .health-path-panel { grid-column: 1 / -1; }
+}
+@media (max-width: 620px) {
+  .unequal-page .page-hero--unequal h1 { font-size: clamp(42px, 12.5vw, 58px); }
+  .unequal-page .page-hero--unequal h1 span { white-space: normal; }
+  .missing-page .missing-dashboard-section .text-column h2 { font-size: 35px; }
+  .health-risk-dashboard { min-height: 0; padding: 14px; }
+  .health-dashboard-head { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .health-dashboard-head h3 { font-size: 23px; }
+  .health-kpi-column { grid-template-columns: 1fr; }
+  .health-path-panel { grid-column: 1; }
+  .health-bubble-panel { min-height: 430px; padding: 12px; }
+  .health-bubble-field { min-height: 382px; transform: scale(.9); transform-origin: center top; }
+  .health-bubble--core { left: 34%; }
+  .health-bubble--child { left: 0; width: 124px; }
+  .health-bubble--women { right: 0; width: 112px; }
+  .health-bubble i { width: 155px; font-size: 8px; }
+  .health-dashboard-foot { grid-template-columns: 1fr; }
+  .health-dashboard-foot > div + div { border-top: 1px solid rgba(255,255,255,.12); border-left: 0; }
+}
+
 /* Missing chapter v4: precise ring readings and an explicit gap dashboard. */
 .missing-page .gap-radial-head h3 {
   max-width: none;

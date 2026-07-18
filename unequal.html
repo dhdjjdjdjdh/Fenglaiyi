@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>代价：谁离垃圾更近</title>
-  <link rel="stylesheet" href="styles.css?v=20260718-24">
+  <link rel="stylesheet" href="styles.css?v=20260718-25">
   <link rel="icon" href="data:,">
 </head>
-<body class="chapter-page">
+<body class="chapter-page unequal-page">
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <nav class="site-nav" aria-label="专题导航"><a href="index.html">首页</a><a href="global.html">全球</a><a href="china.html">中国</a><a href="missing.html">缺口</a><a href="unequal.html">代价</a><a href="afterlife.html">去向</a></nav>
   <a class="return-home" href="index.html">返回首页</a>
@@ -15,23 +15,61 @@
   <header class="page-hero page-hero--unequal">
     <div>
       <p class="eyebrow">04 / 代价</p>
-      <h1>不平等不是谁制造垃圾，而是谁离垃圾更近。</h1>
+      <h1><span>不平等不是谁制造垃圾，</span><span>而是谁离垃圾更近。</span></h1>
       <p>同一台旧设备，在消费者、回收商、维修者和拆解者手里，意味着完全不同的东西。越往下游，信息越少，风险越具体。</p>
     </div>
   </header>
 
   <main>
-    <section class="story-section two-col-section">
+    <section id="health-risk" class="story-section two-col-section">
       <div class="text-column">
         <p class="eyebrow">Health risk</p>
         <h2>风险最终会落到具体的人身上。</h2>
         <p>世界卫生组织（World Health Organization）关于电子废弃物暴露与儿童健康的报告提示，全球可能有多达 1800 万儿童和青少年、1290 万女性面临与电子废弃物回收相关的不良健康风险。</p>
         <p>这些数字不直接对应中国，但它们说明电子废弃物不是纯粹的环境议题。它同时关乎劳动、家庭、身体和谁更难退出危险现场。</p><p class="source-note">数据来源：世界卫生组织（World Health Organization）《Children and digital dumpsites: e-waste exposure and child health》，用于提示全球健康风险背景。</p>
       </div>
-      <div class="viz-panel viz-panel--dark">
-        <div class="stat-duo">
-          <div><strong data-count="1800">0</strong><span>万</span><p>儿童和青少年</p></div>
-          <div><strong data-count="1290">0</strong><span>万</span><p>女性</p></div>
+      <div class="viz-panel viz-panel--dark health-risk-panel">
+        <div class="health-risk-dashboard" role="group" aria-label="世界卫生组织电子废弃物健康风险看板：全球多达1800万儿童和青少年、1290万女性可能面临相关暴露风险，并呈现拆解、焚烧、酸洗和堆放等暴露节点">
+          <div class="health-dashboard-head">
+            <div><span>WHO / E-WASTE EXPOSURE</span><h3>风险不会平均落下</h3></div>
+            <small>GLOBAL HEALTH CONTEXT</small>
+          </div>
+          <div class="health-dashboard-grid">
+            <div class="health-kpi-column">
+              <article class="health-kpi health-kpi--child">
+                <span>01 / 儿童与青少年</span>
+                <p><strong data-count="1800">0</strong><em>万</em></p>
+                <small>可能处于相关工业与废物处理风险环境</small>
+              </article>
+              <article class="health-kpi health-kpi--women">
+                <span>02 / 女性</span>
+                <p><strong data-count="1290">0</strong><em>万</em></p>
+                <small>可能在非正规废物处理部门面临暴露</small>
+              </article>
+              <div class="health-path-panel">
+                <div class="health-subhead"><strong>暴露如何进入身体</strong><small>路径示意</small></div>
+                <div class="health-path-row"><span>粉尘与烟雾</span><i style="--path: 92%"></i><em>吸入</em></div>
+                <div class="health-path-row"><span>污染食物与水</span><i style="--path: 76%"></i><em>摄入</em></div>
+                <div class="health-path-row"><span>拆解残留物</span><i style="--path: 64%"></i><em>皮肤接触</em></div>
+              </div>
+            </div>
+            <div class="health-bubble-panel">
+              <div class="health-subhead"><strong>风险节点</strong><small>悬停查看暴露含义</small></div>
+              <div class="health-bubble-field">
+                <button class="health-bubble health-bubble--core" type="button"><b>电子废弃物</b><span>暴露链</span><i>风险沿拆解、焚烧与材料流动扩散，而不是停在一台设备上。</i></button>
+                <button class="health-bubble health-bubble--child" type="button"><b>1800</b><span>万儿童与青少年</span><i>成长阶段更容易受到铅、汞等污染物对神经与呼吸系统的影响。</i></button>
+                <button class="health-bubble health-bubble--women" type="button"><b>1290</b><span>万女性</span><i>非正规处理劳动与家庭照护空间可能重叠，暴露也可能被带回家庭。</i></button>
+                <button class="health-bubble health-bubble--dust" type="button"><b>粉尘</b><span>拆解与破碎</span><i>细颗粒可携带铅、镉和阻燃剂，经呼吸进入身体。</i></button>
+                <button class="health-bubble health-bubble--burn" type="button"><b>烟雾</b><span>露天焚烧</span><i>低温燃烧会释放复杂污染物，影响工人和周边社区。</i></button>
+                <button class="health-bubble health-bubble--acid" type="button"><b>废液</b><span>酸洗提取</span><i>金属提取产生的废液可能污染土壤与水体，并形成持续接触。</i></button>
+                <button class="health-bubble health-bubble--home" type="button"><b>家庭</b><span>二次暴露</span><i>沾附在衣物和工具上的污染物，可能从作业点进入居住空间。</i></button>
+              </div>
+            </div>
+          </div>
+          <div class="health-dashboard-foot">
+            <div><span>高风险环节</span><b>拆解 / 焚烧 / 酸洗 / 堆放</b></div>
+            <div><span>健康指向</span><b>神经发育 / 呼吸 / 生殖与孕产健康</b></div>
+          </div>
         </div>
       </div>
     </section>
@@ -63,7 +101,7 @@
 
     <a class="next-gate" href="afterlife.html"><span>一台旧设备，还能被怎样处理？</span><small>点击进入下一页</small></a>
   </main>
-  <script src="script.js?v=20260718-24"></script>
+  <script src="script.js?v=20260718-25"></script>
 </body>
 </html>
 
