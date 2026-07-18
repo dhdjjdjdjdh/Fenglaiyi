@@ -810,11 +810,11 @@ function drawChinaTrend() {
   c.innerHTML = `
     <div class="gap-radial-head">
       <div><span>2018—2025 / EIGHT RINGS</span><h3>增长向外扩张，正式收集只占每一圈的一小段</h3></div>
-      <div class="gap-radial-legend"><i></i>正式收集<b></b>未正式收集<em></em>趋势外推</div>
+      <div class="gap-radial-legend"><i></i>正式收集<b></b>未正式收集</div>
     </div>
     <div class="gap-radial-visual">
       <svg viewBox="0 0 520 520" aria-hidden="true"></svg>
-      <div class="gap-radial-core" aria-live="polite"><small>2022</small><strong>16.178%</strong><span>正式收集率</span></div>
+      <div class="gap-radial-core" aria-live="polite"><small>2022</small><strong>16.2%</strong><span>正式收集率</span></div>
     </div>
     <div class="gap-year-key" aria-label="选择年份"></div>
     <div class="gap-radial-readout" aria-live="polite">
@@ -842,7 +842,7 @@ function drawChinaTrend() {
     groups.forEach(group => group.classList.toggle("is-active", Number(group.dataset.year) === selected.year));
     buttons.forEach(button => button.classList.toggle("is-active", Number(button.dataset.year) === selected.year));
     core.querySelector("small").textContent = selected.year;
-    core.querySelector("strong").textContent = `${rate.toFixed(3)}%`;
+    core.querySelector("strong").textContent = `${rate.toFixed(1)}%`;
     c.querySelector("[data-gap-generated]").textContent = selected.generated.toFixed(1);
     c.querySelector("[data-gap-collected]").textContent = selected.collected.toFixed(1);
     c.querySelector("[data-gap-missing]").textContent = missing.toFixed(1);
