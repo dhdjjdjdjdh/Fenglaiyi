@@ -609,7 +609,7 @@ function drawMarketVsWaste() {
           <div class="market-gap-number"><span>未进入正式收集记录</span><strong data-count="${unrecorded}" data-decimals="1">0.0</strong><em>万吨</em></div>
         </section>
         <section class="market-flow-core" aria-label="透明数字地球呈现设备流入、废弃和正式收集的转化关系">
-          <div class="market-globe-scene">
+          <div class="market-globe-scene" tabindex="0" aria-label="可拖动旋转的电子设备流向地球">
             <div class="market-globe-orbit market-globe-orbit--a"></div>
             <div class="market-globe-orbit market-globe-orbit--b"></div>
             <svg class="market-globe" viewBox="0 0 300 300" aria-hidden="true">
@@ -655,6 +655,74 @@ function drawMarketVsWaste() {
       </div>
       <p class="market-monitor-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China 2022 country sheet；比例与缺口据原始值计算。</p>
     </div>`;
+  setupMarketGlobeInteraction(container.querySelector(".market-globe-scene"));
+}
+
+function setupMarketGlobeInteraction(scene) {
+  if (!scene || scene.dataset.orbitsReady) return;
+  scene.dataset.orbitsReady = "true";
+  const orbitA = scene.querySelector(".market-globe-orbit--a");
+  const orbitB = scene.querySelector(".market-globe-orbit--b");
+  if (!orbitA || !orbitB) return;
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let angleA = -12;
+  let angleB = 18;
+  let squashA = 1;
+  let squashB = 1;
+  let dragging = false;
+  let pointerX = 0;
+  let pointerY = 0;
+
+  const applyOrbitTransforms = () => {
+    orbitA.style.transform = `translateX(-50%) rotate(${angleA}deg) scaleY(${squashA})`;
+    orbitB.style.transform = `translateX(-50%) rotate(${angleB}deg) scaleY(${squashB})`;
+  };
+  const render = () => {
+    if (!dragging && !reduceMotion) {
+      angleA += .08;
+      angleB -= .065;
+    }
+    applyOrbitTransforms();
+    if (scene.isConnected) requestAnimationFrame(render);
+  };
+
+  scene.addEventListener("pointerdown", event => {
+    dragging = true;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    scene.classList.add("is-dragging");
+    try { scene.setPointerCapture?.(event.pointerId); } catch {}
+  });
+  scene.addEventListener("pointermove", event => {
+    if (!dragging) return;
+    const dx = event.clientX - pointerX;
+    const dy = event.clientY - pointerY;
+    angleA += dx * .32;
+    angleB -= dx * .26;
+    squashA = Math.max(.68, Math.min(1.18, squashA + dy * .004));
+    squashB = Math.max(.68, Math.min(1.18, squashB - dy * .003));
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    applyOrbitTransforms();
+  });
+  const release = event => {
+    dragging = false;
+    scene.classList.remove("is-dragging");
+    try {
+      if (scene.hasPointerCapture?.(event.pointerId)) scene.releasePointerCapture(event.pointerId);
+    } catch {}
+  };
+  scene.addEventListener("pointerup", release);
+  scene.addEventListener("pointercancel", release);
+  scene.addEventListener("keydown", event => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+    event.preventDefault();
+    const direction = ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 1;
+    angleA += direction * 8;
+    angleB -= direction * 7;
+    applyOrbitTransforms();
+  });
+  requestAnimationFrame(render);
 }
 
 function drawGapStack() {
@@ -870,7 +938,7 @@ function drawPressureDashboard() {
     <div class="china-mini-dashboard pressure-dashboard">
       <header class="china-dash-head">
         <div><span>NIGHTINGALE ROSE / THREE PRESSURES</span><h3>尺度一换，排名就会重新洗牌</h3></div>
-        <b>2022</b>
+        <b>2024</b>
       </header>
       <div class="pressure-rose-layout">
         <figure class="pressure-rose-figure">

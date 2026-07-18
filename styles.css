@@ -575,32 +575,33 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .digital-device-row span, .digital-device-row strong { color: rgba(255,255,255,.7); font-size: 8px; }
 .digital-device-row strong { text-align: right; font-variant-numeric: tabular-nums; }
 
-.pressure-rose-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(180px, .92fr); gap: 10px; align-items: stretch; }
-.pressure-rose-figure { min-width: 0; margin: 0; padding: 8px 8px 10px; background: #111715; border: 1px solid #2d3733; }
+.pressure-dashboard { min-height: 720px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.pressure-rose-layout { min-height: 580px; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(180px, .92fr); gap: 12px; align-items: stretch; }
+.pressure-rose-figure { min-width: 0; margin: 0; padding: 18px 14px 16px; display: flex; flex-direction: column; justify-content: center; background: #111715; border: 1px solid #2d3733; }
 .pressure-rose-figure svg { display: block; width: 100%; height: auto; overflow: visible; }
 .rose-guides circle { fill: none; stroke: rgba(255,255,255,.13); stroke-width: 1; }
 .rose-wedge { stroke: #09100e; stroke-width: 2; opacity: 0; transform: scale(.08) rotate(-20deg); transform-origin: 210px 192px; transition: opacity .62s ease var(--delay), transform .9s cubic-bezier(.2,.8,.2,1) var(--delay); }
 .is-visible .rose-wedge { opacity: .9; transform: scale(1) rotate(0); }
 .rose-wedge:hover { opacity: 1; filter: brightness(1.16); }
 .rose-core { fill: #080d0c; stroke: rgba(255,255,255,.3); stroke-width: 2; }
-.rose-country-labels text { fill: #fff; font-size: 14px; font-weight: 900; paint-order: stroke; stroke: #111715; stroke-width: 5px; }
-.pressure-rose-figure figcaption { margin: -2px 8px 0; color: rgba(255,255,255,.42); font-size: 7px; line-height: 1.45; }
+.rose-country-labels text { fill: #fff; font-size: 17px; font-weight: 900; paint-order: stroke; stroke: #111715; stroke-width: 5px; }
+.pressure-rose-figure figcaption { margin: 8px 8px 0; color: rgba(255,255,255,.52); font-size: 10px; line-height: 1.55; }
 .pressure-rose-side { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 8px; }
-.pressure-rose-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; padding: 10px; background: #151b19; border: 1px solid #2d3733; }
-.pressure-rose-legend span { display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,.7); font-size: 7px; line-height: 1.25; }
-.pressure-rose-legend i { width: 7px; height: 7px; flex: 0 0 auto; background: var(--color); }
+.pressure-rose-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 14px 13px; background: #151b19; border: 1px solid #2d3733; }
+.pressure-rose-legend span { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.74); font-size: 10px; line-height: 1.3; }
+.pressure-rose-legend i { width: 9px; height: 9px; flex: 0 0 auto; background: var(--color); }
 .pressure-country-briefs { display: grid; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.pressure-country-brief { min-width: 0; padding: 12px; background: #151b19; border-left: 3px solid var(--orange); opacity: 0; transform: translateX(10px); transition: opacity .6s ease var(--delay), transform .7s ease var(--delay); }
+.pressure-country-brief { min-width: 0; padding: 20px 18px; display: grid; align-content: center; background: #151b19; border-left: 4px solid var(--orange); opacity: 0; transform: translateX(10px); transition: opacity .6s ease var(--delay), transform .7s ease var(--delay); }
 .pressure-country-brief:nth-child(2) { border-left-color: var(--steel); }
 .pressure-country-brief:nth-child(3) { border-left-color: var(--green); }
 .is-visible .pressure-country-brief { opacity: 1; transform: translateX(0); }
-.pressure-country-brief header { display: flex; align-items: baseline; gap: 7px; margin-bottom: 7px; }
-.pressure-country-brief header span { color: rgba(255,255,255,.38); font-size: 7px; }
-.pressure-country-brief header strong { color: #fff; font-size: 13px; }
-.pressure-country-brief > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
-.pressure-country-brief > div span { color: rgba(255,255,255,.45); font-size: 6px; line-height: 1.25; }
-.pressure-country-brief > div b { display: block; margin-top: 2px; color: #fff; font-size: 11px; font-variant-numeric: tabular-nums; }
-.pressure-country-brief > div em { color: rgba(255,255,255,.42); font-size: 6px; font-style: normal; }
+.pressure-country-brief header { display: flex; align-items: baseline; gap: 9px; margin-bottom: 13px; }
+.pressure-country-brief header span { color: rgba(255,255,255,.42); font-size: 10px; }
+.pressure-country-brief header strong { color: #fff; font-size: 20px; }
+.pressure-country-brief > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.pressure-country-brief > div span { color: rgba(255,255,255,.52); font-size: 9px; line-height: 1.3; }
+.pressure-country-brief > div b { display: block; margin-top: 3px; color: #fff; font-size: 17px; font-variant-numeric: tabular-nums; }
+.pressure-country-brief > div em { color: rgba(255,255,255,.48); font-size: 9px; font-style: normal; }
 
 .china-market-section { width: min(1320px, calc(100% - 40px)); }
 .china-market-title { max-width: none; }
@@ -633,16 +634,18 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .market-gap-number strong { color: var(--orange); font-size: clamp(32px, 4vw, 50px); line-height: 1.05; font-variant-numeric: tabular-nums; }
 .market-gap-number em { margin-left: 5px; color: #fff; font-size: 11px; font-style: normal; }
 .market-flow-core { position: relative; min-height: 320px; overflow: hidden; display: grid; place-items: center; background: rgba(6,14,15,.97); border: 1px solid #2b3733; }
-.market-globe-scene { position: relative; width: 330px; height: 320px; max-width: 100%; }
+.market-globe-scene { position: relative; width: 330px; height: 320px; max-width: 100%; cursor: grab; touch-action: none; user-select: none; outline: none; }
+.market-globe-scene:focus-visible { box-shadow: inset 0 0 0 2px rgba(159,238,255,.72); }
+.market-globe-scene.is-dragging { cursor: grabbing; }
 .market-globe { position: absolute; top: -3px; left: 50%; z-index: 2; width: 272px; height: 272px; transform: translateX(-50%); filter: drop-shadow(0 0 18px rgba(70,200,224,.38)); }
 .market-globe-glass { transform-origin: center; animation: globe-breathe 3.8s ease-in-out infinite; }
 .market-globe-grid { fill: none; stroke: rgba(126,224,239,.32); stroke-width: 1; }
 .market-globe-land { fill: rgba(67,180,204,.28); stroke: rgba(159,238,255,.7); stroke-width: 1.2; animation: globe-drift 5.5s ease-in-out infinite alternate; }
 .market-globe-dots { fill: #b8f4ff; opacity: .78; animation: globe-dots 2.8s ease-in-out infinite alternate; }
 .market-globe-scan { fill: none; stroke: var(--green); stroke-width: 1.3; stroke-dasharray: 5 5; opacity: .75; animation: globe-scan 3s linear infinite; }
-.market-globe-orbit { position: absolute; left: 50%; z-index: 3; border: 1px solid rgba(110,218,238,.55); border-radius: 50%; pointer-events: none; }
-.market-globe-orbit--a { top: 116px; width: 308px; height: 76px; transform: translateX(-50%) rotate(-12deg); animation: globe-orbit-a 8s linear infinite; }
-.market-globe-orbit--b { top: 105px; width: 286px; height: 90px; border-color: rgba(200,240,0,.45); transform: translateX(-50%) rotate(18deg); animation: globe-orbit-b 10s linear infinite; }
+.market-globe-orbit { position: absolute; left: 50%; z-index: 3; border: 1px solid rgba(110,218,238,.55); border-radius: 50%; pointer-events: none; will-change: transform; }
+.market-globe-orbit--a { top: 116px; width: 308px; height: 76px; transform: translateX(-50%) rotate(-12deg); }
+.market-globe-orbit--b { top: 105px; width: 286px; height: 90px; border-color: rgba(200,240,0,.45); transform: translateX(-50%) rotate(18deg); }
 .market-globe-orbit::after { content: ""; position: absolute; top: 50%; right: -4px; width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 12px var(--green); }
 .market-globe-value { position: absolute; top: 103px; left: 50%; z-index: 4; display: grid; grid-template-columns: auto auto; align-content: center; justify-content: center; width: 126px; height: 88px; color: #fff; background: rgba(5,15,18,.74); border: 1px solid rgba(159,238,255,.42); text-align: center; transform: translateX(-50%); backdrop-filter: blur(2px); }
 .market-globe-value span { grid-column: 1 / -1; margin-bottom: 4px; color: rgba(255,255,255,.62); font-size: 8px; line-height: 1.35; }
@@ -673,8 +676,9 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .market-stage-strip > b { position: relative; height: 1px; margin: 0 12px; background: rgba(255,255,255,.35); }
 .market-stage-strip > b::after { content: ""; position: absolute; top: -3px; right: -1px; border-left: 6px solid rgba(255,255,255,.45); border-top: 3px solid transparent; border-bottom: 3px solid transparent; }
 .market-monitor-source { margin: 11px 2px 0; color: rgba(255,255,255,.46); font-size: 9px; line-height: 1.5; }
-.china-market-copy { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--line); }
-.china-market-copy p { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.9; text-align: justify; text-justify: inter-ideograph; }
+.china-market-copy { width: min(1180px, 100%); display: grid; grid-template-columns: 1fr; gap: 22px; margin: 34px auto 0; padding-top: 30px; border-top: 1px solid var(--line); }
+.china-market-copy p { margin: 0; color: var(--muted); font-size: 20px; line-height: 1.9; text-align: justify; text-justify: inter-ideograph; }
+.china-question-section { border-top: 4px solid var(--ink); }
 .china-question-title { max-width: none; }
 .china-question-title h2 { font-size: clamp(34px, 4.2vw, 54px); white-space: nowrap; }
 .china-question-lead { max-width: 1050px; margin-bottom: 30px; color: var(--muted); font-size: 20px; line-height: 1.85; text-align: justify; text-justify: inter-ideograph; }
@@ -688,8 +692,6 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 @keyframes globe-drift { to { transform: translateX(7px); } }
 @keyframes globe-dots { to { opacity: 1; } }
 @keyframes globe-scan { to { stroke-dashoffset: -40; } }
-@keyframes globe-orbit-a { 50% { transform: translateX(-50%) rotate(12deg); } }
-@keyframes globe-orbit-b { 50% { transform: translateX(-50%) rotate(-18deg); } }
 
 @media (max-width: 1100px) {
   .global-scale-section { grid-template-columns: 1fr; }
@@ -848,12 +850,22 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .digital-gauges { min-height: 145px; }
   .digital-device-bars { grid-template-columns: 1fr; }
   .china-fixed-title--digital, .china-fixed-title--pressure { font-size: 31px; line-height: 1.18; }
+  .pressure-dashboard, .pressure-rose-layout { min-height: 0; }
   .pressure-rose-layout { grid-template-columns: 1fr; }
+  .pressure-rose-figure { padding: 10px 8px 12px; }
+  .rose-country-labels text { font-size: 14px; }
+  .pressure-rose-figure figcaption { font-size: 8px; }
   .pressure-rose-legend { padding: 9px; }
+  .pressure-rose-legend span { font-size: 7px; }
   .pressure-country-briefs { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto; }
   .pressure-country-brief { padding: 9px 7px; }
+  .pressure-country-brief header { gap: 5px; margin-bottom: 7px; }
+  .pressure-country-brief header span { font-size: 7px; }
+  .pressure-country-brief header strong { font-size: 13px; }
   .pressure-country-brief > div { grid-template-columns: 1fr; gap: 4px; }
-  .pressure-country-brief > div span { padding-top: 3px; border-top: 1px solid rgba(255,255,255,.09); }
+  .pressure-country-brief > div span { padding-top: 3px; border-top: 1px solid rgba(255,255,255,.09); font-size: 6px; }
+  .pressure-country-brief > div b { font-size: 11px; }
+  .pressure-country-brief > div em { font-size: 6px; }
   .china-market-section { width: calc(100% - 28px); }
   .china-market-title h2, .china-question-title h2 { font-size: 31px; white-space: normal; }
   .market-monitor { padding: 10px; }
