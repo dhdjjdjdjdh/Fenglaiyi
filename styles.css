@@ -384,6 +384,8 @@
 .missing-page .page-hero--missing h1 { max-width: 1040px; font-size: clamp(46px, 6.75vw, 98px); line-height: 1.08; }
 .missing-radial-section { align-items: center; }
 .missing-page .missing-radial-section .text-column h2 { font-size: clamp(30px, 3.7vw, 50px); }
+.missing-page .story-section { padding-top: 96px; padding-bottom: 96px; }
+.missing-page .missing-facts-section { padding-top: 76px; }
 .gap-radial-panel.viz-panel { padding: 0; overflow: hidden; background: #f9faf6; }
 .gap-radial-chart.chart { min-height: 0; padding: 24px 26px 20px; }
 .gap-radial-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; padding-bottom: 16px; border-bottom: 1px solid #d4dbd2; }
@@ -494,6 +496,8 @@
 }
 
 @media (max-width: 620px) {
+  .missing-page .story-section { padding-top: 68px; padding-bottom: 68px; }
+  .missing-page .missing-facts-section { padding-top: 58px; }
   .missing-page .page-hero--missing h1 { font-size: clamp(42px, 12.3vw, 58px); line-height: 1.1; }
   .gap-radial-chart.chart { padding: 18px 14px 16px; }
   .gap-radial-head { display: grid; }

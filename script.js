@@ -828,7 +828,7 @@ function drawChinaTrend() {
   const svg = c.querySelector("svg");
   const key = c.querySelector(".gap-year-key");
   const core = c.querySelector(".gap-radial-core");
-  const radii = [52, 76, 100, 124, 148, 172, 196, 220];
+  const radii = [72, 93, 114, 135, 156, 177, 198, 219];
   const groups = [];
   const buttons = [];
 
