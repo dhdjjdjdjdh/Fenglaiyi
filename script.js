@@ -583,6 +583,13 @@ function drawMarketVsWaste() {
   const unrecorded = generated - collected;
   const generatedRatio = generated / market * 100;
   const collectedRatio = collected / generated * 100;
+  const globeDots = [
+    [85,83],[96,77],[108,81],[119,92],[112,105],[98,110],[88,101],[80,116],[90,129],[103,137],
+    [187,73],[201,70],[214,78],[228,83],[241,94],[231,105],[215,102],[205,111],[193,121],[184,134],
+    [198,145],[211,151],[217,164],[209,178],[198,187],[190,174],[183,158],[225,132],[239,126],[249,137],
+    [162,67],[151,78],[145,94],[152,108],[165,116],[173,102],[170,85],[133,142],[142,154],[154,163],
+    [165,174],[174,186],[181,200],[169,214],[156,205],[145,191],[118,169],[109,181],[99,194],[91,183]
+  ].map(([x, y], index) => `<circle cx="${x}" cy="${y}" r="${index % 5 === 0 ? 2.5 : 1.7}"></circle>`).join("");
   container.innerHTML = `
     <div class="market-monitor">
       <header class="market-monitor-head">
@@ -601,11 +608,35 @@ function drawMarketVsWaste() {
           <div class="market-ledger-row"><span>当年废弃 → 正式收集</span><i><b class="dash-fill" style="--bar:${collectedRatio.toFixed(1)}%;--color:#c8f000"></b></i><strong>${collectedRatio.toFixed(1)}%</strong></div>
           <div class="market-gap-number"><span>未进入正式收集记录</span><strong data-count="${unrecorded}" data-decimals="1">0.0</strong><em>万吨</em></div>
         </section>
-        <section class="market-flow-core" aria-label="设备流入、废弃和正式收集的转化关系">
-          <div class="market-orbit market-orbit--outer"></div>
-          <div class="market-orbit market-orbit--inner"></div>
-          <div class="market-core-number"><span>当年废弃量约为<br>市场投入量的</span><strong data-count="${generatedRatio}" data-decimals="1">0.0</strong><em>%</em></div>
-          <i class="market-signal market-signal--one"></i><i class="market-signal market-signal--two"></i><i class="market-signal market-signal--three"></i>
+        <section class="market-flow-core" aria-label="透明数字地球呈现设备流入、废弃和正式收集的转化关系">
+          <div class="market-globe-scene">
+            <div class="market-globe-orbit market-globe-orbit--a"></div>
+            <div class="market-globe-orbit market-globe-orbit--b"></div>
+            <svg class="market-globe" viewBox="0 0 300 300" aria-hidden="true">
+              <defs>
+                <radialGradient id="marketGlobeGlass" cx="36%" cy="28%" r="72%"><stop offset="0" stop-color="#d9fbff" stop-opacity=".32"></stop><stop offset=".38" stop-color="#3fc5df" stop-opacity=".16"></stop><stop offset="1" stop-color="#071a20" stop-opacity=".62"></stop></radialGradient>
+                <linearGradient id="marketGlobeEdge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9feeff"></stop><stop offset=".48" stop-color="#3ca6c3"></stop><stop offset="1" stop-color="#c8f000"></stop></linearGradient>
+                <clipPath id="marketGlobeClip"><circle cx="150" cy="150" r="112"></circle></clipPath>
+              </defs>
+              <circle class="market-globe-glass" cx="150" cy="150" r="112" fill="url(#marketGlobeGlass)" stroke="url(#marketGlobeEdge)" stroke-width="2"></circle>
+              <g class="market-globe-grid" clip-path="url(#marketGlobeClip)">
+                <ellipse cx="150" cy="150" rx="108" ry="34"></ellipse><ellipse cx="150" cy="116" rx="98" ry="27"></ellipse><ellipse cx="150" cy="184" rx="98" ry="27"></ellipse>
+                <ellipse cx="150" cy="150" rx="44" ry="109"></ellipse><ellipse cx="150" cy="150" rx="78" ry="109"></ellipse>
+                <path d="M57 112C78 84 109 66 150 62C196 58 233 78 253 108"></path><path d="M50 193C84 219 118 231 151 232C193 233 229 215 251 190"></path>
+              </g>
+              <g class="market-globe-land" clip-path="url(#marketGlobeClip)">
+                <path d="M70 82L94 70L119 78L128 94L114 106L100 104L93 121L79 132L68 117L56 106Z"></path>
+                <path d="M96 132L115 138L126 156L117 175L109 199L94 213L86 194L89 169L80 151Z"></path>
+                <path d="M164 72L188 64L216 72L244 88L236 104L218 106L207 121L184 116L173 101L153 96Z"></path>
+                <path d="M178 118L203 126L215 147L205 174L192 199L177 183L169 157L157 139Z"></path>
+                <path d="M221 186L240 181L253 195L241 207L222 204L213 194Z"></path>
+              </g>
+              <g class="market-globe-dots" clip-path="url(#marketGlobeClip)">${globeDots}</g>
+              <path class="market-globe-scan" d="M50 150C91 176 211 176 250 150"></path>
+            </svg>
+            <div class="market-globe-value"><span>当年废弃量约为市场投入量的</span><strong data-count="${generatedRatio}" data-decimals="1">0.0</strong><em>%</em></div>
+            <div class="market-globe-base"><i></i><b></b><span></span></div>
+          </div>
         </section>
         <section class="market-monitor-module market-ratio-module">
           <header><h4>末端可见度</h4><span>正式记录／产生量</span></header>
@@ -788,40 +819,74 @@ function drawRadar(id, labels, series, title, source) {
   c.replaceChildren(svg);
 }
 
+function rosePoint(cx, cy, radius, angle) {
+  const radians = (angle - 90) * Math.PI / 180;
+  return [cx + radius * Math.cos(radians), cy + radius * Math.sin(radians)];
+}
+
+function roseSectorPath(cx, cy, innerRadius, outerRadius, startAngle, endAngle) {
+  const [outerStartX, outerStartY] = rosePoint(cx, cy, outerRadius, endAngle);
+  const [outerEndX, outerEndY] = rosePoint(cx, cy, outerRadius, startAngle);
+  const [innerStartX, innerStartY] = rosePoint(cx, cy, innerRadius, startAngle);
+  const [innerEndX, innerEndY] = rosePoint(cx, cy, innerRadius, endAngle);
+  const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+  return `M ${outerStartX} ${outerStartY} A ${outerRadius} ${outerRadius} 0 ${largeArc} 0 ${outerEndX} ${outerEndY} L ${innerStartX} ${innerStartY} A ${innerRadius} ${innerRadius} 0 ${largeArc} 1 ${innerEndX} ${innerEndY} Z`;
+}
+
 function drawPressureDashboard() {
   const container = document.getElementById("radarChart");
   if (!container) return;
   const countries = [
-    { name: "中国", total: 1206.6, perCapita: 8.5, collected: 195.2, color: "#ffae00" },
-    { name: "美国", total: 718.8, perCapita: 21.3, collected: 405.4, color: "#5f8792" },
-    { name: "印度", total: 413.7, perCapita: 2.9, collected: 6.0, color: "#c8f000" }
+    { name: "中国", total: 1206.6, perCapita: 8.5, collected: 195.2 },
+    { name: "美国", total: 718.8, perCapita: 21.3, collected: 405.4 },
+    { name: "印度", total: 413.7, perCapita: 2.9, collected: 6.0 }
   ].map(item => ({ ...item, rate: item.collected / item.total * 100 }));
   const metrics = [
-    { key: "total", label: "产生总量", unit: "万吨", decimals: 1 },
-    { key: "perCapita", label: "人均产生量", unit: "千克／人", decimals: 1 },
-    { key: "rate", label: "正式收集率", unit: "%", decimals: 1 }
+    { key: "total", label: "产生总量", unit: "万吨", color: "#ffae00" },
+    { key: "perCapita", label: "人均产生量", unit: "千克／人", color: "#5f8792" },
+    { key: "rate", label: "正式收集率", unit: "%", color: "#c8f000" }
   ];
-  const metricPanels = metrics.map((metric, metricIndex) => {
-    const max = Math.max(...countries.map(item => item[metric.key]));
-    const rows = countries.map((item, index) => `
-      <div class="pressure-metric-row" style="--delay:${metricIndex * 160 + index * 70}ms">
-        <span><i style="--color:${item.color}"></i>${item.name}</span>
-        <b><em class="dash-fill" style="--bar:${(item[metric.key] / max * 100).toFixed(1)}%;--color:${item.color}"></em></b>
-        <strong>${formatNumber(item[metric.key], metric.decimals)}</strong>
-      </div>`).join("");
-    return `<section class="china-dash-module pressure-metric-module"><header><h4>${metric.label}</h4><span>${metric.unit}</span></header><div class="pressure-metric-bars">${rows}</div></section>`;
+  const metricMax = Object.fromEntries(metrics.map(metric => [metric.key, Math.max(...countries.map(item => item[metric.key]))]));
+  const wedges = countries.flatMap((country, countryIndex) => metrics.map((metric, metricIndex) => {
+    const index = countryIndex * metrics.length + metricIndex;
+    const normalized = country[metric.key] / metricMax[metric.key];
+    const outerRadius = 36 + Math.sqrt(normalized) * 116;
+    const startAngle = -110 + index * 40 + 4;
+    const endAngle = startAngle + 32;
+    return `<path class="rose-wedge" style="--delay:${index * 75}ms" d="${roseSectorPath(210, 192, 27, outerRadius, startAngle, endAngle)}" fill="${metric.color}"><title>${country.name} · ${metric.label}：${formatNumber(country[metric.key], 1)} ${metric.unit}</title></path>`;
+  })).join("");
+  const countryLabels = [
+    { name: "中国", angle: -50 }, { name: "美国", angle: 70 }, { name: "印度", angle: 190 }
+  ].map(item => {
+    const [x, y] = rosePoint(210, 192, 174, item.angle);
+    return `<text x="${x}" y="${y}" text-anchor="middle">${item.name}</text>`;
   }).join("");
+  const countryBriefs = countries.map((country, index) => `
+    <article class="pressure-country-brief" style="--delay:${index * 100}ms">
+      <header><span>0${index + 1}</span><strong>${country.name}</strong></header>
+      <div><span>总量<b>${formatNumber(country.total, 1)}</b><em>万吨</em></span><span>人均<b>${formatNumber(country.perCapita, 1)}</b><em>千克</em></span><span>收集<b>${formatNumber(country.rate, 1)}</b><em>%</em></span></div>
+    </article>`).join("");
   container.innerHTML = `
     <div class="china-mini-dashboard pressure-dashboard">
       <header class="china-dash-head">
-        <div><span>THREE COUNTRIES / THREE PRESSURES</span><h3>同一批国家，三种完全不同的排序</h3></div>
+        <div><span>NIGHTINGALE ROSE / THREE PRESSURES</span><h3>尺度一换，排名就会重新洗牌</h3></div>
         <b>2022</b>
       </header>
-      <div class="pressure-country-grid">
-        ${countries.map((item, index) => `<div class="pressure-country" style="--accent:${item.color};--delay:${index * 90}ms"><span>${item.name}</span><strong data-count="${item.total}" data-decimals="1">0.0</strong><em>万吨</em><small>人均 ${item.perCapita} 千克 · 正式收集 ${item.rate.toFixed(1)}%</small></div>`).join("")}
+      <div class="pressure-rose-layout">
+        <figure class="pressure-rose-figure">
+          <svg viewBox="0 0 420 390" role="img" aria-label="中美印三国总量、人均量和正式收集率归一化玫瑰图">
+            <g class="rose-guides"><circle cx="210" cy="192" r="66"></circle><circle cx="210" cy="192" r="106"></circle><circle cx="210" cy="192" r="146"></circle></g>
+            <g class="rose-wedges">${wedges}</g>
+            <circle class="rose-core" cx="210" cy="192" r="25"></circle>
+            <g class="rose-country-labels">${countryLabels}</g>
+          </svg>
+          <figcaption>花瓣面积按每项指标的组内最高值归一化；不同颜色代表不同指标。</figcaption>
+        </figure>
+        <div class="pressure-rose-side">
+          <div class="pressure-rose-legend">${metrics.map(metric => `<span><i style="--color:${metric.color}"></i>${metric.label}</span>`).join("")}</div>
+          <div class="pressure-country-briefs">${countryBriefs}</div>
+        </div>
       </div>
-      <div class="pressure-metric-grid">${metricPanels}</div>
-      <div class="pressure-reading-strip"><span><b>总量最高</b> 中国</span><span><b>人均最高</b> 美国</span><span><b>正式收集率最低</b> 印度</span></div>
       <p class="china-dash-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 country sheets；正式收集率由正式收集量除以产生量计算。</p>
     </div>`;
 }
