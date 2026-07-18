@@ -918,15 +918,15 @@ function drawPressureDashboard() {
   const wedges = countries.flatMap((country, countryIndex) => metrics.map((metric, metricIndex) => {
     const index = countryIndex * metrics.length + metricIndex;
     const normalized = country[metric.key] / metricMax[metric.key];
-    const outerRadius = 36 + Math.sqrt(normalized) * 116;
+    const outerRadius = 42 + Math.sqrt(normalized) * 130;
     const startAngle = -110 + index * 40 + 4;
     const endAngle = startAngle + 32;
-    return `<path class="rose-wedge" style="--delay:${index * 75}ms" d="${roseSectorPath(210, 192, 27, outerRadius, startAngle, endAngle)}" fill="${metric.color}"><title>${country.name} · ${metric.label}：${formatNumber(country[metric.key], 1)} ${metric.unit}</title></path>`;
+    return `<path class="rose-wedge" style="--delay:${index * 75}ms" d="${roseSectorPath(210, 192, 29, outerRadius, startAngle, endAngle)}" fill="${metric.color}"><title>${country.name} · ${metric.label}：${formatNumber(country[metric.key], 1)} ${metric.unit}</title></path>`;
   })).join("");
   const countryLabels = [
     { name: "中国", angle: -50 }, { name: "美国", angle: 70 }, { name: "印度", angle: 190 }
   ].map(item => {
-    const [x, y] = rosePoint(210, 192, 174, item.angle);
+    const [x, y] = rosePoint(210, 192, 190, item.angle);
     return `<text x="${x}" y="${y}" text-anchor="middle">${item.name}</text>`;
   }).join("");
   const countryBriefs = countries.map((country, index) => `
@@ -943,9 +943,9 @@ function drawPressureDashboard() {
       <div class="pressure-rose-layout">
         <figure class="pressure-rose-figure">
           <svg viewBox="0 0 420 390" role="img" aria-label="中美印三国总量、人均量和正式收集率归一化玫瑰图">
-            <g class="rose-guides"><circle cx="210" cy="192" r="66"></circle><circle cx="210" cy="192" r="106"></circle><circle cx="210" cy="192" r="146"></circle></g>
+            <g class="rose-guides"><circle cx="210" cy="192" r="76"></circle><circle cx="210" cy="192" r="124"></circle><circle cx="210" cy="192" r="168"></circle></g>
             <g class="rose-wedges">${wedges}</g>
-            <circle class="rose-core" cx="210" cy="192" r="25"></circle>
+            <circle class="rose-core" cx="210" cy="192" r="27"></circle>
             <g class="rose-country-labels">${countryLabels}</g>
           </svg>
           <figcaption>花瓣面积按每项指标的组内最高值归一化；不同颜色代表不同指标。</figcaption>

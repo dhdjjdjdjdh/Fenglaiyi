@@ -530,8 +530,8 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .china-page .text-column mark, .china-market-copy mark { padding: 0 .12em; color: #e65c37; background: transparent; font-weight: 900; }
 .china-fixed-title { width: 100%; letter-spacing: 0; }
 .china-fixed-title span { display: block; white-space: nowrap; }
-.china-fixed-title--digital { font-size: clamp(40px, 3.35vw, 50px); line-height: 1.13; }
-.china-fixed-title--pressure { font-size: clamp(38px, 3.08vw, 46px); line-height: 1.15; }
+.china-fixed-title--digital { font-size: clamp(38px, 3.08vw, 46px); line-height: 1.13; }
+.china-fixed-title--pressure { font-size: clamp(36px, 2.88vw, 43px); line-height: 1.15; }
 .china-fixed-title ~ p { max-width: 34em; }
 .china-dashboard-panel { padding: 0; color: #fff; background: #090e0d; border-color: #252d2a; }
 .china-dashboard-chart { min-height: 0; }
@@ -585,24 +585,24 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .is-visible .rose-wedge { opacity: .9; transform: scale(1) rotate(0); }
 .rose-wedge:hover { opacity: 1; filter: brightness(1.16); }
 .rose-core { fill: #080d0c; stroke: rgba(255,255,255,.3); stroke-width: 2; }
-.rose-country-labels text { fill: #fff; font-size: 17px; font-weight: 900; paint-order: stroke; stroke: #111715; stroke-width: 5px; }
-.pressure-rose-figure figcaption { margin: 8px 8px 0; color: rgba(255,255,255,.52); font-size: 10px; line-height: 1.55; }
+.rose-country-labels text { fill: #fff; font-size: 20px; font-weight: 900; paint-order: stroke; stroke: #111715; stroke-width: 5px; }
+.pressure-rose-figure figcaption { margin: 8px 8px 0; color: rgba(255,255,255,.52); font-size: 12px; line-height: 1.55; }
 .pressure-rose-side { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 8px; }
 .pressure-rose-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 14px 13px; background: #151b19; border: 1px solid #2d3733; }
-.pressure-rose-legend span { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.74); font-size: 10px; line-height: 1.3; }
-.pressure-rose-legend i { width: 9px; height: 9px; flex: 0 0 auto; background: var(--color); }
+.pressure-rose-legend span { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.74); font-size: 12px; line-height: 1.3; }
+.pressure-rose-legend i { width: 11px; height: 11px; flex: 0 0 auto; background: var(--color); }
 .pressure-country-briefs { display: grid; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .pressure-country-brief { min-width: 0; padding: 20px 18px; display: grid; align-content: center; background: #151b19; border-left: 4px solid var(--orange); opacity: 0; transform: translateX(10px); transition: opacity .6s ease var(--delay), transform .7s ease var(--delay); }
 .pressure-country-brief:nth-child(2) { border-left-color: var(--steel); }
 .pressure-country-brief:nth-child(3) { border-left-color: var(--green); }
 .is-visible .pressure-country-brief { opacity: 1; transform: translateX(0); }
 .pressure-country-brief header { display: flex; align-items: baseline; gap: 9px; margin-bottom: 13px; }
-.pressure-country-brief header span { color: rgba(255,255,255,.42); font-size: 10px; }
-.pressure-country-brief header strong { color: #fff; font-size: 20px; }
+.pressure-country-brief header span { color: rgba(255,255,255,.42); font-size: 12px; }
+.pressure-country-brief header strong { color: #fff; font-size: 24px; }
 .pressure-country-brief > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
-.pressure-country-brief > div span { color: rgba(255,255,255,.52); font-size: 9px; line-height: 1.3; }
-.pressure-country-brief > div b { display: block; margin-top: 3px; color: #fff; font-size: 17px; font-variant-numeric: tabular-nums; }
-.pressure-country-brief > div em { color: rgba(255,255,255,.48); font-size: 9px; font-style: normal; }
+.pressure-country-brief > div span { color: rgba(255,255,255,.52); font-size: 11px; line-height: 1.3; }
+.pressure-country-brief > div b { display: block; margin-top: 3px; color: #fff; font-size: 20px; font-variant-numeric: tabular-nums; }
+.pressure-country-brief > div em { color: rgba(255,255,255,.48); font-size: 10px; font-style: normal; }
 
 .china-market-section { width: min(1320px, calc(100% - 40px)); }
 .china-market-title { max-width: none; }
