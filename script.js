@@ -498,12 +498,49 @@ function drawProductionDashboard(year = "2024") {
 }
 
 function drawDigitalUsersChart() {
-  verticalBarChart("digitalUsersChart", digitalUsers, {
-    title: "2024年中国数字生活前端规模",
-    unit: " 亿",
-    decimal: 2,
-    source: "数据来源：国家统计局《2024年国民经济和社会发展统计公报》"
-  });
+  const container = document.getElementById("digitalUsersChart");
+  if (!container) return;
+  const max = Math.max(...digitalUsers.map(item => item.value));
+  const bars = digitalUsers.map((item, index) => `
+    <div class="digital-scale-row" style="--delay:${index * 90}ms">
+      <span>${item.label}</span>
+      <i><b class="dash-fill" style="--bar:${(item.value / max * 100).toFixed(1)}%;--color:${item.color}"></b></i>
+      <strong>${formatNumber(item.value, 2)}<em>亿</em></strong>
+    </div>`).join("");
+  const devices = [
+    ["台式电脑", 36.2], ["笔记本电脑", 32.0], ["平板电脑", 30.8], ["可穿戴设备", 23.8]
+  ].map(([label, value], index) => `
+    <div class="digital-device-row" style="--delay:${420 + index * 70}ms">
+      <span>${label}</span><i><b class="dash-fill" style="--bar:${value}%;--color:${index % 2 ? "#5f8792" : "#ffae00"}"></b></i><strong>${value}%</strong>
+    </div>`).join("");
+  container.innerHTML = `
+    <div class="china-mini-dashboard digital-access-dashboard">
+      <header class="china-dash-head">
+        <div><span>DIGITAL ACCESS / 2024</span><h3>数字生活前端监测</h3></div>
+        <b>连接规模不是人口加总</b>
+      </header>
+      <div class="digital-kpi-grid">
+        ${digitalUsers.map((item, index) => `<div class="digital-kpi" style="--accent:${item.color};--delay:${index * 70}ms"><span>${item.label}</span><strong data-count="${item.value}" data-decimals="2">0.00</strong><em>亿</em></div>`).join("")}
+      </div>
+      <div class="digital-dashboard-grid">
+        <section class="china-dash-module digital-scale-module">
+          <header><h4>接入规模</h4><span>单位：亿户／亿人</span></header>
+          <div class="digital-scale-bars">${bars}</div>
+        </section>
+        <section class="china-dash-module digital-gauge-module">
+          <header><h4>两种普及速度</h4><span>占比</span></header>
+          <div class="digital-gauges">
+            <div class="china-ring" style="--value:56.7;--ring:#c8f000"><span><b data-count="56.7" data-decimals="1">0.0</b><em>%</em><small>5G用户占移动电话用户</small></span></div>
+            <div class="china-ring" style="--value:78.6;--ring:#ffae00"><span><b data-count="78.6" data-decimals="1">0.0</b><em>%</em><small>互联网普及率</small></span></div>
+          </div>
+        </section>
+      </div>
+      <section class="china-dash-module digital-device-module">
+        <header><h4>网民使用不同设备上网的比例</h4><span>同一人可使用多种设备</span></header>
+        <div class="digital-device-bars">${devices}</div>
+      </section>
+      <p class="china-dash-source">数据来源：工业和信息化部《2024年通信业统计公报》；中国互联网络信息中心第55次《中国互联网络发展状况统计报告》。</p>
+    </div>`;
 }
 
 function drawGlobalTimeline() {
@@ -538,16 +575,55 @@ function drawGlobalCollectionMini() {
   });
 }
 function drawMarketVsWaste() {
-  horizontalBarChart("marketVsWasteChart", [
-    { label: "投放市场设备", value: 2417.4, color: "#c8f000" },
-    { label: "电子废弃物产生", value: 1206.6, color: "#ffae00" },
-    { label: "正式收集", value: 195.2, color: "#5f8792" }
-  ], {
-    title: "中国2022年：进入市场、成为废弃物、被正式收集",
-    unit: " 万吨",
-    decimal: 1,
-    source: "数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China 2022；跨国统一口径"
-  });
+  const container = document.getElementById("marketVsWasteChart");
+  if (!container) return;
+  const market = 2417.4;
+  const generated = 1206.6;
+  const collected = 195.2;
+  const unrecorded = generated - collected;
+  const generatedRatio = generated / market * 100;
+  const collectedRatio = collected / generated * 100;
+  container.innerHTML = `
+    <div class="market-monitor">
+      <header class="market-monitor-head">
+        <div><span>MATERIAL FLOW / CHINA 2022</span><h3>设备流入与正式收集监测台</h3></div>
+        <b>单位：万吨</b>
+      </header>
+      <div class="market-kpi-grid">
+        <div class="market-kpi market-kpi--green"><span>进入市场</span><strong data-count="${market}" data-decimals="1">0.0</strong><em>万吨</em><small>当年投放市场的电子电气设备</small></div>
+        <div class="market-kpi market-kpi--orange"><span>形成废弃物</span><strong data-count="${generated}" data-decimals="1">0.0</strong><em>万吨</em><small>当年产生的电子废弃物</small></div>
+        <div class="market-kpi market-kpi--steel"><span>正式收集</span><strong data-count="${collected}" data-decimals="1">0.0</strong><em>万吨</em><small>进入正式记录的部分</small></div>
+      </div>
+      <div class="market-monitor-grid">
+        <section class="market-monitor-module market-ledger-module">
+          <header><h4>链条账本</h4><span>三个入口，两个比率</span></header>
+          <div class="market-ledger-row"><span>市场投入 → 当年废弃</span><i><b class="dash-fill" style="--bar:${generatedRatio.toFixed(1)}%;--color:#ffae00"></b></i><strong>${generatedRatio.toFixed(1)}%</strong></div>
+          <div class="market-ledger-row"><span>当年废弃 → 正式收集</span><i><b class="dash-fill" style="--bar:${collectedRatio.toFixed(1)}%;--color:#c8f000"></b></i><strong>${collectedRatio.toFixed(1)}%</strong></div>
+          <div class="market-gap-number"><span>未进入正式收集记录</span><strong data-count="${unrecorded}" data-decimals="1">0.0</strong><em>万吨</em></div>
+        </section>
+        <section class="market-flow-core" aria-label="设备流入、废弃和正式收集的转化关系">
+          <div class="market-orbit market-orbit--outer"></div>
+          <div class="market-orbit market-orbit--inner"></div>
+          <div class="market-core-number"><span>当年废弃量约为<br>市场投入量的</span><strong data-count="${generatedRatio}" data-decimals="1">0.0</strong><em>%</em></div>
+          <i class="market-signal market-signal--one"></i><i class="market-signal market-signal--two"></i><i class="market-signal market-signal--three"></i>
+        </section>
+        <section class="market-monitor-module market-ratio-module">
+          <header><h4>末端可见度</h4><span>正式记录／产生量</span></header>
+          <div class="market-ratio-layout">
+            <div class="china-ring china-ring--large" style="--value:${collectedRatio.toFixed(1)};--ring:#c8f000"><span><b data-count="${collectedRatio}" data-decimals="1">0.0</b><em>%</em><small>被正式收集</small></span></div>
+            <div class="market-ratio-copy"><span>仍在正式记录之外</span><strong data-count="${(100 - collectedRatio)}" data-decimals="1">0.0</strong><em>%</em><small>可能闲置、转卖、维修，也可能进入非正规拆解链。</small></div>
+          </div>
+        </section>
+      </div>
+      <div class="market-stage-strip">
+        <div><i>01</i><span>进入市场</span><strong>2417.4</strong></div>
+        <b aria-hidden="true"></b>
+        <div><i>02</i><span>成为废弃物</span><strong>1206.6</strong></div>
+        <b aria-hidden="true"></b>
+        <div><i>03</i><span>正式收集</span><strong>195.2</strong></div>
+      </div>
+      <p class="market-monitor-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）China 2022 country sheet；比例与缺口据原始值计算。</p>
+    </div>`;
 }
 
 function drawGapStack() {
@@ -712,12 +788,46 @@ function drawRadar(id, labels, series, title, source) {
   c.replaceChildren(svg);
 }
 
+function drawPressureDashboard() {
+  const container = document.getElementById("radarChart");
+  if (!container) return;
+  const countries = [
+    { name: "中国", total: 1206.6, perCapita: 8.5, collected: 195.2, color: "#ffae00" },
+    { name: "美国", total: 718.8, perCapita: 21.3, collected: 405.4, color: "#5f8792" },
+    { name: "印度", total: 413.7, perCapita: 2.9, collected: 6.0, color: "#c8f000" }
+  ].map(item => ({ ...item, rate: item.collected / item.total * 100 }));
+  const metrics = [
+    { key: "total", label: "产生总量", unit: "万吨", decimals: 1 },
+    { key: "perCapita", label: "人均产生量", unit: "千克／人", decimals: 1 },
+    { key: "rate", label: "正式收集率", unit: "%", decimals: 1 }
+  ];
+  const metricPanels = metrics.map((metric, metricIndex) => {
+    const max = Math.max(...countries.map(item => item[metric.key]));
+    const rows = countries.map((item, index) => `
+      <div class="pressure-metric-row" style="--delay:${metricIndex * 160 + index * 70}ms">
+        <span><i style="--color:${item.color}"></i>${item.name}</span>
+        <b><em class="dash-fill" style="--bar:${(item[metric.key] / max * 100).toFixed(1)}%;--color:${item.color}"></em></b>
+        <strong>${formatNumber(item[metric.key], metric.decimals)}</strong>
+      </div>`).join("");
+    return `<section class="china-dash-module pressure-metric-module"><header><h4>${metric.label}</h4><span>${metric.unit}</span></header><div class="pressure-metric-bars">${rows}</div></section>`;
+  }).join("");
+  container.innerHTML = `
+    <div class="china-mini-dashboard pressure-dashboard">
+      <header class="china-dash-head">
+        <div><span>THREE COUNTRIES / THREE PRESSURES</span><h3>同一批国家，三种完全不同的排序</h3></div>
+        <b>2022</b>
+      </header>
+      <div class="pressure-country-grid">
+        ${countries.map((item, index) => `<div class="pressure-country" style="--accent:${item.color};--delay:${index * 90}ms"><span>${item.name}</span><strong data-count="${item.total}" data-decimals="1">0.0</strong><em>万吨</em><small>人均 ${item.perCapita} 千克 · 正式收集 ${item.rate.toFixed(1)}%</small></div>`).join("")}
+      </div>
+      <div class="pressure-metric-grid">${metricPanels}</div>
+      <div class="pressure-reading-strip"><span><b>总量最高</b> 中国</span><span><b>人均最高</b> 美国</span><span><b>正式收集率最低</b> 印度</span></div>
+      <p class="china-dash-source">数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 country sheets；正式收集率由正式收集量除以产生量计算。</p>
+    </div>`;
+}
+
 function setupRadar() {
-  drawRadar("radarChart", ["总量", "人均", "正式收集率", "投放市场", "正式收集量"], [
-    { name: "中国", color: "#ffae00", fill: "rgba(255,174,0,.18)", values: [1, .35, .27, 1, .48] },
-    { name: "美国", color: "#5f8792", fill: "rgba(95,135,146,.18)", values: [.60, .87, .93, .38, 1] },
-    { name: "印度", color: "#c8f000", fill: "rgba(200,240,0,.16)", values: [.34, .12, .02, .42, .01] }
-  ], "中美印压力结构对照", "数据来源：全球电子废弃物统计伙伴关系（Global E-waste Statistics Partnership）2022 country sheets");
+  drawPressureDashboard();
   drawRadar("riskRadar", ["粉尘", "危险物", "劳动强度", "信息不透明", "健康暴露"], [
     { name: "前端使用", color: "#5f8792", fill: "rgba(95,135,146,.16)", values: [.2, .35, .28, .22, .18] },
     { name: "末端处理", color: "#ffae00", fill: "rgba(255,174,0,.2)", values: [.95, .9, .82, .86, .88] }
