@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <style>
+      .bg{fill:#16201d}.bg2{fill:#23322d}.line{fill:none;stroke:#eef2ed;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.thin{fill:none;stroke:#8da099;stroke-width:4;stroke-linecap:round}.green{fill:#c8f000}.orange{fill:#ffae00}.red{fill:#e2643d}.steel{fill:#6f98a2}.paper{fill:#eef2ed}.dark{fill:#0a100e}.ghost{fill:none;stroke:#6f7d78;stroke-width:2;opacity:.5}
+    </style>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" class="ghost"/></pattern>
+  </defs>
+
+  <g transform="translate(0 0)">
+    <rect width="300" height="300" class="bg"/><rect width="300" height="300" fill="url(#grid)"/>
+    <path d="M45 170L120 147 157 78l19 7-20 68 91 43-8 16-96-25-43 63-15-8 27-67-67 12z" class="paper"/>
+    <circle cx="102" cy="232" r="18" class="orange"/><circle cx="219" cy="238" r="18" class="green"/>
+  </g>
+
+  <g transform="translate(300 0)">
+    <rect width="300" height="300" class="bg2"/><circle cx="150" cy="150" r="112" class="thin"/>
+    <circle cx="150" cy="94" r="31" class="paper"/><path d="M95 229c4-57 29-88 55-88s51 31 55 88" class="line"/>
+    <path d="M70 54h160M70 246h160" class="thin"/><circle cx="229" cy="54" r="9" class="orange"/>
+  </g>
+
+  <g transform="translate(600 0)">
+    <rect width="300" height="300" class="bg"/><path d="M35 239h230L239 148l-28 23-28-69-27 43-30-86-35 121-27-26z" fill="#6d4a2d"/>
+    <rect x="79" y="118" width="35" height="54" rx="4" class="steel"/><rect x="131" y="158" width="52" height="34" rx="5" class="orange"/><rect x="194" y="121" width="31" height="55" rx="4" class="green"/>
+    <path d="M58 239h184" class="line"/><path d="M90 106l7-28m98 31 12-26" class="thin"/>
+  </g>
+
+  <g transform="translate(900 0)">
+    <rect width="300" height="300" class="bg2"/><rect x="34" y="55" width="74" height="118" rx="11" class="paper"/><circle cx="71" cy="148" r="10" class="dark"/>
+    <path d="M139 64h91v86h-91z" class="steel"/><path d="M151 79h67v44h-67z" class="dark"/><path d="M143 179h86v50h-86z" class="orange"/>
+    <path d="M49 205h57l12 30H37z" class="green"/><path d="M118 235h124" class="line"/>
+  </g>
+
+  <g transform="translate(0 300)">
+    <rect width="300" height="300" class="bg2"/><circle cx="150" cy="150" r="92" class="ghost"/>
+    <path d="M150 50l32 39-23-2 14 31-21 10-20-43-16 26-19-11 39-50z" class="green"/>
+    <path d="M239 177l-49 10 12-20-34-1 1-23 47 1-17-27 19-12 38 51z" class="orange"/>
+    <path d="M62 204l17-47 12 20 19-31 20 12-24 40 32-1 1 23-64 4z" class="paper"/>
+    <rect x="123" y="115" width="54" height="78" rx="8" class="dark"/><circle cx="150" cy="180" r="5" class="paper"/>
+  </g>
+
+  <g transform="translate(300 300)">
+    <rect width="300" height="300" class="bg"/><rect x="54" y="53" width="128" height="88" rx="7" class="paper"/><rect x="65" y="64" width="106" height="58" class="dark"/>
+    <path d="M40 159h155l28 31H19z" class="steel"/><rect x="197" y="65" width="55" height="93" rx="8" class="orange"/><circle cx="224" cy="144" r="6" class="dark"/>
+    <rect x="67" y="208" width="166" height="37" rx="8" class="green"/><circle cx="93" cy="227" r="6" class="dark"/><circle cx="118" cy="227" r="6" class="dark"/><path d="M153 227h58" class="thin"/>
+  </g>
+
+  <g transform="translate(600 300)">
+    <rect width="300" height="300" class="bg2"/><circle cx="150" cy="150" r="102" class="ghost"/>
+    <path d="M65 102c40-53 125-57 170-10" class="line"/><path d="M235 92l-5-31 32 18z" class="green"/>
+    <path d="M233 197c-40 53-125 57-170 10" class="line"/><path d="M63 207l5 31-32-18z" class="orange"/>
+    <rect x="105" y="100" width="90" height="70" rx="8" class="steel"/><rect x="119" y="113" width="62" height="36" class="dark"/><path d="M122 189h56" class="line"/>
+  </g>
+
+  <g transform="translate(900 300)">
+    <rect width="300" height="300" class="bg"/><path d="M40 210l41-123h138l41 123z" class="steel"/><path d="M81 87l38 123m8-123 13 123m26-123-13 123m26-123-38 123M60 147h181" class="thin"/>
+    <circle cx="230" cy="62" r="25" class="orange"/><path d="M230 22v-14m0 108v-14m40-40h14M176 62h14m69-29 10-10m-78 78 10-10m58 10 10 10m-78-78 10 10" class="thin"/>
+    <path d="M70 210l-15 32m174-32 15 32M38 242h226" class="line"/>
+  </g>
+
+  <g transform="translate(0 600)">
+    <rect width="300" height="300" class="bg"/><rect x="65" y="43" width="170" height="213" rx="8" class="paper"/>
+    <path d="M96 88h108M96 116h108M96 144h76M96 203h108" class="thin"/><rect x="87" y="171" width="28" height="28" class="green"/><path d="M91 183l8 8 13-18" class="thin"/>
+    <circle cx="213" cy="215" r="35" class="orange"/><path d="M196 216l11 11 24-29" class="line"/>
+  </g>
+
+  <g transform="translate(300 600)">
+    <rect width="300" height="300" class="bg2"/><path d="M58 210h70V96H58zm114 0h70V96h-70z" class="steel"/><path d="M93 96V61h114v35" class="thin"/>
+    <path d="M109 151h82" class="line"/><path d="M173 129l24 22-24 22" class="line"/><path d="M127 173l-24-22 24-22" class="line"/>
+    <circle cx="93" cy="231" r="17" class="green"/><circle cx="207" cy="231" r="17" class="orange"/>
+  </g>
+
+  <g transform="translate(600 600)">
+    <rect width="300" height="300" class="bg"/><circle cx="150" cy="144" r="92" class="ghost"/><circle cx="150" cy="144" r="61" class="thin"/><circle cx="150" cy="144" r="31" class="orange"/>
+    <path d="M150 144L226 88" class="line"/><path d="M211 86l25-5-9 23" class="green"/>
+    <rect x="73" y="226" width="154" height="23" rx="4" class="paper"/><rect x="73" y="226" width="93" height="23" rx="4" class="green"/>
+  </g>
+
+  <g transform="translate(900 600)">
+    <rect width="300" height="300" class="bg2"/><path d="M61 83h178l-18 154H79z" class="paper"/><path d="M93 83V56h114v27" class="line"/>
+    <path d="M105 126h90M105 158h90M105 190h57" class="thin"/><circle cx="212" cy="203" r="40" class="green"/>
+    <path d="M193 204l12 12 26-31" class="line"/>
+  </g>
+</svg>

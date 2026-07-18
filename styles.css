@@ -329,6 +329,137 @@
   .gap-record-list i { width: 14px; height: 9px; }
   .gap-record-list b { font-size: 8px; }
 }
+
+/* Missing chapter v3: stable horizontal interactions and clearer evidence. */
+.missing-page .gap-radial-legend em {
+  height: 0;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #7f8d87;
+}
+.missing-page .gap-ring-group.is-estimated .gap-ring-missing {
+  stroke-dasharray: none;
+}
+.missing-page .gap-ring-group:hover .gap-ring-missing,
+.missing-page .gap-ring-group:focus .gap-ring-missing,
+.missing-page .gap-ring-group.is-active .gap-ring-missing {
+  stroke: #d88400;
+  opacity: .9 !important;
+  filter: drop-shadow(0 0 5px rgba(216,132,0,.34));
+}
+.missing-page .gap-ring-group:hover .gap-ring-progress,
+.missing-page .gap-ring-group:focus .gap-ring-progress,
+.missing-page .gap-ring-group.is-active .gap-ring-progress {
+  stroke: #86a800;
+  filter: drop-shadow(0 0 8px rgba(134,168,0,.58));
+}
+
+.missing-page .gap-dash-head span { font-size: 13px; }
+.missing-page .gap-dash-head h3 { font-size: 26px; }
+.missing-page .gap-dash-head small { font-size: 11px; }
+.missing-page .gap-kpi-row span { font-size: 10px; }
+.missing-page .gap-kpi-row strong { font-size: 27px; }
+.missing-page .gap-kpi-row small { font-size: 9px; }
+.missing-page .gap-dash-grid header b { font-size: 14px; }
+.missing-page .gap-dash-grid header span { font-size: 10px; }
+.missing-page .gap-point text { font-size: 12px; }
+.missing-page .gap-estimate-label { font-size: 11px; }
+.missing-page .gap-bubble-year > span { font-size: 9px; }
+.missing-page .gap-bubble-legend { font-size: 9px; }
+.missing-page .gap-rate-module b { font-size: 8px; }
+.missing-page .gap-reading-module b { font-size: 12px; }
+.missing-page .gap-reading-module p { font-size: 11px; }
+.missing-page .gap-dashboard-source { font-size: 9px; }
+
+.missing-page .hundred-section .section-title {
+  max-width: none;
+}
+.missing-page .hundred-section .section-title h2 {
+  max-width: none;
+  white-space: nowrap;
+  font-size: clamp(36px, 3.5vw, 56px);
+}
+.missing-page .hundred-interactive {
+  display: block;
+  margin: 30px 0 18px;
+}
+.missing-page .hundred-interactive .hundred-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+.missing-page .hundred-grid button,
+.missing-page .hundred-grid.is-visible button,
+.missing-page .is-visible .hundred-grid button {
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1;
+  transform: none;
+}
+.missing-page .hundred-grid button:hover,
+.missing-page .hundred-grid button:focus,
+.missing-page .hundred-grid button.is-active {
+  transform: none;
+  outline: 3px solid #101413;
+  outline-offset: -3px;
+  filter: saturate(1.35) brightness(.92) contrast(1.18);
+}
+.missing-page .hundred-meaning {
+  min-height: 156px;
+  margin-top: 16px;
+  padding: 20px 24px;
+}
+.missing-page .hundred-meaning strong {
+  margin-top: 9px;
+  font-size: 25px;
+}
+.missing-page .hundred-meaning p {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.missing-page .fact-matrix-tile {
+  background-image: var(--fact-image);
+  background-position: var(--fact-pos, center);
+  background-size: 400% 300%;
+  background-repeat: no-repeat;
+}
+
+.missing-page .missing-flow-title.section-title {
+  display: block;
+  max-width: none;
+}
+.missing-page .missing-flow-title .eyebrow {
+  display: block;
+}
+.missing-page .missing-flow-title h2 {
+  max-width: none;
+  margin: 12px 0 0;
+  white-space: nowrap;
+  font-size: clamp(40px, 4vw, 64px);
+}
+.missing-page .missing-flow-title > p:last-child {
+  max-width: 1160px;
+  margin: 18px 0 0;
+  font-size: 19px;
+  line-height: 1.9;
+}
+
+@media (max-width: 980px) {
+  .missing-page .hundred-section .section-title h2,
+  .missing-page .missing-flow-title h2 { white-space: normal; }
+  .missing-page .hundred-interactive .hundred-grid { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .missing-page .hundred-section .section-title h2 { font-size: 34px; }
+  .missing-page .hundred-interactive .hundred-grid { gap: 4px; }
+  .missing-page .hundred-meaning strong { font-size: 21px; }
+  .missing-page .missing-flow-title h2 { font-size: 38px; }
+  .missing-page .missing-flow-title > p:last-child { font-size: 16px; }
+}
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--ink); background: var(--paper); font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif; line-height: 1.72; }
