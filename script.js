@@ -1116,15 +1116,32 @@ function setupCustodyLedger() {
   const ledger = document.getElementById("custodyLedger");
   if (!ledger) return;
   const stops = [...ledger.querySelectorAll(".custody-stop")];
+  const lensTabs = [...ledger.querySelectorAll(".custody-lens-tab")];
   const indexLabel = document.getElementById("custodyIndex");
   const title = document.getElementById("custodyTitle");
   const action = document.getElementById("custodyAction");
-  const record = document.getElementById("custodyRecord");
-  const missing = document.getElementById("custodyMissing");
-  const cost = document.getElementById("custodyCost");
+  const lensCode = document.getElementById("custodyLensCode");
+  const lensTitle = document.getElementById("custodyLensTitle");
+  const lensText = document.getElementById("custodyLensText");
+  const lensMeta = {
+    record: { code: "RECORD", title: "留下的记录" },
+    missing: { code: "MISSING", title: "正在丢失" },
+    cost: { code: "COST", title: "谁在承担" }
+  };
+  let activeStop = stops[0];
+  let activeLens = "record";
+
+  const renderLens = () => {
+    const index = Number(activeStop.dataset.index || 0);
+    const meta = lensMeta[activeLens];
+    lensCode.textContent = `TRACE ${String(index + 1).padStart(2, "0")} / ${meta.code}`;
+    lensTitle.textContent = meta.title;
+    lensText.textContent = activeStop.dataset[activeLens];
+  };
 
   const activate = stop => {
     const index = Number(stop.dataset.index || 0);
+    activeStop = stop;
     ledger.style.setProperty("--stage", index);
     stops.forEach(item => {
       const active = item === stop;
@@ -1134,9 +1151,17 @@ function setupCustodyLedger() {
     indexLabel.textContent = `HANDOVER ${String(index + 1).padStart(2, "0")} / 04`;
     title.textContent = stop.dataset.title;
     action.textContent = stop.dataset.action;
-    record.textContent = stop.dataset.record;
-    missing.textContent = stop.dataset.missing;
-    cost.textContent = stop.dataset.cost;
+    renderLens();
+  };
+
+  const activateLens = tab => {
+    activeLens = tab.dataset.lens;
+    lensTabs.forEach(item => {
+      const active = item === tab;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+    });
+    renderLens();
   };
 
   stops.forEach((stop, index) => {
@@ -1150,7 +1175,19 @@ function setupCustodyLedger() {
       activate(next);
     });
   });
+  lensTabs.forEach((tab, index) => {
+    ["mouseenter", "focus", "click"].forEach(eventName => tab.addEventListener(eventName, () => activateLens(tab)));
+    tab.addEventListener("keydown", event => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = lensTabs[(index + direction + lensTabs.length) % lensTabs.length];
+      next.focus();
+      activateLens(next);
+    });
+  });
   activate(stops[0]);
+  activateLens(lensTabs[0]);
 }
 
 function setupRadar() {

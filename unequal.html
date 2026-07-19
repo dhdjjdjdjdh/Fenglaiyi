@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>代价：谁离垃圾更近</title>
-  <link rel="stylesheet" href="styles.css?v=20260719-28">
+    <link rel="stylesheet" href="styles.css?v=20260719-30">
   <link rel="icon" href="data:,">
 </head>
 <body class="chapter-page unequal-page">
@@ -24,9 +24,12 @@
     <section id="health-risk" class="story-section two-col-section">
       <div class="text-column">
         <p class="eyebrow">Health risk</p>
-        <h2><span>风险最终会落到具体</span><soan>的人身上。</span></h2>
-        <p>世界卫生组织（World Health Organization）关于电子废弃物暴露与儿童健康的报告提示，全球可能有多达 1800 万儿童和青少年、1290 万女性面临与电子废弃物回收相关的不良健康风险。</p>
-        <p>这些数字不直接对应中国，但它们说明电子废弃物不是纯粹的环境议题。它同时关乎劳动、家庭、身体和谁更难退出危险现场。</p><p class="source-note">数据来源：世界卫生组织（World Health Organization）《Children and digital dumpsites: e-waste exposure and child health》，用于提示全球健康风险背景。</p>
+        <h2 class="health-risk-title"><span>风险最终会落到具体</span><span>的人身上。</span></h2>
+        <p>世界卫生组织（World Health Organization）关于电子废弃物暴露与儿童健康的报告提示，全球可能有多达 <strong class="cost-key">1800 万儿童和青少年</strong>、<strong class="cost-key">1290 万女性</strong>在非正规废物处理部门工作，或生活在处理活动附近，并面临相关健康风险。</p>
+        <p>暴露并不只发生在垃圾堆旁。手工拆解、破碎、露天焚烧和酸洗会产生<strong class="cost-key cost-key--green">粉尘、烟雾与废液</strong>；污染物可能经呼吸、误食和皮肤接触进入身体，也可能附着在衣物、工具与鞋底上，从作业点被带回居住空间。</p>
+        <p>儿童仍处于神经与呼吸系统发育阶段，女性则可能同时处在处理劳动、孕产健康与家庭照护的交叉位置。于是，一台设备的末端风险不会停在某个工位，而会沿着<strong class="cost-key">劳动关系与家庭空间</strong>继续扩散。</p>
+        <p>这些数字不直接对应中国，却揭示了一个更普遍的分配问题：电子产品带来的便利可以跨越地域共享，拆解和污染的代价却更容易落在<strong class="cost-key cost-key--green">议价能力更弱、也更难退出现场的人</strong>身上。</p>
+        <p class="source-note">数据来源：世界卫生组织（World Health Organization）《Children and digital dumpsites: e-waste exposure and child health》，用于提示全球健康风险背景。</p>
       </div>
       <div class="viz-panel viz-panel--dark health-risk-panel">
         <div class="health-risk-dashboard" role="group" aria-label="世界卫生组织电子废弃物健康风险看板：全球多达1800万儿童和青少年、1290万女性可能面临相关暴露风险，并呈现拆解、焚烧、酸洗和堆放等暴露节点">
@@ -98,7 +101,12 @@
               <button class="risk-stage risk-stage--repair" type="button" data-index="2" data-info="片段" data-power="中等" data-exposure="上升" data-info-level="2" data-power-level="2" data-exposure-level="3" data-summary="维修延长寿命，也开始接触电池、焊料和破损部件。" data-loss="翻新记录、零件来源和材料去向往往彼此分离。"><span>03</span><b>维修 / 翻新</b><small>拆机 / 更换</small></button>
               <button class="risk-stage risk-stage--end" type="button" data-index="3" data-info="稀薄" data-power="较低" data-exposure="很高" data-info-level="1" data-power-level="1" data-exposure-level="4" data-summary="末端劳动者面对粉尘、烟雾、废液和危险材料。" data-loss="设备身份几乎消失，只剩等待分拣和出售的材料。"><span>04</span><b>拆解末端</b><small>破碎 / 提取</small></button>
               <div class="risk-device-core" aria-hidden="true">
-                <div class="risk-device-shell"><i></i><i></i><i></i></div>
+                <div class="risk-device-shell">
+                  <i class="risk-device-layer risk-device-layer--back"></i>
+                  <i class="risk-device-layer risk-device-layer--board"></i>
+                  <i class="risk-device-layer risk-device-layer--battery"></i>
+                  <i class="risk-device-layer risk-device-layer--glass"></i>
+                </div>
                 <span>OLD DEVICE</span><strong>旧设备</strong><small id="riskCoreHint">仍与原主人相连</small>
               </div>
             </div>
@@ -115,8 +123,10 @@
       <div class="text-column">
         <p class="eyebrow">Risk transfer</p>
         <h2>便利、利润、风险并不在同一个位置。</h2>
-        <p>购买和换新发生在前端，估价和转卖发生在中段，粉尘、焊料、酸洗、燃烧残留物更可能出现在后端。越靠近处理末端，劳动者越可能承担看不见的代价。</p>
-        <p>这不是道德指责，而是距离和议价权的分配：谁能把旧设备交出去，谁就离风险远一点；谁必须把它拆开，谁就离风险近一点。</p><p>在这条链上，“干净”常常只是前端的观感。真正脏、重、危险的部分，被推迟到更远的地点和更沉默的人身上。</p>
+        <p>购买和换新发生在前端，估价和转卖发生在中段，粉尘、焊料、酸洗与燃烧残留物则更可能出现在后端。设备向下游移动时，<strong class="cost-key">商品价值逐渐变成材料价值</strong>，身体暴露却沿相反方向上升。</p>
+        <p>一台完整设备拥有品牌、型号、序列号、购买凭证和原主人；经过多次转手与拆机后，它只剩电池、主板、金属和塑料。<strong class="cost-key cost-key--green">物质仍在，身份却不断变薄</strong>。信息的消失，使所有权、位置和处理责任越来越难被连续核验。</p>
+        <p>这不是简单的个人选择，而是距离与议价权的分配：谁能够把旧设备交出去，谁就离风险远一点；谁必须把它拆开、分拣和提取，谁就更接近<strong class="cost-key">粉尘、烟雾、废液与最低报价</strong>。</p>
+        <p>因此，“干净”常常只是前端的观感。风险并没有被消除，而是被推迟、转手并安置到更远的地点和更沉默的人身上。<strong class="cost-key cost-key--green">便利留在上游，代价沉到末端</strong>，这才是同一台设备在不同人手中呈现出的不平等。</p>
       </div>
     </section>
 
@@ -134,7 +144,18 @@
         <div class="custody-receipt" aria-live="polite">
           <div class="custody-receipt-head"><span id="custodyIndex">HANDOVER 01 / 04</span><b id="custodyTitle">消费者</b><small>责任交接单</small></div>
           <p id="custodyAction">完成换新，旧设备离开视线。</p>
-          <dl><div><dt>留下的记录</dt><dd id="custodyRecord">购买凭证、设备型号、原始所有者</dd></div><div><dt>正在丢失</dt><dd id="custodyMissing">离开家庭后的第一次流向</dd></div><div><dt>谁在承担</dt><dd id="custodyCost">便利留在前端，去向责任开始向后移动</dd></div></dl>
+          <div class="custody-lens">
+            <div class="custody-lens-tabs" role="tablist" aria-label="查看本次交接的记录、缺失与责任">
+              <button class="custody-lens-tab is-active" type="button" role="tab" aria-selected="true" data-lens="record"><span>01</span><b>留下的记录</b></button>
+              <button class="custody-lens-tab" type="button" role="tab" aria-selected="false" data-lens="missing"><span>02</span><b>正在丢失</b></button>
+              <button class="custody-lens-tab" type="button" role="tab" aria-selected="false" data-lens="cost"><span>03</span><b>谁在承担</b></button>
+            </div>
+            <div class="custody-lens-panel" role="tabpanel">
+              <span id="custodyLensCode">TRACE 01 / RECORD</span>
+              <strong id="custodyLensTitle">留下的记录</strong>
+              <p id="custodyLensText">购买凭证、设备型号、原始所有者</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -146,7 +167,7 @@
 
     <a class="next-gate" href="afterlife.html"><span>一台旧设备，还能被怎样处理？</span><small>点击进入下一页</small></a>
   </main>
-  <script src="script.js?v=20260719-28"></script>
+    <script src="script.js?v=20260719-30"></script>
 </body>
 </html>
 
