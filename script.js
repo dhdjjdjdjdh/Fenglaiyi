@@ -1123,6 +1123,10 @@ function setupCustodyLedger() {
   const lensCode = document.getElementById("custodyLensCode");
   const lensTitle = document.getElementById("custodyLensTitle");
   const lensText = document.getElementById("custodyLensText");
+  const photoPanel = document.getElementById("custodyPhotoPanel");
+  const photo = document.getElementById("custodyPhoto");
+  const photoKicker = document.getElementById("custodyPhotoKicker");
+  const photoTitle = document.getElementById("custodyPhotoTitle");
   const lensMeta = {
     record: { code: "RECORD", title: "留下的记录" },
     missing: { code: "MISSING", title: "正在丢失" },
@@ -1130,6 +1134,12 @@ function setupCustodyLedger() {
   };
   let activeStop = stops[0];
   let activeLens = "record";
+
+  stops.forEach(stop => {
+    if (!stop.dataset.photo) return;
+    const preload = new Image();
+    preload.src = stop.dataset.photo;
+  });
 
   const renderLens = () => {
     const index = Number(activeStop.dataset.index || 0);
@@ -1151,6 +1161,18 @@ function setupCustodyLedger() {
     indexLabel.textContent = `HANDOVER ${String(index + 1).padStart(2, "0")} / 04`;
     title.textContent = stop.dataset.title;
     action.textContent = stop.dataset.action;
+    if (photo && stop.dataset.photo) {
+      photo.src = stop.dataset.photo;
+      photo.alt = stop.dataset.photoAlt || "中国电子设备流转现场";
+      photoKicker.textContent = stop.dataset.photoKicker || "CHINA / FIELD";
+      photoTitle.textContent = stop.dataset.photoTitle || stop.dataset.title;
+      if (photoPanel && typeof photoPanel.animate === "function") {
+        photoPanel.animate(
+          [{ opacity: .42, transform: "translateY(7px)" }, { opacity: 1, transform: "translateY(0)" }],
+          { duration: 380, easing: "cubic-bezier(.2,.7,.2,1)" }
+        );
+      }
+    }
     renderLens();
   };
 

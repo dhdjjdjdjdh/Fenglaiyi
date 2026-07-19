@@ -387,7 +387,9 @@
 .custody-stop span { color: var(--orange); font-size: 12px; font-weight: 900; }
 .custody-stop strong { display: block; margin: 6px 0 4px; font-size: clamp(17px, 1.6vw, 23px); line-height: 1.15; }
 .custody-stop small { color: rgba(255,255,255,.56); font-size: 12px; }
-.custody-receipt { display: grid; grid-template-columns: 210px minmax(0, .72fr) minmax(360px, 1.28fr); min-height: 216px; border-top: 1px solid rgba(255,255,255,.16); }
+.work-chain-title { max-width: none; }
+.work-chain-title h2 { max-width: none; font-size: clamp(36px, 3.2vw, 48px); white-space: nowrap; }
+.custody-receipt { display: grid; grid-template-columns: minmax(180px, .62fr) minmax(210px, .82fr) minmax(320px, 1.2fr) minmax(250px, .96fr); min-height: 260px; border-top: 1px solid rgba(255,255,255,.16); }
 .custody-receipt-head { padding: 24px; background: var(--green); color: #07100e; }
 .custody-receipt-head span, .custody-receipt-head small { display: block; font-size: 11px; font-weight: 900; }
 .custody-receipt-head b { display: block; margin: 9px 0; font-size: 28px; }
@@ -403,6 +405,13 @@
 .custody-lens-panel > span { color: var(--green); font-size: 9px; font-weight: 900; }
 .custody-lens-panel > strong { display: block; margin: 5px 0 8px; color: var(--orange); font-size: 16px; }
 .custody-lens-panel > p { margin: 0; max-width: 430px; color: rgba(255,255,255,.76); font-size: 14px; line-height: 1.65; }
+.custody-photo { position: relative; min-width: 0; min-height: 260px; margin: 0; overflow: hidden; border-left: 1px solid rgba(255,255,255,.14); background: #17201d; isolation: isolate; }
+.custody-photo::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 36%, rgba(4,10,8,.9) 100%); pointer-events: none; }
+.custody-photo img { width: 100%; height: 100%; min-height: 260px; display: block; object-fit: cover; object-position: center; filter: saturate(.9) contrast(1.04); transform: scale(1.015); transition: transform .55s ease, filter .35s ease; }
+.custody-photo:hover img { filter: saturate(1.08) contrast(1.06); transform: scale(1.055); }
+.custody-photo figcaption { position: absolute; inset: auto 18px 18px; z-index: 2; color: #fff; }
+.custody-photo figcaption span { display: block; color: var(--green); font-size: 9px; font-weight: 900; }
+.custody-photo figcaption strong { display: block; margin-top: 5px; font-size: 17px; line-height: 1.25; }
 
 @media (max-width: 1100px) {
   .risk-transfer-main { grid-template-columns: 1fr; }
@@ -410,6 +419,8 @@
   .risk-transfer-readout { min-height: 190px; }
   .custody-receipt { grid-template-columns: 180px 1fr; }
   .custody-lens { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.14); border-left: 0; }
+  .custody-photo { grid-column: 1 / -1; min-height: 320px; border-top: 1px solid rgba(255,255,255,.14); border-left: 0; }
+  .custody-photo img { min-height: 320px; }
 }
 @media (max-width: 700px) {
   .risk-transfer-board { padding: 14px; }
@@ -429,12 +440,14 @@
   .custody-stop::before { display: none; }
   .custody-stop.is-active { border-color: var(--green); }
   .custody-receipt { grid-template-columns: 1fr; }
-  .custody-receipt > p, .custody-lens { grid-column: 1; }
+  .work-chain-title h2 { font-size: 36px; white-space: normal; }
+  .custody-receipt > p, .custody-lens, .custody-photo { grid-column: 1; }
   .custody-lens { grid-template-rows: auto auto; }
   .custody-lens-tabs { grid-template-columns: 1fr; }
   .custody-lens-tab { min-height: 54px; padding: 11px 14px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); }
   .custody-lens-tab b { white-space: normal; }
   .custody-lens-panel { min-height: 124px; padding: 18px 16px 22px; }
+  .custody-photo, .custody-photo img { min-height: 240px; }
 }
 
 /* Missing chapter v4: precise ring readings and an explicit gap dashboard. */

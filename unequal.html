@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>代价：谁离垃圾更近</title>
-    <link rel="stylesheet" href="styles.css?v=20260719-30">
+    <link rel="stylesheet" href="styles.css?v=20260719-31">
   <link rel="icon" href="data:,">
 </head>
 <body class="chapter-page unequal-page">
@@ -131,15 +131,15 @@
     </section>
 
     <section class="story-section">
-      <div class="section-title"><p class="eyebrow">Work chain</p><h2>“回收”不是一个按钮，而是一连串人的工作。</h2></div>
+      <div class="section-title work-chain-title"><p class="eyebrow">Work chain</p><h2>“回收”不是一个按钮，而是一连串人的工作。</h2></div>
       <div class="custody-ledger" id="custodyLedger" style="--stage: 0" aria-label="旧设备责任交接轨道，悬停节点查看每次交接留下与丢失的信息">
         <div class="custody-track" role="tablist" aria-label="责任交接阶段">
           <span class="custody-line" aria-hidden="true"></span><span class="custody-progress" aria-hidden="true"></span>
           <div class="custody-device" aria-hidden="true"><i></i><b>旧</b></div>
-          <button class="custody-stop is-active" type="button" role="tab" aria-selected="true" data-index="0" data-title="消费者" data-action="完成换新，旧设备离开视线。" data-record="购买凭证、设备型号、原始所有者" data-missing="离开家庭后的第一次流向" data-cost="便利留在前端，去向责任开始向后移动"><span>01</span><strong>消费者</strong><small>离开视线</small></button>
-          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="1" data-title="平台 / 商贩" data-action="估价、收货、转卖，决定下一站。" data-record="交易时间、报价、接收方" data-missing="跨平台转手后的连续位置" data-cost="掌握流向，却未必承担最终处理责任"><span>02</span><strong>平台 / 商贩</strong><small>决定流向</small></button>
-          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="2" data-title="维修 / 翻新者" data-action="拆机、更换零件，让设备重新进入市场。" data-record="故障部件、维修动作、再售状态" data-missing="被替换零件与材料的最终去向" data-cost="延长寿命，也接住隐私、质量与职业暴露"><span>03</span><strong>维修 / 翻新</strong><small>延长寿命</small></button>
-          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="3" data-title="拆解末端" data-action="破碎、分拣、提取，让设备变成材料。" data-record="拆解批次、材料种类、处理方式" data-missing="前序所有权与完整设备身份" data-cost="议价权最低，粉尘、烟雾和废液最接近身体"><span>04</span><strong>拆解末端</strong><small>成为材料</small></button>
+          <button class="custody-stop is-active" type="button" role="tab" aria-selected="true" data-index="0" data-title="消费者" data-action="完成换新，旧设备离开视线。" data-record="购买凭证、设备型号、原始所有者" data-missing="离开家庭后的第一次流向" data-cost="便利留在前端，去向责任开始向后移动" data-photo="assets/images/custody-consumer-china.jpg" data-photo-alt="中国家庭中工作人员拆下待更换的旧空调" data-photo-kicker="CHINA / HOME" data-photo-title="旧设备从家庭启程"><span>01</span><strong>消费者</strong><small>离开视线</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="1" data-title="平台 / 商贩" data-action="估价、收货、转卖，决定下一站。" data-record="交易时间、报价、接收方" data-missing="跨平台转手后的连续位置" data-cost="掌握流向，却未必承担最终处理责任" data-photo="assets/images/custody-market-china.jpg" data-photo-alt="中国二手电子产品回收平台的线下门店" data-photo-kicker="CHINA / TRADE-IN" data-photo-title="门店接手估价与转卖"><span>02</span><strong>平台 / 商贩</strong><small>决定流向</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="2" data-title="维修 / 翻新者" data-action="拆机、更换零件，让设备重新进入市场。" data-record="故障部件、维修动作、再售状态" data-missing="被替换零件与材料的最终去向" data-cost="延长寿命，也接住隐私、质量与职业暴露" data-photo="assets/images/custody-repair-china.jpg" data-photo-alt="中国手机维修工程师在工位检修故障屏幕" data-photo-kicker="CHINA / REPAIR" data-photo-title="维修工位拆机换件"><span>03</span><strong>维修 / 翻新</strong><small>延长寿命</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="3" data-title="拆解末端" data-action="破碎、分拣、提取，让设备变成材料。" data-record="拆解批次、材料种类、处理方式" data-missing="前序所有权与完整设备身份" data-cost="议价权最低，粉尘、烟雾和废液最接近身体" data-photo="assets/images/custody-dismantling-china.jpg" data-photo-alt="中国正规废旧家电拆解生产线上的工作人员" data-photo-kicker="CHINA / DISMANTLING" data-photo-title="正规拆解线分拣材料"><span>04</span><strong>拆解末端</strong><small>成为材料</small></button>
         </div>
         <div class="custody-receipt" aria-live="polite">
           <div class="custody-receipt-head"><span id="custodyIndex">HANDOVER 01 / 04</span><b id="custodyTitle">消费者</b><small>责任交接单</small></div>
@@ -156,6 +156,10 @@
               <p id="custodyLensText">购买凭证、设备型号、原始所有者</p>
             </div>
           </div>
+          <figure class="custody-photo" id="custodyPhotoPanel">
+            <img id="custodyPhoto" src="assets/images/custody-consumer-china.jpg" alt="中国家庭中工作人员拆下待更换的旧空调" loading="lazy" decoding="async">
+            <figcaption><span id="custodyPhotoKicker">CHINA / HOME</span><strong id="custodyPhotoTitle">旧设备从家庭启程</strong></figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -167,7 +171,7 @@
 
     <a class="next-gate" href="afterlife.html"><span>一台旧设备，还能被怎样处理？</span><small>点击进入下一页</small></a>
   </main>
-    <script src="script.js?v=20260719-30"></script>
+    <script src="script.js?v=20260719-31"></script>
 </body>
 </html>
 
