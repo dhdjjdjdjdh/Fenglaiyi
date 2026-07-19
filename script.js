@@ -1073,12 +1073,90 @@ function drawPressureDashboard() {
     </div>`;
 }
 
+function setupRiskTransferBoard() {
+  const board = document.getElementById("riskTransferBoard");
+  if (!board) return;
+  const stages = [...board.querySelectorAll(".risk-stage")];
+  const infoValue = document.getElementById("riskInfoValue");
+  const powerValue = document.getElementById("riskPowerValue");
+  const exposureValue = document.getElementById("riskExposureValue");
+  const infoMeter = document.getElementById("riskInfoMeter");
+  const powerMeter = document.getElementById("riskPowerMeter");
+  const exposureMeter = document.getElementById("riskExposureMeter");
+  const stageNumber = document.getElementById("riskStageNumber");
+  const stageTitle = document.getElementById("riskStageTitle");
+  const stageSummary = document.getElementById("riskStageSummary");
+  const stageLoss = document.getElementById("riskStageLoss");
+  const coreHint = document.getElementById("riskCoreHint");
+  const coreHints = ["仍与原主人相连", "流向由交易决定", "设备开始被拆开", "身份变成材料"];
+
+  const activate = stage => {
+    const index = Number(stage.dataset.index || 0);
+    stages.forEach(item => item.classList.toggle("is-active", item === stage));
+    infoValue.textContent = stage.dataset.info;
+    powerValue.textContent = stage.dataset.power;
+    exposureValue.textContent = stage.dataset.exposure;
+    infoMeter.style.setProperty("--level", stage.dataset.infoLevel);
+    powerMeter.style.setProperty("--level", stage.dataset.powerLevel);
+    exposureMeter.style.setProperty("--level", stage.dataset.exposureLevel);
+    stageNumber.textContent = `STAGE ${String(index + 1).padStart(2, "0")}`;
+    stageTitle.textContent = stage.querySelector("b").textContent;
+    stageSummary.textContent = stage.dataset.summary;
+    stageLoss.textContent = stage.dataset.loss;
+    coreHint.textContent = coreHints[index];
+  };
+
+  stages.forEach(stage => {
+    ["mouseenter", "focus", "click"].forEach(eventName => stage.addEventListener(eventName, () => activate(stage)));
+  });
+  activate(stages[0]);
+}
+
+function setupCustodyLedger() {
+  const ledger = document.getElementById("custodyLedger");
+  if (!ledger) return;
+  const stops = [...ledger.querySelectorAll(".custody-stop")];
+  const indexLabel = document.getElementById("custodyIndex");
+  const title = document.getElementById("custodyTitle");
+  const action = document.getElementById("custodyAction");
+  const record = document.getElementById("custodyRecord");
+  const missing = document.getElementById("custodyMissing");
+  const cost = document.getElementById("custodyCost");
+
+  const activate = stop => {
+    const index = Number(stop.dataset.index || 0);
+    ledger.style.setProperty("--stage", index);
+    stops.forEach(item => {
+      const active = item === stop;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+    });
+    indexLabel.textContent = `HANDOVER ${String(index + 1).padStart(2, "0")} / 04`;
+    title.textContent = stop.dataset.title;
+    action.textContent = stop.dataset.action;
+    record.textContent = stop.dataset.record;
+    missing.textContent = stop.dataset.missing;
+    cost.textContent = stop.dataset.cost;
+  };
+
+  stops.forEach((stop, index) => {
+    ["mouseenter", "focus", "click"].forEach(eventName => stop.addEventListener(eventName, () => activate(stop)));
+    stop.addEventListener("keydown", event => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = stops[(index + direction + stops.length) % stops.length];
+      next.focus();
+      activate(next);
+    });
+  });
+  activate(stops[0]);
+}
+
 function setupRadar() {
   drawPressureDashboard();
-  drawRadar("riskRadar", ["粉尘", "危险物", "劳动强度", "信息不透明", "健康暴露"], [
-    { name: "前端使用", color: "#5f8792", fill: "rgba(95,135,146,.16)", values: [.2, .35, .28, .22, .18] },
-    { name: "末端处理", color: "#ffae00", fill: "rgba(255,174,0,.2)", values: [.95, .9, .82, .86, .88] }
-  ], "风险沿链条向末端集中", "风险维度依据世界卫生组织（World Health Organization）电子废弃物与儿童健康报告整理，非量化监测值");
+  setupRiskTransferBoard();
+  setupCustodyLedger();
 }
 
 function drawWordCloud() {

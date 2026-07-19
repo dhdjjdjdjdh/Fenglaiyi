@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>代价：谁离垃圾更近</title>
-  <link rel="stylesheet" href="styles.css?v=20260719-27">
+  <link rel="stylesheet" href="styles.css?v=20260719-28">
   <link rel="icon" href="data:,">
 </head>
 <body class="chapter-page unequal-page">
@@ -74,8 +74,44 @@
       </div>
     </section>
 
-    <section class="story-section two-col-section reverse">
-      <div class="viz-panel"><div id="riskRadar" class="chart" role="img" aria-label="电子废弃物链条风险雷达图"></div></div>
+    <section class="story-section two-col-section reverse risk-transfer-section">
+      <div class="viz-panel viz-panel--dark risk-transfer-panel">
+        <div class="risk-transfer-board" id="riskTransferBoard" role="group" aria-label="电子废弃物风险转移交互看板，悬停四个流转节点可查看信息、议价权与身体暴露如何变化">
+          <header class="risk-transfer-head">
+            <div><span>RISK TRANSFER / FOUR HANDOVERS</span><h3>同一台设备，风险在交接中换了主人</h3></div>
+            <small>悬停节点查看责任变化</small>
+          </header>
+          <div class="risk-transfer-kpis" aria-live="polite">
+            <div><span>信息完整度</span><strong id="riskInfoValue">完整</strong><i id="riskInfoMeter" style="--level: 4"></i></div>
+            <div><span>议价能力</span><strong id="riskPowerValue">较高</strong><i id="riskPowerMeter" style="--level: 4"></i></div>
+            <div><span>身体暴露</span><strong id="riskExposureValue">较低</strong><i id="riskExposureMeter" style="--level: 1"></i></div>
+          </div>
+          <div class="risk-transfer-main">
+            <div class="risk-transfer-map" aria-label="旧设备流经消费者、平台商贩、维修翻新和拆解末端的示意图">
+              <span class="risk-map-grid" aria-hidden="true"></span>
+              <span class="risk-map-link risk-map-link--one" aria-hidden="true"></span>
+              <span class="risk-map-link risk-map-link--two" aria-hidden="true"></span>
+              <span class="risk-map-link risk-map-link--three" aria-hidden="true"></span>
+              <span class="risk-map-link risk-map-link--four" aria-hidden="true"></span>
+              <button class="risk-stage is-active risk-stage--consumer" type="button" data-index="0" data-info="完整" data-power="较高" data-exposure="较低" data-info-level="4" data-power-level="4" data-exposure-level="1" data-summary="设备仍与原主人、购买记录和使用场景相连。" data-loss="离开用户之后，去向尚未进入公共记录。"><span>01</span><b>消费者</b><small>换新 / 闲置</small></button>
+              <button class="risk-stage risk-stage--market" type="button" data-index="1" data-info="部分" data-power="中高" data-exposure="较低" data-info-level="3" data-power-level="3" data-exposure-level="1" data-summary="估价、收货与转卖决定设备进入维修、再售还是回收。" data-loss="多次转手会让所有权与设备位置开始断裂。"><span>02</span><b>平台 / 商贩</b><small>估价 / 转卖</small></button>
+              <button class="risk-stage risk-stage--repair" type="button" data-index="2" data-info="片段" data-power="中等" data-exposure="上升" data-info-level="2" data-power-level="2" data-exposure-level="3" data-summary="维修延长寿命，也开始接触电池、焊料和破损部件。" data-loss="翻新记录、零件来源和材料去向往往彼此分离。"><span>03</span><b>维修 / 翻新</b><small>拆机 / 更换</small></button>
+              <button class="risk-stage risk-stage--end" type="button" data-index="3" data-info="稀薄" data-power="较低" data-exposure="很高" data-info-level="1" data-power-level="1" data-exposure-level="4" data-summary="末端劳动者面对粉尘、烟雾、废液和危险材料。" data-loss="设备身份几乎消失，只剩等待分拣和出售的材料。"><span>04</span><b>拆解末端</b><small>破碎 / 提取</small></button>
+              <div class="risk-device-core" aria-hidden="true">
+                <div class="risk-device-shell"><i></i><i></i><i></i></div>
+                <span>OLD DEVICE</span><strong>旧设备</strong><small id="riskCoreHint">仍与原主人相连</small>
+              </div>
+            </div>
+            <aside class="risk-transfer-readout" aria-live="polite">
+              <span id="riskStageNumber">STAGE 01</span>
+              <strong id="riskStageTitle">消费者</strong>
+              <p id="riskStageSummary">设备仍与原主人、购买记录和使用场景相连。</p>
+              <dl><dt>正在丢失</dt><dd id="riskStageLoss">离开用户之后，去向尚未进入公共记录。</dd></dl>
+            </aside>
+          </div>
+          <div class="risk-transfer-scale"><span>前端：便利与信息</span><i></i><span>末端：暴露与材料</span></div>
+        </div>
+      </div>
       <div class="text-column">
         <p class="eyebrow">Risk transfer</p>
         <h2>便利、利润、风险并不在同一个位置。</h2>
@@ -86,11 +122,20 @@
 
     <section class="story-section">
       <div class="section-title"><p class="eyebrow">Work chain</p><h2>“回收”不是一个按钮，而是一连串人的工作。</h2></div>
-      <div class="chain-strip" aria-label="电子废弃物链条示意">
-        <div><strong>消费者</strong><p>完成换新，旧设备离开视线。</p></div>
-        <div><strong>平台/商贩</strong><p>估价、收货、转卖，决定流向是否透明。</p></div>
-        <div><strong>维修/翻新者</strong><p>延长寿命，也承担隐私清除和质量责任。</p></div>
-        <div><strong>拆解末端</strong><p>面对粉尘、危险材料和最低的议价权。</p></div>
+      <div class="custody-ledger" id="custodyLedger" style="--stage: 0" aria-label="旧设备责任交接轨道，悬停节点查看每次交接留下与丢失的信息">
+        <div class="custody-track" role="tablist" aria-label="责任交接阶段">
+          <span class="custody-line" aria-hidden="true"></span><span class="custody-progress" aria-hidden="true"></span>
+          <div class="custody-device" aria-hidden="true"><i></i><b>旧</b></div>
+          <button class="custody-stop is-active" type="button" role="tab" aria-selected="true" data-index="0" data-title="消费者" data-action="完成换新，旧设备离开视线。" data-record="购买凭证、设备型号、原始所有者" data-missing="离开家庭后的第一次流向" data-cost="便利留在前端，去向责任开始向后移动"><span>01</span><strong>消费者</strong><small>离开视线</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="1" data-title="平台 / 商贩" data-action="估价、收货、转卖，决定下一站。" data-record="交易时间、报价、接收方" data-missing="跨平台转手后的连续位置" data-cost="掌握流向，却未必承担最终处理责任"><span>02</span><strong>平台 / 商贩</strong><small>决定流向</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="2" data-title="维修 / 翻新者" data-action="拆机、更换零件，让设备重新进入市场。" data-record="故障部件、维修动作、再售状态" data-missing="被替换零件与材料的最终去向" data-cost="延长寿命，也接住隐私、质量与职业暴露"><span>03</span><strong>维修 / 翻新</strong><small>延长寿命</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="3" data-title="拆解末端" data-action="破碎、分拣、提取，让设备变成材料。" data-record="拆解批次、材料种类、处理方式" data-missing="前序所有权与完整设备身份" data-cost="议价权最低，粉尘、烟雾和废液最接近身体"><span>04</span><strong>拆解末端</strong><small>成为材料</small></button>
+        </div>
+        <div class="custody-receipt" aria-live="polite">
+          <div class="custody-receipt-head"><span id="custodyIndex">HANDOVER 01 / 04</span><b id="custodyTitle">消费者</b><small>责任交接单</small></div>
+          <p id="custodyAction">完成换新，旧设备离开视线。</p>
+          <dl><div><dt>留下的记录</dt><dd id="custodyRecord">购买凭证、设备型号、原始所有者</dd></div><div><dt>正在丢失</dt><dd id="custodyMissing">离开家庭后的第一次流向</dd></div><div><dt>谁在承担</dt><dd id="custodyCost">便利留在前端，去向责任开始向后移动</dd></div></dl>
+        </div>
       </div>
     </section>
 
@@ -101,7 +146,7 @@
 
     <a class="next-gate" href="afterlife.html"><span>一台旧设备，还能被怎样处理？</span><small>点击进入下一页</small></a>
   </main>
-  <script src="script.js?v=20260719-27"></script>
+  <script src="script.js?v=20260719-28"></script>
 </body>
 </html>
 
