@@ -446,6 +446,438 @@
   .risk-lexicon-readout { grid-template-columns: 150px 1fr; }
   .risk-lexicon-readout > p { grid-column: 1 / -1; }
 }
+
+/* Afterlife / destination chapter */
+.afterlife-page .page-hero--afterlife h1 {
+  max-width: 1120px;
+  font-size: clamp(46px, 6.75vw, 98px);
+  line-height: 1.08;
+}
+.afterlife-page .page-hero--afterlife h1 span {
+  display: block;
+  white-space: nowrap;
+}
+.afterlife-page .text-column p {
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+.afterlife-key {
+  padding: 0 .14em;
+  color: #e85d38;
+  font-weight: 900;
+  background: linear-gradient(transparent 72%, rgba(232, 93, 56, .16) 0);
+}
+.afterlife-key--green {
+  color: #759400;
+  background: linear-gradient(transparent 72%, rgba(200, 240, 0, .23) 0);
+}
+.afterlife-flow-section {
+  grid-template-columns: minmax(560px, 1.12fr) minmax(0, .88fr);
+  align-items: start;
+  gap: 50px;
+}
+.afterlife-sankey-panel,
+.trace-puzzle-panel {
+  overflow: hidden;
+  padding: 0;
+  color: #f7faf7;
+  border-color: #24302d;
+  background: #07100e;
+  box-shadow: 0 26px 70px rgba(15, 24, 21, .18);
+}
+.afterlife-panel-head,
+.trace-puzzle-head,
+.trace-verifier-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 27px 21px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+.afterlife-panel-head span,
+.trace-puzzle-head span,
+.trace-verifier-head span {
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.afterlife-panel-head h3,
+.trace-puzzle-head h3,
+.trace-verifier-head h3 {
+  margin: 7px 0 0;
+  color: #fff;
+  font-size: clamp(22px, 2.1vw, 30px);
+  line-height: 1.2;
+}
+.afterlife-panel-head small,
+.trace-verifier-head small {
+  color: #92a19c;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.afterlife-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid rgba(255, 255, 255, .11);
+}
+.afterlife-kpis span {
+  min-height: 65px;
+  padding: 16px 18px;
+  color: #aab6b2;
+  font-size: 11px;
+}
+.afterlife-kpis span + span { border-left: 1px solid rgba(255, 255, 255, .1); }
+.afterlife-kpis b {
+  margin-right: 5px;
+  color: var(--lime);
+  font-size: 24px;
+}
+.afterlife-sankey {
+  position: relative;
+  min-height: 440px;
+  padding: 7px 10px 0;
+  background-image:
+    linear-gradient(rgba(111, 140, 131, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 140, 131, .08) 1px, transparent 1px);
+  background-size: 54px 54px;
+}
+.afterlife-sankey svg { display: block; width: 100%; height: auto; }
+.afterlife-flow-path {
+  cursor: pointer;
+  opacity: .63;
+  transition: opacity .2s ease, filter .2s ease;
+}
+.afterlife-flow-path.is-active {
+  opacity: 1;
+  filter: drop-shadow(0 0 7px currentColor);
+}
+.afterlife-flow-path.is-dim { opacity: .13; }
+.afterlife-flow-node {
+  cursor: pointer;
+  transition: opacity .2s ease, filter .2s ease;
+}
+.afterlife-flow-node.is-active { filter: drop-shadow(0 0 8px rgba(200, 240, 0, .44)); }
+.afterlife-flow-node.is-dim { opacity: .28; }
+.afterlife-flow-node rect { transition: stroke .2s ease, stroke-width .2s ease; }
+.afterlife-flow-node.is-active rect { stroke: #c8f000; stroke-width: 3; }
+.afterlife-flow-node text { pointer-events: none; }
+.afterlife-flow-readout {
+  display: grid;
+  grid-template-columns: 90px 130px minmax(0, 1fr);
+  align-items: center;
+  min-height: 84px;
+  padding: 15px 23px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  background: #0e1916;
+}
+.afterlife-flow-readout span {
+  color: #81908b;
+  font-size: 10px;
+  font-weight: 800;
+}
+.afterlife-flow-readout strong {
+  color: var(--lime);
+  font-size: 17px;
+}
+.afterlife-flow-readout p {
+  margin: 0;
+  color: #d5ddd9;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.afterlife-diagram-note {
+  margin: 0;
+  padding: 10px 23px 15px;
+  color: #71807b;
+  font-size: 9px;
+}
+
+.afterlife-puzzle-section {
+  grid-template-columns: minmax(0, .82fr) minmax(600px, 1.18fr);
+  align-items: start;
+  gap: 50px;
+}
+.trace-puzzle-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #94a29d;
+  font-size: 10px;
+}
+.trace-puzzle-actions button {
+  padding: 8px 15px;
+  color: #07100e;
+  font: inherit;
+  font-weight: 900;
+  border: 0;
+  background: var(--lime);
+  cursor: pointer;
+}
+.trace-puzzle-actions b { color: #fff; }
+.trace-puzzle-layout {
+  display: grid;
+  grid-template-columns: minmax(330px, 1fr) 178px;
+  gap: 18px;
+  padding: 25px 25px 20px;
+}
+.trace-puzzle-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  aspect-ratio: 1;
+  padding: 6px;
+  border: 1px solid #34423e;
+  background: #020806;
+}
+.trace-tile,
+.trace-puzzle-blank {
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+}
+.trace-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 13px 12px;
+  color: #fff;
+  text-align: left;
+  border: 1px solid #34423e;
+  background: #15211e;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.trace-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--tile-color, var(--orange));
+}
+.trace-tile::after {
+  content: "";
+  position: absolute;
+  width: 62px;
+  height: 62px;
+  top: 12px;
+  right: -22px;
+  border: 1px solid color-mix(in srgb, var(--tile-color, var(--orange)) 55%, transparent);
+  transform: rotate(45deg);
+}
+.trace-tile:hover,
+.trace-tile:focus-visible {
+  z-index: 1;
+  border-color: var(--tile-color, var(--orange));
+  background: #1d2b27;
+  transform: translateY(-2px);
+  outline: none;
+}
+.trace-tile b {
+  position: absolute;
+  top: 13px;
+  left: 12px;
+  color: var(--tile-color, var(--orange));
+  font-size: 26px;
+  line-height: 1;
+}
+.trace-tile span {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  font-weight: 850;
+}
+.trace-puzzle-blank {
+  border: 1px dashed #31403b;
+  background: repeating-linear-gradient(135deg, transparent 0 9px, rgba(255,255,255,.035) 9px 10px);
+}
+.trace-puzzle-board.is-solved { box-shadow: 0 0 0 2px var(--lime), 0 0 28px rgba(200, 240, 0, .22); }
+.trace-puzzle-key {
+  display: grid;
+  align-content: start;
+  border-top: 1px solid #34423e;
+}
+.trace-puzzle-key span {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 7px;
+  padding: 10px 3px;
+  color: #aab6b2;
+  font-size: 10px;
+  border-bottom: 1px solid #26322f;
+}
+.trace-puzzle-key b { color: var(--orange); }
+.trace-puzzle-status {
+  display: grid;
+  grid-template-columns: 120px 160px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  min-height: 82px;
+  padding: 16px 25px;
+  border-top: 1px solid #33413d;
+  background: #0e1916;
+}
+.trace-puzzle-status span { color: var(--orange); font-size: 10px; font-weight: 900; }
+.trace-puzzle-status strong { color: #fff; font-size: 16px; }
+.trace-puzzle-status p { margin: 0; color: #9eaaa6; font-size: 11px; line-height: 1.55; }
+.trace-puzzle-status.is-solved strong { color: var(--lime); }
+
+.afterlife-verifier-section { width: min(1380px, calc(100% - 40px)); }
+.afterlife-verifier-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(380px, .82fr);
+  column-gap: 60px;
+  align-items: end;
+  margin-bottom: 42px;
+}
+.afterlife-verifier-intro .eyebrow { grid-column: 1 / -1; }
+.afterlife-verifier-intro h2 {
+  margin: 0;
+  max-width: 860px;
+  font-size: clamp(42px, 5.2vw, 76px);
+  line-height: 1.08;
+}
+.afterlife-verifier-intro > p:last-child {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.8;
+  text-align: justify;
+}
+.trace-verifier {
+  color: #f5f8f5;
+  border: 1px solid #26332f;
+  background: #07100e;
+  box-shadow: 0 30px 80px rgba(15, 24, 21, .2);
+}
+.trace-score { text-align: right; }
+.trace-score b { display: block; color: var(--lime); font-size: 25px; }
+.trace-score span { color: #83918c; font-size: 9px; }
+.trace-verifier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.trace-check {
+  position: relative;
+  min-height: 230px;
+  padding: 27px 27px 24px;
+  color: #fff;
+  text-align: left;
+  border: 0;
+  border-right: 1px solid #26332f;
+  border-bottom: 1px solid #26332f;
+  background: #101b18;
+  cursor: pointer;
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.trace-check:last-child { border-right: 0; }
+.trace-check:hover,
+.trace-check:focus-visible { background: #172520; outline: none; }
+.trace-check.is-active { box-shadow: inset 0 5px 0 var(--lime); }
+.trace-check-index { color: var(--orange); font-size: 11px; font-weight: 900; }
+.trace-check strong { display: block; margin-top: 32px; font-size: 29px; }
+.trace-check p { min-height: 58px; margin: 13px 0 20px; color: #a9b4b0; font-size: 13px; line-height: 1.65; }
+.trace-check i { color: #66736e; font-size: 10px; font-style: normal; }
+.trace-check.is-active i { color: var(--lime); }
+.trace-verifier-result {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 34px;
+  align-items: center;
+  padding: 35px 42px;
+  background: #0b1512;
+}
+.trace-result-ring {
+  --trace-progress: 0deg;
+  display: grid;
+  place-items: center;
+  width: 150px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(var(--lime) var(--trace-progress), #303c38 0);
+  transition: background .28s ease;
+}
+.trace-result-ring::before {
+  content: "";
+  grid-area: 1 / 1;
+  width: 112px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #07100e;
+}
+.trace-result-ring span {
+  z-index: 1;
+  grid-area: 1 / 1;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 900;
+}
+.trace-verifier-result > div:last-child > span { color: var(--orange); font-size: 10px; font-weight: 900; }
+.trace-verifier-result strong { display: block; margin-top: 7px; color: #fff; font-size: 27px; }
+.trace-verifier-result p { max-width: 800px; margin: 10px 0 0; color: #aab5b1; font-size: 14px; line-height: 1.65; }
+.trace-evidence-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid #27342f;
+}
+.trace-evidence-strip span {
+  padding: 15px 18px;
+  color: #63716c;
+  font-size: 10px;
+  text-align: center;
+  border-right: 1px solid #27342f;
+  transition: color .2s ease, background .2s ease;
+}
+.trace-evidence-strip span:last-child { border-right: 0; }
+.trace-evidence-strip span.is-active { color: #07100e; background: var(--lime); font-weight: 900; }
+
+@media (max-width: 1080px) {
+  .afterlife-flow-section,
+  .afterlife-puzzle-section { grid-template-columns: 1fr; }
+  .afterlife-flow-section .text-column { grid-row: 1; }
+  .afterlife-flow-section .afterlife-sankey-panel { grid-row: 2; }
+  .afterlife-puzzle-section .text-column { max-width: 760px; }
+}
+
+@media (max-width: 720px) {
+  .afterlife-page .page-hero--afterlife h1 { font-size: clamp(41px, 12.6vw, 60px); }
+  .afterlife-page .page-hero--afterlife h1 span { white-space: normal; }
+  .afterlife-sankey { min-height: 0; overflow-x: auto; }
+  .afterlife-sankey svg { width: 720px; max-width: none; }
+  .afterlife-panel-head,
+  .trace-puzzle-head,
+  .trace-verifier-head { align-items: flex-start; flex-direction: column; padding: 20px 18px 16px; }
+  .afterlife-panel-head small { white-space: normal; }
+  .afterlife-kpis span { min-height: 56px; padding: 12px 10px; font-size: 9px; }
+  .afterlife-kpis b { display: block; font-size: 20px; }
+  .afterlife-flow-readout { grid-template-columns: 1fr; gap: 5px; padding: 15px 18px; }
+  .afterlife-diagram-note { padding: 9px 18px 14px; }
+  .trace-puzzle-layout { grid-template-columns: 1fr; padding: 18px; }
+  .trace-puzzle-key { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trace-puzzle-key span { padding: 8px 3px; }
+  .trace-puzzle-status { grid-template-columns: 1fr; gap: 5px; padding: 15px 18px; }
+  .afterlife-verifier-section { width: calc(100% - 28px); }
+  .afterlife-verifier-intro { grid-template-columns: 1fr; gap: 18px; margin-bottom: 28px; }
+  .afterlife-verifier-intro .eyebrow { grid-column: 1; }
+  .afterlife-verifier-intro h2 { font-size: 36px; }
+  .afterlife-verifier-intro > p:last-child { font-size: 16px; }
+  .trace-verifier-grid { grid-template-columns: 1fr; }
+  .trace-check { min-height: 0; padding: 22px 20px; border-right: 0; }
+  .trace-check strong { margin-top: 18px; font-size: 25px; }
+  .trace-check p { min-height: 0; }
+  .trace-verifier-result { grid-template-columns: 104px minmax(0, 1fr); gap: 20px; padding: 26px 18px; }
+  .trace-result-ring { width: 100px; }
+  .trace-result-ring::before { width: 74px; }
+  .trace-result-ring span { font-size: 23px; }
+  .trace-verifier-result strong { font-size: 20px; }
+  .trace-evidence-strip { grid-template-columns: 1fr; }
+  .trace-evidence-strip span { text-align: left; border-right: 0; border-bottom: 1px solid #27342f; }
+}
 @media (max-width: 700px) {
   .risk-transfer-board { padding: 14px; }
   .risk-transfer-head { align-items: flex-start; flex-direction: column; }

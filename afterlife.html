@@ -1,13 +1,13 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>去向：旧设备的四种后半生</title>
-    <link rel="stylesheet" href="styles.css?v=20260719-30">
+  <link rel="stylesheet" href="styles.css?v=20260719-34">
   <link rel="icon" href="data:,">
 </head>
-<body class="chapter-page">
+<body class="chapter-page afterlife-page">
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
   <nav class="site-nav" aria-label="专题导航"><a href="index.html">首页</a><a href="global.html">全球</a><a href="china.html">中国</a><a href="missing.html">缺口</a><a href="unequal.html">代价</a><a href="afterlife.html">去向</a></nav>
   <a class="return-home" href="index.html">返回首页</a>
@@ -15,48 +15,91 @@
   <header class="page-hero page-hero--afterlife">
     <div>
       <p class="eyebrow">05 / 去向</p>
-      <h1>一台旧设备，可以去哪里？</h1>
+      <h1><span>一台旧设备，</span><span>可以去哪里？</span></h1>
       <p>旧设备的命运不该只有“丢掉”。它可以闲置、转卖、维修、正规回收，也可能进入不透明的非正规处理。去向不同，责任也不同。</p>
     </div>
   </header>
 
   <main>
-    <section class="story-section two-col-section">
-      <div class="text-column">
-        <p class="eyebrow">Interactive route</p>
-        <h2>点击查看旧设备的四种后半生。</h2>
-        <p>设备离开用户以后，最重要的问题变成：它是否还能被追踪？能否延寿？是否进入有资质的处理链条？</p>
-        <p>真正的回收不是把东西交出去，而是让它在下一站仍然有记录。</p>
-      </div>
-      <div class="viz-panel">
-        <div class="route-tabs" aria-label="旧设备去向切换">
-          <button class="route-tab is-active" type="button" data-route="drawer">闲置</button>
-          <button class="route-tab" type="button" data-route="resale">二手</button>
-          <button class="route-tab" type="button" data-route="formal">正规回收</button>
-          <button class="route-tab" type="button" data-route="informal">未记录</button>
+    <section class="story-section two-col-section afterlife-flow-section">
+      <div class="viz-panel viz-panel--dark afterlife-sankey-panel">
+        <div class="afterlife-panel-head">
+          <div><span>ROUTE LEDGER / 路径账本</span><h3>设备离开用户后，责任沿哪条线移动？</h3></div>
+          <small>悬停查看记录如何延续或断开</small>
         </div>
-        <div class="route-box" id="routeBox"><h3>留在抽屉</h3><p>它没有马上污染环境，也没有进入回收。它只是从统计中沉下去，变成家中沉默的库存。</p></div>
-        <div class="route-visual" aria-hidden="true"><span></span><span></span><span></span><b>闲置</b></div>
+        <div class="afterlife-kpis" aria-label="流向图结构说明">
+          <span><b>4</b> 种常见去向</span><span><b>3</b> 类结果</span><span><b>1</b> 条责任链</span>
+        </div>
+        <div id="afterlifeSankey" class="afterlife-sankey" role="img" aria-label="旧设备从离开用户到闲置、二手维修、正规回收和未记录处理，再流向延寿、材料再生或责任断点的交互式流向图"></div>
+        <div class="afterlife-flow-readout" aria-live="polite"><span>当前路径</span><strong>正规回收</strong><p>交接、运输和拆解都有凭证，材料去向才可能被复核。</p></div>
+        <p class="afterlife-diagram-note">路径结构示意。线宽用于区分不同去向，不代表统计比例。</p>
       </div>
-    </section>
 
-    <section class="story-section two-col-section reverse">
-      <div class="viz-panel"><div id="routeFlowChart" class="chart chart--tall" role="img" aria-label="旧设备流向图"></div></div>
       <div class="text-column">
         <p class="eyebrow">Route matters</p>
-        <h2>去向决定风险，也决定责任能不能被追踪。</h2>
-        <p>二手和维修可以延长设备寿命，正规回收可以降低拆解风险；但不透明的低价处理，会把收益和风险一起推向下游。</p>
-        <p>电子废弃物治理的底线，不只是把垃圾变少，而是让设备离开屏幕后仍然有去处、有记录、有责任主体。</p>
+        <h2>“交出去”，只是一次所有权变化。</h2>
+        <p>一台设备从家庭、办公室或商店离开时，通常只完成了第一步：<strong class="afterlife-key">原持有人不再拥有它</strong>。这并不能自动证明设备已经被回收，更不能说明它最终被谁拆解、材料去了哪里。</p>
+        <p>判断一条去向是否可靠，要看三类信息能否连续出现：<strong class="afterlife-key afterlife-key--green">谁接手、在哪里交接、怎样处理</strong>。二手和维修可以延长使用寿命，但多次转手若没有设备编号和交接凭证，来源与末端仍可能在中途断开。</p>
+        <p>正规回收的价值，也不只是“收走”。它把一台商品重新登记为待处理废物，让运输、拆解和材料流向进入可核验的责任链。相反，未记录的低价处理往往保留残值，却把<strong class="afterlife-key">污染成本和追责难题</strong>推向更远的末端。</p>
       </div>
     </section>
 
-    <section class="story-section two-col-section">
+    <section class="story-section two-col-section afterlife-puzzle-section">
       <div class="text-column">
-        <p class="eyebrow">What can be asked</p>
-        <h2>处理一台旧设备前，可以多问三句话。</h2>
-        <p>谁回收？去哪里？怎么处理？如果平台、品牌和回收企业无法说明去向，消费者也很难判断旧设备是否真的进入循环。</p>
+        <p class="eyebrow">Chain puzzle</p>
+        <h2>责任链不是一句承诺，而是八块能拼回去的证据。</h2>
+        <p>设备真正进入循环，需要把<strong class="afterlife-key">设备身份、所有权、交接地点、检测结果</strong>和后续处理重新接在一起。缺少其中一块，回收量可能仍被统计，具体设备却无法被验证。</p>
+        <p>隐私清除证明数据风险被处理，资质信息说明谁有权接手，拆解批次和材料去向则把责任延伸到末端。它们不是额外文书，而是防止“已经回收”沦为一句无法核验口号的基础设施。</p>
+        <p>试着移动右侧方块。只有当八项记录回到正确位置，设备的后半生才从一条推测，变成<strong class="afterlife-key afterlife-key--green">可以复盘的路径</strong>。</p>
       </div>
-      <div class="question-list"><div>谁回收？</div><div>去哪里？</div><div>怎么处理？</div></div>
+
+      <div class="viz-panel trace-puzzle-panel">
+        <div class="trace-puzzle-head">
+          <div><span>TRACE PUZZLE / 责任华容道</span><h3>把断开的记录拼回一条链</h3></div>
+          <div class="trace-puzzle-actions"><button type="button" id="shuffleTracePuzzle">打乱</button><span>移动 <b id="traceMoveCount">0</b> 次</span></div>
+        </div>
+        <div class="trace-puzzle-layout">
+          <div class="trace-puzzle-board" id="tracePuzzle" role="group" aria-label="责任链滑块拼图"></div>
+          <aside class="trace-puzzle-key" aria-label="责任链顺序">
+            <span><b>01</b>设备身份</span><span><b>02</b>所有权</span><span><b>03</b>交接地点</span><span><b>04</b>检测结果</span>
+            <span><b>05</b>数据清除</span><span><b>06</b>处理资质</span><span><b>07</b>拆解批次</span><span><b>08</b>材料去向</span>
+          </aside>
+        </div>
+        <div class="trace-puzzle-status" id="tracePuzzleStatus" aria-live="polite"><span>CHAIN STATUS</span><strong>记录仍在错位</strong><p>点击空格旁的方块移动。拼合后，八项记录将形成连续顺序。</p></div>
+      </div>
+    </section>
+
+    <section class="story-section afterlife-verifier-section">
+      <div class="afterlife-verifier-intro">
+        <p class="eyebrow">Handover verifier</p>
+        <h2>处理一台旧设备前，把三句问话变成三项证据。</h2>
+        <p>“谁回收、去哪里、怎么处理”不是礼貌性询问，而是最小核验清单。名称、地点与处理方式都能被说明，消费者才有可能判断这次交接是否真正进入循环。</p>
+      </div>
+
+      <div class="trace-verifier" id="traceVerifier">
+        <header class="trace-verifier-head">
+          <div><span>EVIDENCE DESK / 交接核验台</span><h3>逐项点亮你已经获得的凭证</h3></div>
+          <div class="trace-score"><b id="traceScore">0/3</b><span>核验完整度</span></div>
+        </header>
+        <div class="trace-verifier-grid">
+          <button class="trace-check" type="button" data-trace="owner" aria-pressed="false">
+            <span class="trace-check-index">01</span><strong>谁接手？</strong><p>留下企业或门店全称、联系人，以及可查询的回收或处理资质。</p><i>等待核验</i>
+          </button>
+          <button class="trace-check" type="button" data-trace="place" aria-pressed="false">
+            <span class="trace-check-index">02</span><strong>去哪里？</strong><p>索要交接时间、具体地点和凭证编号，避免“统一处理”成为模糊终点。</p><i>等待核验</i>
+          </button>
+          <button class="trace-check" type="button" data-trace="process" aria-pressed="false">
+            <span class="trace-check-index">03</span><strong>怎么处理？</strong><p>确认数据清除、检测、再售或拆解方式，并追问不可再用部件的材料去向。</p><i>等待核验</i>
+          </button>
+        </div>
+        <div class="trace-verifier-result">
+          <div class="trace-result-ring" aria-hidden="true"><span id="traceRingValue">0</span></div>
+          <div><span id="traceResultLabel">记录尚未开始</span><strong id="traceResultTitle">交出设备，不等于完成回收。</strong><p id="traceResultText">至少确认接手主体、交接位置和处理方式，让设备离开视线以后仍有一条能被追问的路线。</p></div>
+        </div>
+        <div class="trace-evidence-strip" aria-label="交接证据链">
+          <span>设备身份</span><span>所有权</span><span>位置</span><span>处理方式</span><span>材料去向</span>
+        </div>
+      </div>
     </section>
 
     <section class="story-section">
@@ -66,9 +109,6 @@
 
     <a class="next-gate" href="index.html"><span>回到首页，重新追踪这条链</span><small>点击返回首页</small></a>
   </main>
-    <script src="script.js?v=20260719-30"></script>
+  <script src="script.js?v=20260719-34"></script>
 </body>
 </html>
-
-
-

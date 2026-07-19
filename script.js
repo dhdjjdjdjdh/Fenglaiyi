@@ -1719,43 +1719,219 @@ function drawGapFlow() {
 }
 
 function drawRouteFlow() {
-  const c = document.getElementById("routeFlowChart");
+  const c = document.getElementById("afterlifeSankey");
   if (!c) return;
-  const svg = svgEl("svg", { viewBox: "0 0 780 480" });
-  const items = [
-    ["旧设备", 42, 212, "#101413", "#fff"],
-    ["闲置", 260, 60, "#dfe5df", "#101413"],
-    ["二手流通", 260, 160, "#c8f000", "#101413"],
-    ["正规回收", 260, 260, "#5f8792", "#fff"],
-    ["非正规处理", 260, 360, "#ffae00", "#101413"],
-    ["延寿/材料回收", 545, 172, "#c8f000", "#101413"],
-    ["统计之外的风险", 545, 334, "#ffae00", "#101413"]
+  const svg = svgEl("svg", { viewBox: "0 0 760 440", "aria-hidden": "true" });
+  const routeDetails = {
+    drawer: ["闲置库存", "位置仍可识别，但所有权没有交接，处理责任暂时停在原处。"],
+    resale: ["二手 / 维修", "设备继续使用，寿命被延长；每次转手都需要留下新的交接记录。"],
+    formal: ["正规回收", "交接、运输和拆解都有凭证，材料去向才可能被复核。"],
+    informal: ["未记录处理", "设备已经离开用户，但接手人、拆解方式与材料终点同时消失。"]
+  };
+  const paths = [
+    { route: "drawer", color: "#65746f", width: 32, d: "M168 220 C220 220 225 47 275 47" },
+    { route: "drawer", color: "#65746f", width: 22, d: "M443 47 C520 47 526 380 596 380" },
+    { route: "resale", color: "#a7c900", width: 46, d: "M168 220 C218 220 228 146 275 146" },
+    { route: "resale", color: "#c8f000", width: 40, d: "M443 146 C514 146 524 118 596 118" },
+    { route: "formal", color: "#6b929c", width: 40, d: "M168 220 C220 220 225 252 275 252" },
+    { route: "formal", color: "#6b929c", width: 34, d: "M443 252 C510 252 527 258 596 258" },
+    { route: "informal", color: "#e85d38", width: 52, d: "M168 220 C220 220 228 369 275 369" },
+    { route: "informal", color: "#ffae00", width: 46, d: "M443 369 C516 369 525 380 596 380" }
   ];
-  items.forEach(([text, x, y, fill, color]) => {
-    svg.appendChild(svgEl("rect", { x, y, width: 170, height: 58, fill, stroke: "#101413" }));
-    const tx = svgEl("text", { x: x + 85, y: y + 36, "text-anchor": "middle", fill: color, "font-size": 15, "font-weight": 900 });
-    tx.textContent = text;
-    svg.appendChild(tx);
+  const nodes = [
+    { route: "source", label: "旧设备离开用户", note: "所有权开始变化", x: 28, y: 145, w: 140, h: 150, fill: "#111c19" },
+    { route: "drawer", label: "闲置", note: "停在原处", x: 275, y: 18, w: 168, h: 58, fill: "#26332f" },
+    { route: "resale", label: "二手 / 维修", note: "延长使用", x: 275, y: 112, w: 168, h: 68, fill: "#263d35" },
+    { route: "formal", label: "正规回收", note: "进入凭证链", x: 275, y: 216, w: 168, h: 72, fill: "#25404a" },
+    { route: "informal", label: "未记录处理", note: "责任断开", x: 275, y: 334, w: 168, h: 70, fill: "#573222" },
+    { route: "resale", label: "继续使用", note: "设备延寿", x: 596, y: 80, w: 140, h: 76, fill: "#283e21" },
+    { route: "formal", label: "材料再生", note: "去向可核验", x: 596, y: 220, w: 140, h: 76, fill: "#29434a" },
+    { route: "break", label: "责任断点", note: "记录不可见", x: 596, y: 342, w: 140, h: 76, fill: "#442b22" }
+  ];
+
+  paths.forEach(item => {
+    const path = svgEl("path", {
+      class: "afterlife-flow-path",
+      d: item.d,
+      fill: "none",
+      stroke: item.color,
+      "stroke-width": item.width,
+      "stroke-linecap": "butt",
+      "data-route": item.route,
+      tabindex: "0"
+    });
+    const title = svgEl("title");
+    title.textContent = routeDetails[item.route][0];
+    path.appendChild(title);
+    svg.appendChild(path);
   });
-  [[212,241,260,89],[212,241,260,189],[212,241,260,289],[212,241,260,389],[430,189,545,201],[430,289,545,201],[430,389,545,363]].forEach(([x1,y1,x2,y2], i) => {
-    svg.appendChild(svgEl("line", { class: "flow-line", x1, y1, x2, y2, stroke: i > 5 ? "#ffae00" : "#101413", "stroke-width": 4, "stroke-linecap": "round" }));
+
+  nodes.forEach(item => {
+    const group = svgEl("g", {
+      class: "afterlife-flow-node",
+      "data-route": item.route,
+      tabindex: item.route === "source" ? "-1" : "0"
+    });
+    group.appendChild(svgEl("rect", {
+      x: item.x, y: item.y, width: item.w, height: item.h,
+      rx: 2, fill: item.fill, stroke: "#52635e", "stroke-width": 1.5
+    }));
+    const label = svgEl("text", {
+      x: item.x + 16, y: item.y + item.h / 2 - 3,
+      fill: "#fff", "font-size": item.route === "source" ? 17 : 15, "font-weight": 900
+    });
+    label.textContent = item.label;
+    const note = svgEl("text", {
+      x: item.x + 16, y: item.y + item.h / 2 + 20,
+      fill: item.route === "informal" || item.route === "break" ? "#ffae00" : "#9eb0aa",
+      "font-size": 10, "font-weight": 700
+    });
+    note.textContent = item.note;
+    group.append(label, note);
+    svg.appendChild(group);
   });
   c.replaceChildren(svg);
+
+  const readout = c.closest(".afterlife-sankey-panel")?.querySelector(".afterlife-flow-readout");
+  const interactive = [...svg.querySelectorAll("[data-route]")];
+  const relatedRoute = (nodeRoute, route) => nodeRoute === route || (nodeRoute === "break" && ["drawer", "informal"].includes(route));
+  const activate = route => {
+    if (!routeDetails[route]) return;
+    interactive.forEach(el => {
+      const elRoute = el.dataset.route;
+      el.classList.toggle("is-active", relatedRoute(elRoute, route));
+      el.classList.toggle("is-dim", elRoute !== "source" && !relatedRoute(elRoute, route));
+    });
+    if (readout) {
+      readout.querySelector("strong").textContent = routeDetails[route][0];
+      readout.querySelector("p").textContent = routeDetails[route][1];
+    }
+  };
+  interactive.forEach(el => {
+    const route = el.dataset.route;
+    if (!routeDetails[route]) return;
+    ["pointerenter", "focus", "click"].forEach(eventName => el.addEventListener(eventName, () => activate(route)));
+    el.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activate(route);
+      }
+    });
+  });
+  activate("formal");
+}
+
+function setupTracePuzzle() {
+  const board = document.getElementById("tracePuzzle");
+  const shuffleButton = document.getElementById("shuffleTracePuzzle");
+  const moveCounter = document.getElementById("traceMoveCount");
+  const status = document.getElementById("tracePuzzleStatus");
+  if (!board || !shuffleButton || !moveCounter || !status) return;
+
+  const labels = ["设备身份", "所有权", "交接地点", "检测结果", "数据清除", "处理资质", "拆解批次", "材料去向"];
+  const colors = ["#ffae00", "#c8f000", "#6b929c", "#e85d38", "#c8f000", "#ffae00", "#6b929c", "#e85d38"];
+  const solved = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+  let state = [...solved];
+  let moves = 0;
+
+  const adjacent = (a, b) => Math.abs(Math.floor(a / 3) - Math.floor(b / 3)) + Math.abs(a % 3 - b % 3) === 1;
+  const isSolved = () => state.every((value, index) => value === solved[index]);
+  const render = () => {
+    board.replaceChildren();
+    state.forEach((value, index) => {
+      if (!value) {
+        const blank = document.createElement("span");
+        blank.className = "trace-puzzle-blank";
+        blank.setAttribute("aria-hidden", "true");
+        board.appendChild(blank);
+        return;
+      }
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "trace-tile";
+      tile.style.setProperty("--tile-color", colors[value - 1]);
+      tile.setAttribute("aria-label", `移动第 ${value} 块：${labels[value - 1]}`);
+      tile.innerHTML = `<b>${String(value).padStart(2, "0")}</b><span>${labels[value - 1]}</span>`;
+      tile.addEventListener("click", () => {
+        const blankIndex = state.indexOf(0);
+        if (!adjacent(index, blankIndex)) return;
+        [state[index], state[blankIndex]] = [state[blankIndex], state[index]];
+        moves += 1;
+        render();
+      });
+      board.appendChild(tile);
+    });
+    const complete = isSolved();
+    board.classList.toggle("is-solved", complete);
+    status.classList.toggle("is-solved", complete);
+    moveCounter.textContent = moves;
+    status.querySelector("strong").textContent = complete ? "证据链已经连续" : "记录仍在错位";
+    status.querySelector("p").textContent = complete
+      ? "八项记录已经按交接顺序归位，这台设备的后半生具备了最小可核验链条。"
+      : "点击空格旁的方块移动。拼合后，八项记录将形成连续顺序。";
+  };
+  const shuffle = () => {
+    state = [...solved];
+    let lastBlank = -1;
+    for (let step = 0; step < 80; step += 1) {
+      const blankIndex = state.indexOf(0);
+      const candidates = state
+        .map((_, index) => index)
+        .filter(index => adjacent(index, blankIndex) && index !== lastBlank);
+      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+      lastBlank = blankIndex;
+      [state[blankIndex], state[chosen]] = [state[chosen], state[blankIndex]];
+    }
+    if (isSolved()) [state[7], state[8]] = [state[8], state[7]];
+    moves = 0;
+    render();
+  };
+  shuffleButton.addEventListener("click", shuffle);
+  shuffle();
+}
+
+function setupTraceVerifier() {
+  const verifier = document.getElementById("traceVerifier");
+  if (!verifier) return;
+  const checks = [...verifier.querySelectorAll(".trace-check")];
+  const score = document.getElementById("traceScore");
+  const ring = verifier.querySelector(".trace-result-ring");
+  const ringValue = document.getElementById("traceRingValue");
+  const label = document.getElementById("traceResultLabel");
+  const title = document.getElementById("traceResultTitle");
+  const text = document.getElementById("traceResultText");
+  const evidence = [...verifier.querySelectorAll(".trace-evidence-strip span")];
+  const resultCopy = [
+    ["记录尚未开始", "交出设备，不等于完成回收。", "至少确认接手主体、交接位置和处理方式，让设备离开视线以后仍有一条能被追问的路线。"],
+    ["已确认一项", "一条线索，尚不足以还原去向。", "单独的企业名称、地址或处理承诺都可能成为孤立信息，还需要另外两项证据相互验证。"],
+    ["记录接近连续", "两项证据已连接，仍有一个责任断点。", "已经可以缩小追问范围，但缺失的一项仍可能让最终处理主体或材料终点消失。"],
+    ["最小证据链成立", "这次交接，已经具备可追问的起点。", "主体、位置和处理方式互相印证，设备离开用户后仍保留了一条可查询、可复盘的责任路线。"]
+  ];
+  const update = () => {
+    const active = new Set(checks.filter(item => item.classList.contains("is-active")).map(item => item.dataset.trace));
+    const count = active.size;
+    const percent = Math.round(count / checks.length * 100);
+    score.textContent = `${count}/3`;
+    ring.style.setProperty("--trace-progress", `${count * 120}deg`);
+    ringValue.textContent = percent;
+    [label.textContent, title.textContent, text.textContent] = resultCopy[count];
+    evidence.forEach((item, index) => {
+      const enabled = (index < 2 && active.has("owner")) || (index === 2 && active.has("place")) || (index > 2 && active.has("process"));
+      item.classList.toggle("is-active", enabled);
+    });
+  };
+  checks.forEach(check => check.addEventListener("click", () => {
+    const active = check.classList.toggle("is-active");
+    check.setAttribute("aria-pressed", String(active));
+    check.querySelector("i").textContent = active ? "凭证已点亮" : "等待核验";
+    update();
+  }));
+  update();
 }
 
 function setupRoutes() {
-  const box = document.getElementById("routeBox");
-  const visual = document.querySelector(".route-visual b");
-  if (!box || !visual) return;
-  document.querySelectorAll(".route-tab").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".route-tab").forEach(b => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const copy = routeCopy[btn.dataset.route];
-      box.innerHTML = `<h3>${copy.title}</h3><p>${copy.text}</p>`;
-      visual.textContent = copy.label;
-    });
-  });
+  setupTracePuzzle();
+  setupTraceVerifier();
 }
 
 function setupToolbar() {
