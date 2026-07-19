@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>代价：谁离垃圾更近</title>
-    <link rel="stylesheet" href="styles.css?v=20260719-31">
+    <link rel="stylesheet" href="styles.css?v=20260719-32">
   <link rel="icon" href="data:,">
 </head>
 <body class="chapter-page unequal-page">
@@ -136,10 +136,10 @@
         <div class="custody-track" role="tablist" aria-label="责任交接阶段">
           <span class="custody-line" aria-hidden="true"></span><span class="custody-progress" aria-hidden="true"></span>
           <div class="custody-device" aria-hidden="true"><i></i><b>旧</b></div>
-          <button class="custody-stop is-active" type="button" role="tab" aria-selected="true" data-index="0" data-title="消费者" data-action="完成换新，旧设备离开视线。" data-record="购买凭证、设备型号、原始所有者" data-missing="离开家庭后的第一次流向" data-cost="便利留在前端，去向责任开始向后移动" data-photo="assets/images/custody-consumer-china.jpg" data-photo-alt="中国家庭中工作人员拆下待更换的旧空调" data-photo-kicker="CHINA / HOME" data-photo-title="旧设备从家庭启程"><span>01</span><strong>消费者</strong><small>离开视线</small></button>
-          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="1" data-title="平台 / 商贩" data-action="估价、收货、转卖，决定下一站。" data-record="交易时间、报价、接收方" data-missing="跨平台转手后的连续位置" data-cost="掌握流向，却未必承担最终处理责任" data-photo="assets/images/custody-market-china.jpg" data-photo-alt="中国二手电子产品回收平台的线下门店" data-photo-kicker="CHINA / TRADE-IN" data-photo-title="门店接手估价与转卖"><span>02</span><strong>平台 / 商贩</strong><small>决定流向</small></button>
-          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="2" data-title="维修 / 翻新者" data-action="拆机、更换零件，让设备重新进入市场。" data-record="故障部件、维修动作、再售状态" data-missing="被替换零件与材料的最终去向" data-cost="延长寿命，也接住隐私、质量与职业暴露" data-photo="assets/images/custody-repair-china.jpg" data-photo-alt="中国手机维修工程师在工位检修故障屏幕" data-photo-kicker="CHINA / REPAIR" data-photo-title="维修工位拆机换件"><span>03</span><strong>维修 / 翻新</strong><small>延长寿命</small></button>
-          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="3" data-title="拆解末端" data-action="破碎、分拣、提取，让设备变成材料。" data-record="拆解批次、材料种类、处理方式" data-missing="前序所有权与完整设备身份" data-cost="议价权最低，粉尘、烟雾和废液最接近身体" data-photo="assets/images/custody-dismantling-china.jpg" data-photo-alt="中国正规废旧家电拆解生产线上的工作人员" data-photo-kicker="CHINA / DISMANTLING" data-photo-title="正规拆解线分拣材料"><span>04</span><strong>拆解末端</strong><small>成为材料</small></button>
+          <button class="custody-stop is-active" type="button" role="tab" aria-selected="true" data-index="0" data-title="消费者" data-action="完成换新，旧设备离开视线。"><span>01</span><strong>消费者</strong><small>离开视线</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="1" data-title="平台 / 商贩" data-action="估价、收货、转卖，决定下一站。"><span>02</span><strong>平台 / 商贩</strong><small>决定流向</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="2" data-title="维修 / 翻新者" data-action="拆机、更换零件，让设备重新进入市场。"><span>03</span><strong>维修 / 翻新</strong><small>延长寿命</small></button>
+          <button class="custody-stop" type="button" role="tab" aria-selected="false" data-index="3" data-title="拆解末端" data-action="破碎、分拣、提取，让设备变成材料。"><span>04</span><strong>拆解末端</strong><small>成为材料</small></button>
         </div>
         <div class="custody-receipt" aria-live="polite">
           <div class="custody-receipt-head"><span id="custodyIndex">HANDOVER 01 / 04</span><b id="custodyTitle">消费者</b><small>责任交接单</small></div>
@@ -153,12 +153,22 @@
             <div class="custody-lens-panel" role="tabpanel">
               <span id="custodyLensCode">TRACE 01 / RECORD</span>
               <strong id="custodyLensTitle">留下的记录</strong>
-              <p id="custodyLensText">购买凭证、设备型号、原始所有者</p>
+              <p id="custodyLensText">购买凭证、设备型号和原始所有者仍能把设备与一个家庭对应起来；但只有在上门回收、门店接收和平台订单被写入同一条记录时，这份身份才会跟着旧设备继续移动。</p>
             </div>
           </div>
-          <figure class="custody-photo" id="custodyPhotoPanel">
-            <img id="custodyPhoto" src="assets/images/custody-consumer-china.jpg" alt="中国家庭中工作人员拆下待更换的旧空调" loading="lazy" decoding="async">
-            <figcaption><span id="custodyPhotoKicker">CHINA / HOME</span><strong id="custodyPhotoTitle">旧设备从家庭启程</strong></figcaption>
+        </div>
+        <div class="custody-gallery" id="custodyGallery" aria-live="polite" aria-label="当前交接阶段的中国现场照片">
+          <figure class="custody-gallery-item">
+            <img id="custodyGalleryImage0" src="assets/images/custody-consumer-01-china.jpg" alt="天津社区工作人员从居民家中搬出废旧洗衣机" loading="lazy" decoding="async">
+            <figcaption><span id="custodyGalleryKicker0">CHINA / HOME</span><strong id="custodyGalleryTitle0">旧家电离开家庭</strong></figcaption>
+          </figure>
+          <figure class="custody-gallery-item">
+            <img id="custodyGalleryImage1" src="assets/images/custody-consumer-02-china.jpg" alt="工作人员将回收的旧家电运往临时仓储点" loading="lazy" decoding="async">
+            <figcaption><span id="custodyGalleryKicker1">CHINA / TRANSFER</span><strong id="custodyGalleryTitle1">从上门回收到临时仓</strong></figcaption>
+          </figure>
+          <figure class="custody-gallery-item">
+            <img id="custodyGalleryImage2" src="assets/images/custody-consumer-03-china.jpg" alt="天津居民社区设置的废旧家电回收点" loading="lazy" decoding="async">
+            <figcaption><span id="custodyGalleryKicker2">CHINA / COMMUNITY</span><strong id="custodyGalleryTitle2">社区回收点接住第一程</strong></figcaption>
           </figure>
         </div>
       </div>
@@ -166,12 +176,27 @@
 
     <section class="story-section">
       <div class="section-title"><p class="eyebrow">Words of risk</p><h2>这条链上的关键词，越来越接近身体。</h2></div>
-      <div class="word-cloud word-cloud--risk" data-cloud="risk" aria-label="风险关键词词云"></div>
+      <div class="risk-lexicon" id="riskLexicon" aria-label="从旧设备到身体暴露的风险词谱">
+        <div class="risk-lexicon-head"><span>DEVICE → PROCESS → MEDIUM → BODY</span><strong>词语不是并列的，它们有方向。</strong><small>悬停或点击任一节点，查看风险如何沿着处理链传递</small></div>
+        <div class="risk-lexicon-flow">
+          <svg class="risk-lexicon-lines" viewBox="0 0 1000 330" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M185 78 C260 78 270 72 335 72 S455 64 535 64 S680 62 800 62"/>
+            <path d="M185 165 C260 165 270 145 335 145 S455 144 535 144 S680 146 800 146"/>
+            <path d="M185 252 C260 252 270 235 335 235 S455 228 535 228 S680 230 800 230"/>
+            <path d="M185 78 C280 78 275 235 335 235 M385 72 C470 72 450 228 535 228 M585 144 C680 144 690 230 800 230"/>
+          </svg>
+          <div class="risk-lexicon-column"><span>01 / 设备</span><button class="risk-term is-active" type="button" data-code="DEVICE 01" data-title="旧手机与旧家电" data-text="设备离开原使用场景时仍有型号、序列号和原主人。真正的风险从身份与去向开始脱钩时出现。">旧设备</button><button class="risk-term" type="button" data-code="DEVICE 02" data-title="电池与屏幕" data-text="体积更小、价值更分散的部件更容易脱离整机记录，进入混合收运或无票据交易。">电池 / 屏幕</button><button class="risk-term" type="button" data-code="DEVICE 03" data-title="主板与线缆" data-text="主板和线缆拥有可回收金属，也夹带阻燃剂、焊料与塑料；材料价值与处理风险从此并存。">主板 / 线缆</button></div>
+          <div class="risk-lexicon-column"><span>02 / 工序</span><button class="risk-term" type="button" data-code="PROCESS 01" data-title="拆机与焊接" data-text="拆机使设备身份变成零件批次；焊接和加热则把固态材料转化为更容易吸入的烟雾。">拆机 / 焊接</button><button class="risk-term" type="button" data-code="PROCESS 02" data-title="破碎与分拣" data-text="破碎提高材料分离效率，也制造细小粉尘；分拣越依赖手工，暴露越贴近工人的呼吸与皮肤。">破碎 / 分拣</button><button class="risk-term" type="button" data-code="PROCESS 03" data-title="酸洗与提取" data-text="湿法提取把金属从部件中分离，却可能产生腐蚀性废液。没有封闭系统与末端处理，污染会离开工位进入水土。">酸洗 / 提取</button></div>
+          <div class="risk-lexicon-column"><span>03 / 介质</span><button class="risk-term" type="button" data-code="MEDIUM 01" data-title="粉尘" data-text="粉尘不是抽象污染物，而是破碎、打磨和分选时贴近呼吸区的颗粒，也是风险进入身体最快的路径之一。">粉尘</button><button class="risk-term" type="button" data-code="MEDIUM 02" data-title="烟雾" data-text="加热、焊接和不规范燃烧让材料进入空气。前端看不见的处理过程，在末端变成可吸入的烟雾。">烟雾</button><button class="risk-term" type="button" data-code="MEDIUM 03" data-title="废液与残渣" data-text="酸洗液、清洗液和不能再利用的残渣若缺少连续记录，风险会从厂内转移到排水、土壤与周边社区。">废液 / 残渣</button></div>
+          <div class="risk-lexicon-column"><span>04 / 身体</span><button class="risk-term" type="button" data-code="BODY 01" data-title="呼吸与皮肤" data-text="风险首先落到具体接触者身上：谁拆开、谁打磨、谁清洗，谁就更接近吸入与皮肤接触。">呼吸 / 皮肤</button><button class="risk-term" type="button" data-code="BODY 02" data-title="劳动者与家庭" data-text="工作场所与居住空间相邻时，风险不会在下班后停止。工作服、尘埃与废料可能把暴露带回家庭。">劳动 / 家庭</button><button class="risk-term" type="button" data-code="BODY 03" data-title="儿童与女性" data-text="世界卫生组织特别提示儿童和女性在非正规处理部门及周边环境中的暴露风险；代价常由议价权更低的人承担。">儿童 / 女性</button></div>
+        </div>
+        <div class="risk-lexicon-readout" aria-live="polite"><span id="riskLexiconCode">DEVICE 01</span><strong id="riskLexiconTitle">旧手机与旧家电</strong><p id="riskLexiconText">设备离开原使用场景时仍有型号、序列号和原主人。真正的风险从身份与去向开始脱钩时出现。</p></div>
+      </div>
     </section>
 
     <a class="next-gate" href="afterlife.html"><span>一台旧设备，还能被怎样处理？</span><small>点击进入下一页</small></a>
   </main>
-    <script src="script.js?v=20260719-31"></script>
+    <script src="script.js?v=20260719-32"></script>
 </body>
 </html>
 

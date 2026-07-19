@@ -389,7 +389,7 @@
 .custody-stop small { color: rgba(255,255,255,.56); font-size: 12px; }
 .work-chain-title { max-width: none; }
 .work-chain-title h2 { max-width: none; font-size: clamp(36px, 3.2vw, 48px); white-space: nowrap; }
-.custody-receipt { display: grid; grid-template-columns: minmax(180px, .62fr) minmax(210px, .82fr) minmax(320px, 1.2fr) minmax(250px, .96fr); min-height: 260px; border-top: 1px solid rgba(255,255,255,.16); }
+.custody-receipt { display: grid; grid-template-columns: minmax(180px, .58fr) minmax(230px, .76fr) minmax(500px, 1.8fr); min-height: 292px; border-top: 1px solid rgba(255,255,255,.16); }
 .custody-receipt-head { padding: 24px; background: var(--green); color: #07100e; }
 .custody-receipt-head span, .custody-receipt-head small { display: block; font-size: 11px; font-weight: 900; }
 .custody-receipt-head b { display: block; margin: 9px 0; font-size: 28px; }
@@ -404,14 +404,35 @@
 .custody-lens-panel { min-width: 0; padding: 18px 20px 20px; background: linear-gradient(120deg, rgba(200,240,0,.045), transparent 58%); }
 .custody-lens-panel > span { color: var(--green); font-size: 9px; font-weight: 900; }
 .custody-lens-panel > strong { display: block; margin: 5px 0 8px; color: var(--orange); font-size: 16px; }
-.custody-lens-panel > p { margin: 0; max-width: 430px; color: rgba(255,255,255,.76); font-size: 14px; line-height: 1.65; }
-.custody-photo { position: relative; min-width: 0; min-height: 260px; margin: 0; overflow: hidden; border-left: 1px solid rgba(255,255,255,.14); background: #17201d; isolation: isolate; }
-.custody-photo::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 36%, rgba(4,10,8,.9) 100%); pointer-events: none; }
-.custody-photo img { width: 100%; height: 100%; min-height: 260px; display: block; object-fit: cover; object-position: center; filter: saturate(.9) contrast(1.04); transform: scale(1.015); transition: transform .55s ease, filter .35s ease; }
-.custody-photo:hover img { filter: saturate(1.08) contrast(1.06); transform: scale(1.055); }
-.custody-photo figcaption { position: absolute; inset: auto 18px 18px; z-index: 2; color: #fff; }
-.custody-photo figcaption span { display: block; color: var(--green); font-size: 9px; font-weight: 900; }
-.custody-photo figcaption strong { display: block; margin-top: 5px; font-size: 17px; line-height: 1.25; }
+.custody-lens-panel > p { margin: 0; max-width: 780px; color: rgba(255,255,255,.78); font-size: 14px; line-height: 1.72; }
+.custody-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; padding-top: 1px; background: rgba(255,255,255,.14); }
+.custody-gallery-item { position: relative; min-width: 0; aspect-ratio: 16 / 10; margin: 0; overflow: hidden; background: #17201d; isolation: isolate; }
+.custody-gallery-item::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 44%, rgba(4,10,8,.92) 100%); pointer-events: none; }
+.custody-gallery-item img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; filter: saturate(.88) contrast(1.04); transform: scale(1.01); transition: transform .55s ease, filter .35s ease; }
+.custody-gallery-item:hover img { filter: saturate(1.05) contrast(1.06); transform: scale(1.055); }
+.custody-gallery-item figcaption { position: absolute; inset: auto 18px 17px; z-index: 2; color: #fff; }
+.custody-gallery-item figcaption span { display: block; color: var(--green); font-size: 10px; font-weight: 900; }
+.custody-gallery-item figcaption strong { display: block; margin-top: 5px; font-size: 17px; line-height: 1.28; }
+
+.risk-lexicon { color: #fff; background: #07100e; border-top: 5px solid var(--orange); box-shadow: var(--shadow); }
+.risk-lexicon-head { display: grid; grid-template-columns: minmax(230px, .75fr) minmax(360px, 1.25fr) auto; gap: 22px; align-items: end; padding: 24px 28px 20px; border-bottom: 1px solid rgba(255,255,255,.13); }
+.risk-lexicon-head span { color: var(--orange); font-size: 12px; font-weight: 900; }
+.risk-lexicon-head strong { font-size: clamp(22px, 2vw, 31px); line-height: 1.15; }
+.risk-lexicon-head small { max-width: 250px; color: rgba(255,255,255,.55); font-size: 12px; line-height: 1.55; text-align: right; }
+.risk-lexicon-flow { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 52px; min-height: 370px; padding: 38px 34px 32px; overflow: hidden; }
+.risk-lexicon-lines { position: absolute; inset: 46px 5% 32px; z-index: 0; width: 90%; height: calc(100% - 78px); }
+.risk-lexicon-lines path { fill: none; stroke: rgba(200,240,0,.22); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.risk-lexicon-lines path:last-child { stroke: rgba(255,174,0,.18); stroke-dasharray: 7 8; }
+.risk-lexicon-column { position: relative; z-index: 1; display: grid; grid-template-rows: auto repeat(3, 1fr); gap: 12px; min-width: 0; }
+.risk-lexicon-column > span { color: rgba(255,255,255,.46); font-size: 11px; font-weight: 900; }
+.risk-term { position: relative; min-height: 74px; padding: 14px 18px; color: rgba(255,255,255,.78); background: #111b18; border: 1px solid #33413d; text-align: left; font-size: clamp(15px, 1.35vw, 20px); font-weight: 900; line-height: 1.25; cursor: pointer; transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease; }
+.risk-term::before { content: ""; position: absolute; left: -7px; top: 50%; width: 12px; height: 12px; background: #07100e; border: 2px solid var(--steel); border-radius: 50%; transform: translateY(-50%); }
+.risk-term:hover, .risk-term:focus, .risk-term.is-active { color: #07100e; background: var(--green); border-color: var(--green); outline: none; transform: translateY(-2px); }
+.risk-term:hover::before, .risk-term:focus::before, .risk-term.is-active::before { background: var(--orange); border-color: #07100e; }
+.risk-lexicon-readout { display: grid; grid-template-columns: 190px minmax(180px, .7fr) minmax(440px, 1.7fr); gap: 24px; align-items: center; min-height: 136px; padding: 24px 30px; background: #101a17; border-top: 1px solid rgba(255,255,255,.13); }
+.risk-lexicon-readout > span { color: var(--green); font-size: 11px; font-weight: 900; }
+.risk-lexicon-readout > strong { color: var(--orange); font-size: clamp(23px, 2.2vw, 34px); line-height: 1.1; }
+.risk-lexicon-readout > p { margin: 0; max-width: 760px; color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.75; }
 
 @media (max-width: 1100px) {
   .risk-transfer-main { grid-template-columns: 1fr; }
@@ -419,8 +440,11 @@
   .risk-transfer-readout { min-height: 190px; }
   .custody-receipt { grid-template-columns: 180px 1fr; }
   .custody-lens { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.14); border-left: 0; }
-  .custody-photo { grid-column: 1 / -1; min-height: 320px; border-top: 1px solid rgba(255,255,255,.14); border-left: 0; }
-  .custody-photo img { min-height: 320px; }
+  .risk-lexicon-head { grid-template-columns: 1fr 1fr; }
+  .risk-lexicon-head small { grid-column: 1 / -1; max-width: none; text-align: left; }
+  .risk-lexicon-flow { gap: 20px; padding-inline: 22px; }
+  .risk-lexicon-readout { grid-template-columns: 150px 1fr; }
+  .risk-lexicon-readout > p { grid-column: 1 / -1; }
 }
 @media (max-width: 700px) {
   .risk-transfer-board { padding: 14px; }
@@ -441,13 +465,24 @@
   .custody-stop.is-active { border-color: var(--green); }
   .custody-receipt { grid-template-columns: 1fr; }
   .work-chain-title h2 { font-size: 36px; white-space: normal; }
-  .custody-receipt > p, .custody-lens, .custody-photo { grid-column: 1; }
+  .custody-receipt > p, .custody-lens { grid-column: 1; }
   .custody-lens { grid-template-rows: auto auto; }
   .custody-lens-tabs { grid-template-columns: 1fr; }
   .custody-lens-tab { min-height: 54px; padding: 11px 14px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); }
   .custody-lens-tab b { white-space: normal; }
   .custody-lens-panel { min-height: 124px; padding: 18px 16px 22px; }
-  .custody-photo, .custody-photo img { min-height: 240px; }
+  .custody-gallery { grid-template-columns: 82vw 82vw 82vw; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .custody-gallery-item { aspect-ratio: 4 / 3; scroll-snap-align: start; }
+  .risk-lexicon-head { grid-template-columns: 1fr; align-items: start; padding: 20px; }
+  .risk-lexicon-head small { grid-column: auto; }
+  .risk-lexicon-flow { grid-template-columns: 1fr; gap: 24px; padding: 24px 20px; }
+  .risk-lexicon-lines { display: none; }
+  .risk-lexicon-column { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 7px; }
+  .risk-lexicon-column > span { grid-column: 1 / -1; }
+  .risk-term { min-height: 76px; padding: 10px; font-size: 14px; text-align: center; }
+  .risk-term::before { left: 50%; top: -6px; transform: translate(-50%, 0); }
+  .risk-lexicon-readout { grid-template-columns: 1fr; gap: 8px; padding: 22px 20px; }
+  .risk-lexicon-readout > p { grid-column: auto; }
 }
 
 /* Missing chapter v4: precise ring readings and an explicit gap dashboard. */

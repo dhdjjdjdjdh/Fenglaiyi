@@ -1212,10 +1212,190 @@ function setupCustodyLedger() {
   activateLens(lensTabs[0]);
 }
 
+function setupCustodyLedgerV2() {
+  const ledger = document.getElementById("custodyLedger");
+  if (!ledger) return;
+
+  const stops = [...ledger.querySelectorAll(".custody-stop")];
+  const lensTabs = [...ledger.querySelectorAll(".custody-lens-tab")];
+  const indexLabel = document.getElementById("custodyIndex");
+  const title = document.getElementById("custodyTitle");
+  const action = document.getElementById("custodyAction");
+  const lensCode = document.getElementById("custodyLensCode");
+  const lensTitle = document.getElementById("custodyLensTitle");
+  const lensText = document.getElementById("custodyLensText");
+  const gallery = document.getElementById("custodyGallery");
+  const galleryImages = [0, 1, 2].map(index => document.getElementById(`custodyGalleryImage${index}`));
+  const galleryKickers = [0, 1, 2].map(index => document.getElementById(`custodyGalleryKicker${index}`));
+  const galleryTitles = [0, 1, 2].map(index => document.getElementById(`custodyGalleryTitle${index}`));
+  const lensMeta = {
+    record: { code: "RECORD", title: "留下的记录" },
+    missing: { code: "MISSING", title: "正在丢失" },
+    cost: { code: "COST", title: "谁在承担" }
+  };
+  const custodyStories = [
+    {
+      record: "购买凭证、设备型号和原始所有者仍能把设备与一个家庭对应起来；但只有在上门回收、门店接收和平台订单被写入同一条记录时，这份身份才会跟着旧设备继续移动。",
+      missing: "旧设备一离开家庭，消费者通常只知道“已经卖掉”或“已经收走”。下一位接手者、临时仓位置与最终处理企业若没有回填，第一处追踪断点就在家门外出现。",
+      cost: "消费者获得换新便利，也最早退出设备生命周期。低报价、隐私清除和去向核验的时间成本，被转交给回收员、平台与后端处理者。",
+      photos: [
+        ["assets/images/custody-consumer-01-china.jpg", "天津社区工作人员从居民家中搬出废旧洗衣机", "CHINA / HOME", "旧家电离开家庭"],
+        ["assets/images/custody-consumer-02-china.jpg", "工作人员将回收的旧家电运往临时仓储点", "CHINA / TRANSFER", "从上门回收到临时仓"],
+        ["assets/images/custody-consumer-03-china.jpg", "天津居民社区设置的废旧家电回收点", "CHINA / COMMUNITY", "社区回收点接住第一程"]
+      ]
+    },
+    {
+      record: "估价单、验机结果、收货时间和接收方可以留下交易轨迹；若平台订单、线下转卖和仓储批次使用同一设备编号，跨手交易仍可被复原。",
+      missing: "设备可能在线上线下多次转卖，型号保留，连续位置却逐渐消失。平台往往记录一笔成交，却未必记录商品离开后被谁拆开、送往哪里。",
+      cost: "平台和商贩掌握流量、报价与下一站选择权，却不一定承担最终处置责任。利润在交易节点实现，滞销、退货和流向不明的压力继续下沉。",
+      photos: [
+        ["assets/images/custody-market-01-china.jpg", "中国年轻消费者参与旧电子产品循环活动", "CHINA / CIRCULATION", "循环消费成为新入口"],
+        ["assets/images/custody-market-02-china.jpg", "中国二手门店工作人员检查待流通设备", "CHINA / SECOND-HAND", "门店验机决定下一站"],
+        ["assets/images/custody-market-03-china.jpg", "中国二手商品门店的回收交易现场", "CHINA / TRADE", "一次成交留下多少记录"]
+      ]
+    },
+    {
+      record: "维修单能够记录故障、替换零件、维修动作与再售状态。若旧电池、破损屏幕和主板也按批次登记，延寿才不会以材料失踪为代价。",
+      missing: "设备修好后仍有身份，被换下的零件却常从记录中消失。它们体积小、价值分散，更容易进入无票据的回收、暂存与混合运输。",
+      cost: "维修延长整机寿命，却把拆机粉尘、焊接烟雾、隐私清除和质量担保集中到工位。延寿的社会收益，与职业暴露和售后责任并不总由同一方承担。",
+      photos: [
+        ["assets/images/custody-repair-01-china.jpg", "中国报道中的手机与拆下部件检测现场", "CHINA / PARTS", "整机被拆成零件清单"],
+        ["assets/images/custody-repair-02-china.jpg", "中国手机数据安全处置中心的设备工位", "CHINA / DATA", "数据清除也是维修责任"],
+        ["assets/images/custody-repair-03-china.jpg", "中国实验室工作人员检测旧手机数据与部件", "CHINA / LAB", "检测记录能否跟随设备"]
+      ]
+    },
+    {
+      record: "正规拆解可以留下入厂批次、设备数量、材料种类、危险废物去向与处理方式。这些记录决定材料是否真正进入合规再生链。",
+      missing: "进入破碎和分拣后，完整设备被还原为金属、塑料、电池与粉末，前序所有权和单机身份随之终止。若批次记录不完整，责任只能追到厂门，无法追到材料末端。",
+      cost: "拆解者处在议价权最低、暴露最直接的位置。粉尘、烟雾、废液和危险材料贴近身体，而前端换新产生的便利与利润早已离开现场。",
+      photos: [
+        ["assets/images/custody-dismantling-01-china.jpg", "中国正规拆解企业中工人处理废旧冰箱", "CHINA / FACTORY", "废旧冰箱进入拆解线"],
+        ["assets/images/custody-dismantling-02-china.jpg", "中国正规拆解企业分拣电子废弃物部件", "CHINA / SORTING", "部件按材料重新分类"],
+        ["assets/images/custody-dismantling-03-china.jpg", "中国正规企业在封闭工位拆解废旧显示设备", "CHINA / DISMANTLING", "封闭工位接住末端风险"]
+      ]
+    }
+  ];
+
+  let activeStop = stops[0];
+  let activeLens = "record";
+
+  custodyStories.flatMap(stage => stage.photos).forEach(([src]) => {
+    const preload = new Image();
+    preload.src = src;
+  });
+
+  const renderLens = () => {
+    const index = Number(activeStop.dataset.index || 0);
+    const meta = lensMeta[activeLens];
+    const story = custodyStories[index];
+    lensCode.textContent = `TRACE ${String(index + 1).padStart(2, "0")} / ${meta.code}`;
+    lensTitle.textContent = meta.title;
+    lensText.textContent = story[activeLens];
+  };
+
+  const renderGallery = index => {
+    custodyStories[index].photos.forEach(([src, alt, kicker, photoTitle], photoIndex) => {
+      if (galleryImages[photoIndex]) {
+        galleryImages[photoIndex].src = src;
+        galleryImages[photoIndex].alt = alt;
+      }
+      if (galleryKickers[photoIndex]) galleryKickers[photoIndex].textContent = kicker;
+      if (galleryTitles[photoIndex]) galleryTitles[photoIndex].textContent = photoTitle;
+    });
+    if (gallery && typeof gallery.animate === "function") {
+      gallery.animate(
+        [{ opacity: .38, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }],
+        { duration: 420, easing: "cubic-bezier(.2,.7,.2,1)" }
+      );
+    }
+  };
+
+  const activate = stop => {
+    const index = Number(stop.dataset.index || 0);
+    activeStop = stop;
+    ledger.style.setProperty("--stage", index);
+    stops.forEach(item => {
+      const active = item === stop;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+    });
+    indexLabel.textContent = `HANDOVER ${String(index + 1).padStart(2, "0")} / 04`;
+    title.textContent = stop.dataset.title;
+    action.textContent = stop.dataset.action;
+    renderLens();
+    renderGallery(index);
+  };
+
+  const activateLens = tab => {
+    activeLens = tab.dataset.lens;
+    lensTabs.forEach(item => {
+      const active = item === tab;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-selected", String(active));
+    });
+    renderLens();
+  };
+
+  stops.forEach((stop, index) => {
+    ["mouseenter", "focus", "click"].forEach(eventName => stop.addEventListener(eventName, () => activate(stop)));
+    stop.addEventListener("keydown", event => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = stops[(index + direction + stops.length) % stops.length];
+      next.focus();
+      activate(next);
+    });
+  });
+  lensTabs.forEach((tab, index) => {
+    ["mouseenter", "focus", "click"].forEach(eventName => tab.addEventListener(eventName, () => activateLens(tab)));
+    tab.addEventListener("keydown", event => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const next = lensTabs[(index + direction + lensTabs.length) % lensTabs.length];
+      next.focus();
+      activateLens(next);
+    });
+  });
+
+  activate(stops[0]);
+  activateLens(lensTabs[0]);
+}
+
+function setupRiskLexicon() {
+  const lexicon = document.getElementById("riskLexicon");
+  if (!lexicon) return;
+  const terms = [...lexicon.querySelectorAll(".risk-term")];
+  const code = document.getElementById("riskLexiconCode");
+  const title = document.getElementById("riskLexiconTitle");
+  const copy = document.getElementById("riskLexiconText");
+  const readout = lexicon.querySelector(".risk-lexicon-readout");
+
+  const activate = term => {
+    terms.forEach(item => item.classList.toggle("is-active", item === term));
+    code.textContent = term.dataset.code;
+    title.textContent = term.dataset.title;
+    copy.textContent = term.dataset.text;
+    if (readout && typeof readout.animate === "function") {
+      readout.animate(
+        [{ opacity: .46, transform: "translateY(5px)" }, { opacity: 1, transform: "translateY(0)" }],
+        { duration: 260, easing: "ease-out" }
+      );
+    }
+  };
+
+  terms.forEach(term => {
+    ["mouseenter", "focus", "click"].forEach(eventName => term.addEventListener(eventName, () => activate(term)));
+  });
+  activate(terms[0]);
+}
+
 function setupRadar() {
   drawPressureDashboard();
   setupRiskTransferBoard();
-  setupCustodyLedger();
+  setupCustodyLedgerV2();
+  setupRiskLexicon();
 }
 
 function drawWordCloud() {
