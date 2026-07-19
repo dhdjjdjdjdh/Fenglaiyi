@@ -1171,7 +1171,10 @@ button { font: inherit; }
 .page-hero { min-height: 76vh; align-items: end; }
 .page-hero::before { content: ""; position: absolute; inset: 0; opacity: .54; background-size: cover; background-position: center; }
 .page-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.48) 56%, rgba(0,0,0,.16)); }
-.page-hero--global::before { background-image: url("assets/images/circuit-boards.jpg"); }
+.page-hero--global::before {
+  background-image: url("assets/images/monitor-pile.jpg");
+  background-position: center 46%;
+}
 .page-hero--china::before { background-image: url("assets/images/huaqiangbei-2.jpg"); background-position: center 42%; }
 .page-hero--missing::before { background-image: url("assets/images/wires.jpg"); }
 .page-hero--unequal::before { background-image: url("assets/images/circuit-boards.jpg"); }
@@ -1504,6 +1507,11 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .chain-strip strong { display: block; color: var(--orange); font-size: 16px; }
 .next-gate { display: grid; place-items: center; min-height: 360px; margin-top: 60px; color: var(--orange); background: #000; text-align: center; text-decoration: none; }
 .next-gate span { max-width: 880px; font-size: clamp(38px, 6vw, 72px); line-height: 1.12; font-weight: 900; }
+.unequal-page .next-gate span {
+  max-width: min(1180px, calc(100% - 48px));
+  font-size: clamp(38px, 4.55vw, 64px);
+  white-space: nowrap;
+}
 .next-gate small { display: block; margin-top: 18px; color: var(--orange); font-size: 24px; }
 .footer { padding: 36px max(20px, calc((100vw - 1120px) / 2)); color: rgba(255,255,255,.72); background: #080c0b; }
 .footer p { margin: 0; }
@@ -1938,6 +1946,11 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .shot-search { font-size: 22px; }
   .hundred-grid { grid-template-columns: repeat(10, 1fr); }
   .next-gate { min-height: 300px; padding: 30px 14px; }
+  .unequal-page .next-gate span {
+    max-width: 100%;
+    font-size: clamp(36px, 11vw, 52px);
+    white-space: normal;
+  }
   h1 { font-size: clamp(44px, 15vw, 70px); }
   .page-hero--global h1, .page-hero--china h1 { font-size: clamp(42px, 13vw, 62px); line-height: 1.12; }
   .china-ranking-section, .china-production-section { padding-top: 78px; padding-bottom: 78px; }
