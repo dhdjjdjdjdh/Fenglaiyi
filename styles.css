@@ -26,6 +26,12 @@
   font-size: clamp(30px, 3.35vw, 46px);
   line-height: 1.14;
 }
+.missing-page .text-column mark {
+  padding: 0 .1em;
+  color: #e65c37;
+  background: transparent;
+  font-weight: 900;
+}
 .health-risk-panel.viz-panel {
   padding: 0;
   overflow: visible;
