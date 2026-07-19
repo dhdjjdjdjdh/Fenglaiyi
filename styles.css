@@ -23,8 +23,15 @@
 }
 .unequal-page .page-hero--unequal h1 span { display: block; white-space: nowrap; }
 .missing-page .missing-dashboard-section .text-column h2 {
-  font-size: clamp(30px, 3.35vw, 46px);
+  width: 100%;
+  font-size: clamp(30px, 3.05vw, 42px);
   line-height: 1.14;
+}
+.missing-page .missing-dashboard-section .text-column h2 span {
+  display: block;
+  white-space: nowrap;
+  text-align: justify;
+  text-align-last: justify;
 }
 .missing-page .text-column mark {
   padding: 0 .1em;
@@ -213,6 +220,11 @@
   .unequal-page .page-hero--unequal h1 { font-size: clamp(42px, 12.5vw, 58px); }
   .unequal-page .page-hero--unequal h1 span { white-space: normal; }
   .missing-page .missing-dashboard-section .text-column h2 { font-size: 35px; }
+  .missing-page .missing-dashboard-section .text-column h2 span {
+    white-space: normal;
+    text-align: left;
+    text-align-last: auto;
+  }
   .health-risk-dashboard { min-height: 0; padding: 14px; }
   .health-dashboard-head { align-items: flex-start; flex-direction: column; gap: 3px; }
   .health-dashboard-head h3 { font-size: 23px; }
