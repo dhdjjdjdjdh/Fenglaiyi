@@ -1930,8 +1930,221 @@ function setupTraceVerifier() {
 }
 
 function setupRoutes() {
-  setupTracePuzzle();
-  setupTraceVerifier();
+  setupRouteCommandDashboard();
+  setupChainDiagnostic();
+  setupEvidenceArchitecture();
+  setupEwasteMaze();
+}
+
+function setupRouteCommandDashboard() {
+  const dashboard = document.getElementById("routeCommandDashboard");
+  if (!dashboard) return;
+
+  const routes = {
+    drawer: {
+      name: "闲置",
+      score: "1 / 3 项可核验",
+      status: "位置可知，责任未交接",
+      copy: "设备仍在家庭或机构中，原位置清楚，但没有接收主体与末端处理凭证。",
+      checks: [true, false, false],
+      risk: 54,
+      riskText: "中等"
+    },
+    resale: {
+      name: "二手 / 维修",
+      score: "2 / 3 项可核验",
+      status: "寿命延长，所有权易断",
+      copy: "设备继续使用，但多次转手后，检测、数据清除和最终去向常被拆成不同记录。",
+      checks: [true, true, false],
+      risk: 68,
+      riskText: "偏高"
+    },
+    formal: {
+      name: "正规回收",
+      score: "3 / 3 项可核验",
+      status: "接收主体、位置与处理可查",
+      copy: "设备进入有资质渠道，交接、检测与末端处理能够相互印证。",
+      checks: [true, true, true],
+      risk: 22,
+      riskText: "较低"
+    },
+    informal: {
+      name: "未记录处理",
+      score: "0 / 3 项可核验",
+      status: "接手、位置与末端同时变暗",
+      copy: "设备离开原主后进入无凭证流通，收益被带走，风险与责任留在不可见处。",
+      checks: [false, false, false],
+      risk: 94,
+      riskText: "很高"
+    }
+  };
+  const buttons = [...dashboard.querySelectorAll("[data-route-command]")];
+  const checkRows = [...dashboard.querySelectorAll("[data-route-check]")];
+  const checkLabels = ["接收主体", "交接位置", "处理方式"];
+
+  const activate = route => {
+    const data = routes[route];
+    if (!data) return;
+    buttons.forEach(button => {
+      const active = button.dataset.routeCommand === route;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    dashboard.dataset.activeRoute = route;
+    document.getElementById("routeAuditScore").textContent = data.score;
+    document.getElementById("routeAuditName").textContent = data.name;
+    document.getElementById("routeAuditStatus").textContent = data.status;
+    document.getElementById("routeAuditCopy").textContent = data.copy;
+    checkRows.forEach((row, index) => {
+      const visible = data.checks[index];
+      row.classList.toggle("is-on", visible);
+      const value = row.querySelector("b");
+      if (value) value.textContent = visible ? "可查" : "缺失";
+      row.setAttribute("aria-label", `${checkLabels[index]}：${visible ? "可查" : "缺失"}`);
+    });
+    const riskBar = document.getElementById("routeRiskBar");
+    riskBar.style.width = `${data.risk}%`;
+    riskBar.style.background = data.risk < 35 ? "#c8f000" : data.risk < 75 ? "#ffae00" : "#e85d38";
+    document.getElementById("routeRiskText").textContent = data.riskText;
+  };
+
+  buttons.forEach(button => button.addEventListener("click", () => activate(button.dataset.routeCommand)));
+  activate("formal");
+}
+
+function setupChainDiagnostic() {
+  const dashboard = document.getElementById("chainDiagnosticDashboard");
+  if (!dashboard) return;
+
+  const routes = {
+    drawer: {
+      name: "闲置",
+      verdict: "记录停在原处",
+      checks: [true, true, false, false],
+      copy: "设备身份与原所有权仍可辨认，但没有正式交接，末端处理也尚未发生。"
+    },
+    resale: {
+      name: "二手 / 维修",
+      verdict: "转手越多，断点越多",
+      checks: [true, false, true, false],
+      copy: "设备继续使用，交接地点仍可能被找到；但所有权和最终处理凭证容易在多次转手中断开。"
+    },
+    formal: {
+      name: "正规回收",
+      verdict: "链条完整",
+      checks: [true, true, true, true],
+      copy: "设备身份贯穿交接、检测和末端处理，四项记录能够互相验证。"
+    },
+    informal: {
+      name: "未记录处理",
+      verdict: "记录失联",
+      checks: [false, false, false, false],
+      copy: "设备继续流动，公共记录却无法回答它是谁、由谁接手、在哪里以及如何被处理。"
+    }
+  };
+  const buttons = [...dashboard.querySelectorAll("[data-diagnostic-route]")];
+  const metrics = [...dashboard.querySelectorAll("[data-diagnostic-check]")];
+  const bars = [...dashboard.querySelectorAll(".diagnostic-bars i")];
+  const spineSegments = [...dashboard.querySelectorAll(".diagnostic-spine > i")];
+
+  const activate = route => {
+    const data = routes[route];
+    if (!data) return;
+    buttons.forEach(button => {
+      const active = button.dataset.diagnosticRoute === route;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+    dashboard.dataset.activeRoute = route;
+    document.getElementById("diagnosticVerdict").textContent = data.verdict;
+    document.getElementById("diagnosticRouteName").textContent = data.name;
+    document.getElementById("diagnosticNarrative").textContent = data.copy;
+    metrics.forEach((metric, index) => metric.classList.toggle("is-on", data.checks[index]));
+    bars.forEach((bar, index) => bar.classList.toggle("is-on", data.checks[index]));
+    spineSegments.forEach((segment, index) => {
+      segment.classList.toggle("is-on", data.checks[index] && data.checks[index + 1]);
+    });
+  };
+
+  buttons.forEach(button => button.addEventListener("click", () => activate(button.dataset.diagnosticRoute)));
+  activate("formal");
+}
+
+function setupEvidenceArchitecture() {
+  const architecture = document.getElementById("evidenceArchitecture");
+  if (!architecture) return;
+  const buttons = [...architecture.querySelectorAll("[data-evidence]")];
+  const copy = [
+    ["记录尚未开始", "点击上方三项问题，逐步建立最小责任链。"],
+    ["只有一条线索", "单项信息只能缩小追问范围，还不能独立证明设备的去向。"],
+    ["仍有一个责任断点", "两项证据已经相连，但缺失的一项仍会让责任在末端中断。"],
+    ["最小证据链成立", "主体、位置与处理方式彼此印证，这次交接已经具备可追问的起点。"]
+  ];
+
+  const update = () => {
+    const count = buttons.filter(button => button.getAttribute("aria-pressed") === "true").length;
+    document.getElementById("evidenceScore").textContent = count;
+    document.getElementById("evidenceCoreScore").textContent = `${count} / 3`;
+    document.getElementById("evidenceVerdict").textContent = copy[count][0];
+    document.getElementById("evidenceCopy").textContent = copy[count][1];
+    architecture.classList.toggle("evidence-complete", count === buttons.length);
+    architecture.style.setProperty("--evidence-progress", `${count / buttons.length * 100}%`);
+  };
+
+  buttons.forEach(button => button.addEventListener("click", () => {
+    const active = button.getAttribute("aria-pressed") !== "true";
+    button.setAttribute("aria-pressed", String(active));
+    button.classList.toggle("is-active", active);
+    update();
+  }));
+  update();
+}
+
+function setupEwasteMaze() {
+  const maze = document.getElementById("ewasteMaze");
+  if (!maze) return;
+  const routes = {
+    drawer: {
+      label: "闲置",
+      title: "设备停下了，责任也暂时停在原处。",
+      copy: "原位置仍然清楚，但没有交接、检测与末端凭证，责任链尚未真正启动。"
+    },
+    resale: {
+      label: "二手 / 维修",
+      title: "寿命被延长，交接记录不能随之消失。",
+      copy: "再次使用不是风险本身；多次转手却会不断增加身份、所有权和最终去向的断点。"
+    },
+    formal: {
+      label: "正规回收",
+      title: "出口可见，路径也必须可复盘。",
+      copy: "交接主体、运输位置与处理凭证沿路保留，设备才能真正走出责任迷宫。"
+    },
+    informal: {
+      label: "未记录处理",
+      title: "设备仍在移动，公共记录却失去了它。",
+      copy: "当接手主体、拆解方式和材料终点同时不可见，风险与责任便被留在迷宫深处。"
+    }
+  };
+  const buttons = [...maze.querySelectorAll("[data-maze-route]")];
+  const paths = [...maze.querySelectorAll("[data-maze-path]")];
+
+  const activate = route => {
+    const data = routes[route];
+    if (!data) return;
+    buttons.forEach(button => {
+      const active = button.dataset.mazeRoute === route;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    paths.forEach(path => path.classList.toggle("is-active", path.dataset.mazePath === route));
+    maze.dataset.activeRoute = route;
+    document.getElementById("mazeRouteLabel").textContent = data.label;
+    document.getElementById("mazeRouteTitle").textContent = data.title;
+    document.getElementById("mazeRouteCopy").textContent = data.copy;
+  };
+
+  buttons.forEach(button => button.addEventListener("click", () => activate(button.dataset.mazeRoute)));
+  activate("formal");
 }
 
 function setupToolbar() {
@@ -1990,7 +2203,6 @@ function drawAllCharts() {
   drawWordCloud();
   drawGlobalDistributionMap();
   drawPlatformClouds();
-  drawRouteFlow();
 }
 
 function init() {
