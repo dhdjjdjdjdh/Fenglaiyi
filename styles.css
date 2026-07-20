@@ -3930,7 +3930,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   color: var(--comic-ink);
   background: #f7f0de;
   border: 3px solid var(--comic-ink);
-  box-shadow: 13px 15px 0 #1d1e1b, 0 24px 50px rgba(30, 28, 20, .2);
+  box-shadow: 0 20px 42px rgba(30, 28, 20, .18);
 }
 .device-life-comic::before {
   content: "";
@@ -4212,4 +4212,193 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 
 @media (prefers-reduced-motion: reduce) {
   .comic-phone--busy { animation: none; }
+}
+
+/* Afterlife v45: one unified frame and playful, panel-specific hover stories. */
+.device-life-comic {
+  isolation: isolate;
+  border-radius: 0;
+}
+.comic-panel {
+  cursor: pointer;
+  transition: translate .24s ease, scale .24s ease, filter .24s ease, box-shadow .24s ease;
+}
+.comic-panel:hover,
+.comic-panel:focus-visible {
+  z-index: 5;
+  translate: 0 -4px;
+  scale: 1.018;
+  filter: saturate(1.08);
+  outline: none;
+  box-shadow: 0 7px 0 rgba(23,24,22,.28);
+}
+.comic-panel:focus-visible { box-shadow: inset 0 0 0 4px #fff, 0 7px 0 rgba(23,24,22,.28); }
+.comic-panel::after {
+  position: absolute;
+  z-index: 4;
+  right: 9px;
+  top: 39px;
+  color: var(--comic-ink);
+  font: 950 13px/1 Arial, sans-serif;
+  letter-spacing: .1em;
+  opacity: 0;
+  transform: translateY(8px) rotate(8deg) scale(.7);
+  transition: opacity .2s ease, transform .28s cubic-bezier(.2,.8,.2,1.35);
+  pointer-events: none;
+}
+.comic-panel--birth::after { content: "✦ ✦"; }
+.comic-panel--use::after { content: "♥ ♪"; }
+.comic-panel--drawer::after { content: "Z z"; }
+.comic-panel--repair::after { content: "+ ✦"; }
+.comic-panel--handover::after { content: "✓ ✓"; }
+.comic-panel--rebirth::after { content: "↻ ✦"; }
+.comic-panel:hover::after,
+.comic-panel:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0) rotate(-5deg) scale(1);
+}
+.comic-phone,
+.comic-box,
+.comic-icons,
+.comic-tool,
+.comic-hand,
+.comic-ticket-mini,
+.comic-material,
+.comic-new-device,
+.comic-panel q {
+  transition: transform .42s cubic-bezier(.2,.8,.2,1.25), opacity .28s ease, box-shadow .28s ease, background-color .28s ease;
+}
+.comic-phone u::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 30px;
+  height: 5px;
+  background:
+    radial-gradient(circle at 10% 50%, #ff8790 0 2px, transparent 2.5px),
+    radial-gradient(circle at 90% 50%, #ff8790 0 2px, transparent 2.5px);
+  opacity: .72;
+}
+.comic-panel:hover q,
+.comic-panel:focus-visible q {
+  transform: translateY(-3px) rotate(-1deg);
+  background-color: #fff8c9;
+  box-shadow: 3px 4px 0 var(--comic-ink);
+}
+
+/* 01: lift the device out of its box. */
+.comic-panel--birth:hover .comic-phone--happy,
+.comic-panel--birth:focus-visible .comic-phone--happy {
+  transform: translate(-5px, -12px) rotate(-8deg) scale(1.14);
+}
+.comic-panel--birth:hover .comic-box,
+.comic-panel--birth:focus-visible .comic-box { transform: translateY(7px) skewY(-8deg) scale(.95); }
+.comic-panel--birth:hover .comic-burst,
+.comic-panel--birth:focus-visible .comic-burst { animation: comic-pop .55s ease both; }
+
+/* 02: notifications and stories orbit a happily busy phone. */
+.comic-panel--use:hover .comic-phone--busy,
+.comic-panel--use:focus-visible .comic-phone--busy { animation: comic-happy-hop .62s ease-in-out infinite alternate; }
+.comic-panel--use:hover .comic-icons,
+.comic-panel--use:focus-visible .comic-icons { transform: translate(-3px, -5px) rotate(8deg) scale(1.2); }
+.comic-panel--use:hover .comic-motion,
+.comic-panel--use:focus-visible .comic-motion { animation: comic-wiggle .5s ease-in-out infinite alternate; }
+
+/* 03: hovering actually places the phone inside the drawer. */
+.comic-panel--drawer .comic-drawer { z-index: 1; transition: transform .38s ease, box-shadow .38s ease; }
+.comic-panel--drawer:hover .comic-drawer,
+.comic-panel--drawer:focus-visible .comic-drawer {
+  transform: translateY(4px);
+  box-shadow: inset 0 8px 0 rgba(23,24,22,.18);
+}
+.comic-panel--drawer:hover .comic-phone--sleep,
+.comic-panel--drawer:focus-visible .comic-phone--sleep {
+  z-index: 0;
+  transform: translateY(19px) rotate(90deg) scale(.86);
+  opacity: .68;
+}
+.comic-panel--drawer:hover .comic-z,
+.comic-panel--drawer:focus-visible .comic-z { animation: comic-float-away .8s ease-in-out infinite alternate; }
+
+/* 04: the repair spark revives the device. */
+.comic-panel--repair:hover .comic-tool,
+.comic-panel--repair:focus-visible .comic-tool { transform: rotate(180deg) scale(1.15); background-color: #fff6a9; }
+.comic-panel--repair:hover .comic-phone--patched,
+.comic-panel--repair:focus-visible .comic-phone--patched { transform: translateY(-7px) rotate(-5deg) scale(1.12); box-shadow: 6px 7px 0 rgba(23,24,22,.2); }
+.comic-panel--repair:hover .comic-burst,
+.comic-panel--repair:focus-visible .comic-burst { animation: comic-pop .55s .08s ease both; }
+
+/* 05: hands meet, the device moves, and its receipt stays visible. */
+.comic-panel--handover:hover .comic-hand--left,
+.comic-panel--handover:focus-visible .comic-hand--left { transform: translateX(14px) rotate(3deg); }
+.comic-panel--handover:hover .comic-hand--right,
+.comic-panel--handover:focus-visible .comic-hand--right { transform: translateX(-14px) rotate(-3deg); }
+.comic-panel--handover:hover .comic-phone--handover,
+.comic-panel--handover:focus-visible .comic-phone--handover { animation: comic-handover 1s ease-in-out infinite alternate; }
+.comic-panel--handover:hover .comic-ticket-mini,
+.comic-panel--handover:focus-visible .comic-ticket-mini { transform: translate(-4px, -3px) rotate(-4deg) scale(1.08); box-shadow: 3px 3px 0 var(--comic-ink); }
+
+/* 06: recovered materials fly into a new device. */
+.comic-panel--rebirth:hover .comic-material--one,
+.comic-panel--rebirth:focus-visible .comic-material--one { transform: translate(76px, 16px) rotate(220deg) scale(.35); opacity: .25; }
+.comic-panel--rebirth:hover .comic-material--two,
+.comic-panel--rebirth:focus-visible .comic-material--two { transform: translate(58px, -2px) rotate(160deg) scale(.35); opacity: .25; }
+.comic-panel--rebirth:hover .comic-material--three,
+.comic-panel--rebirth:focus-visible .comic-material--three { transform: translate(72px, -22px) rotate(190deg) scale(.35); opacity: .25; }
+.comic-panel--rebirth:hover .comic-new-device,
+.comic-panel--rebirth:focus-visible .comic-new-device { transform: translateY(-5px) rotate(4deg) scale(1.13); background-color: #f0fff0; box-shadow: 7px 8px 0 rgba(23,24,22,.22); }
+.comic-panel--rebirth:hover .comic-burst,
+.comic-panel--rebirth:focus-visible .comic-burst { animation: comic-pop .6s .12s ease both; }
+
+.comic-colophon span { display: inline-flex; align-items: center; gap: 7px; }
+.comic-colophon span i {
+  padding: 3px 5px 2px;
+  color: var(--comic-ink);
+  font: 950 7px/1 monospace;
+  letter-spacing: .08em;
+  background: #f7d83b;
+  border-radius: 999px;
+}
+
+@keyframes comic-pop {
+  0% { transform: scale(.45) rotate(-16deg); opacity: 0; }
+  70% { transform: scale(1.12) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes comic-happy-hop {
+  from { transform: translateY(2px) rotate(-8deg) scale(1.03); }
+  to { transform: translateY(-9px) rotate(7deg) scale(1.13); }
+}
+@keyframes comic-wiggle {
+  from { transform: rotate(-8deg) translateX(-2px); }
+  to { transform: rotate(9deg) translateX(2px); }
+}
+@keyframes comic-float-away {
+  from { transform: translateY(2px) rotate(-5deg); opacity: .55; }
+  to { transform: translateY(-10px) rotate(7deg); opacity: 1; }
+}
+@keyframes comic-handover {
+  from { transform: translateX(-9px) rotate(-6deg) scale(1.04); }
+  to { transform: translateX(9px) rotate(6deg) scale(1.08); }
+}
+
+@media (hover: none) {
+  .comic-colophon span i { font-size: 0; }
+  .comic-colophon span i::after { content: "TAP"; font-size: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comic-panel,
+  .comic-phone,
+  .comic-box,
+  .comic-icons,
+  .comic-tool,
+  .comic-hand,
+  .comic-ticket-mini,
+  .comic-material,
+  .comic-new-device,
+  .comic-panel q { transition: none; }
+  .comic-panel:hover *,
+  .comic-panel:focus-visible * { animation: none !important; }
 }
