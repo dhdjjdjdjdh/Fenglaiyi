@@ -2323,9 +2323,9 @@ window.addEventListener("DOMContentLoaded", init);
             <div class="archive-paper-title"><span id="archiveDocNumber">04</span><div><small>TRACE RECORD</small><h4 id="archiveDocTitle">处理凭证</h4></div></div>
             <p id="archiveDocSummary">检测、数据清除与材料去向必须落在同一设备编号下，责任链才抵达真实末端。</p>
             <div class="archive-doc-rows" id="archiveDocRows"></div>
-            <div class="archive-photo-strip" aria-label="设备检测与线下交接照片">
-              <figure><img src="assets/archive-device-inspection.jpg" alt="工作人员在维修台检测手机"><figcaption><b>设备检测</b><span>INSPECTION / 01</span></figcaption></figure>
-              <figure><img src="assets/archive-service-handover.jpg" alt="居民在线下回收点交接电子设备"><figcaption><b>线下交接</b><span>HANDOVER / 02</span></figcaption></figure>
+            <div class="archive-photo-strip" aria-label="当前档案的两张中国现场照片">
+              <figure><img src="assets/archive-proof-dismantling-guiyu.jpg" alt="广东贵屿规范拆解企业分拣电子元件"><figcaption><b>贵屿规范拆解</b><span>PROOF / 01</span></figcaption></figure>
+              <figure><img src="assets/archive-proof-recycling-line-alt.jpg" alt="中国正规废旧家电处理厂生产线"><figcaption><b>正规处理线</b><span>PROOF / 02</span></figcaption></figure>
             </div>
             <footer><span>SAME DEVICE ID</span><i></i><span>ORDERED TIME</span><i></i><span>READABLE FILE</span></footer>
           </article>
@@ -2360,27 +2360,48 @@ window.addEventListener("DOMContentLoaded", init);
         index: 0, number: '01', type: 'DEVICE IDENTITY', code: 'DOC · 7E19', state: 'ID MATCHED', stateCn: '身份已匹配', title: '设备身份',
         summary: '不是“某台旧手机”，而是可被持续辨认的同一台设备；统一编号让此后的每份记录都有明确归属。',
         verifier: '型号、序列号和资产编号共同锁定设备身份，后续文件才能确认属于同一台设备。', checksum: '7E19 / A113 / SN88 / ID01',
-        rows: [['设备型号', 'HUST·1037'], ['序列号', 'SN-024-7E65'], ['资产编号', 'ASSET-1037']]
+        rows: [['设备型号', 'HUST·1037'], ['序列号', 'SN-024-7E65'], ['资产编号', 'ASSET-1037']],
+        photos: [
+          ['assets/archive-id-shop-shanghai.jpg', '上海爱回收与京东手机服务站内的设备验机现场', '上海门店验机', 'IDENTITY / 01'],
+          ['assets/archive-id-platform-beijing.jpg', '北京爱回收智能手机回收平台', '北京回收平台', 'IDENTITY / 02']
+        ]
       },
       owner: {
         index: 1, number: '02', type: 'OWNERSHIP TRANSFER', code: 'DOC · 204F', state: 'OWNER SIGNED', stateCn: '主体已签收', title: '所有权',
         summary: '设备离开原持有人时，新的接收主体与签收时间同时出现，责任不会停留在一句模糊的“已转手”。',
         verifier: '原持有人、接收主体和转移时间共同证明责任在何时、从谁手中转移给谁。', checksum: '7E19 / 204F / OWN2 / T132',
-        rows: [['原持有人', 'USER · 019'], ['接收主体', 'RECYCLE · 06'], ['转移时间', '7.10，10：37']]
+        rows: [['原持有人', 'USER · 019'], ['接收主体', 'RECYCLE · 06'], ['转移时间', '7.10，10：37']],
+        photos: [
+          ['assets/archive-owner-station-wuhan.jpg', '武汉回收站工作人员现场登记交接信息', '武汉站点登记', 'OWNER / 01'],
+          ['assets/archive-owner-site-wuhan.jpg', '武汉再生资源回收站开展现场交接', '武汉站点交接', 'OWNER / 02']
+        ]
       },
       place: {
         index: 2, number: '03', type: 'HANDOVER LOCATION', code: 'DOC · C6A2', state: 'PLACE RECORDED', stateCn: '地点已留痕', title: '交接地点',
         summary: '地址、经手人与回执编号把一次线下交接固定在现实世界中，让设备的移动轨迹可以被复核。',
         verifier: '交接地点不是背景信息；它把设备、时间和经手人连接成可回查的现实坐标。', checksum: '7E19 / C6A2 / LOC3 / RCPT',
-        rows: [['交接地址', '武汉洪山区服务站'], ['经手人员', 'OPERATOR · LIN'], ['回执编号', 'RCPT–C6A2–31']]
+        rows: [['交接地址', '武汉洪山区服务站'], ['经手人员', 'OPERATOR · LIN'], ['回执编号', 'RCPT–C6A2–31']],
+        photos: [
+          ['assets/archive-place-station-wuhan.jpg', '武汉回收站工作人员核查消防与站点条件', '站点安全核查', 'PLACE / 01'],
+          ['assets/archive-place-inspection-wuhan.jpg', '武汉社区再生资源回收站与收运车辆', '武汉社区回收站', 'PLACE / 02']
+        ]
       },
       proof: {
         index: 3, number: '04', type: 'TERMINAL PROOF', code: 'DOC · 88D0', state: 'PROOF SEALED', stateCn: '结果已封存', title: '处理凭证',
         summary: '检测、数据清除与材料去向必须落在同一设备编号下，责任链才抵达真实末端。',
         verifier: '前三份文件回答“它是谁、交给谁、在哪里”，最后一份文件说明它最终经历了什么。', checksum: '7E19 / 204F / C6A2 / 88D0',
-        rows: [['检测结果', 'BATTERY · 71%'], ['数据状态', 'ERASED · VERIFIED'], ['材料去向', 'PLANT · SH–04']]
+        rows: [['检测结果', 'BATTERY · 71%'], ['数据状态', 'ERASED · VERIFIED'], ['材料去向', 'PLANT · SH–04']],
+        photos: [
+          ['assets/archive-proof-dismantling-guiyu.jpg', '广东贵屿规范拆解企业分拣电子元件', '贵屿规范拆解', 'PROOF / 01'],
+          ['assets/archive-proof-recycling-line-alt.jpg', '中国正规废旧家电处理厂生产线', '正规处理线', 'PROOF / 02']
+        ]
       }
     };
+
+    Object.values(models).flatMap((model) => model.photos).forEach(([src]) => {
+      const image = new Image();
+      image.src = src;
+    });
 
     const renderFile = (key, animate = true, reveal = true) => {
       const model = models[key];
@@ -2403,6 +2424,7 @@ window.addEventListener("DOMContentLoaded", init);
       q('#archiveDocTitle', host).textContent = model.title;
       q('#archiveDocSummary', host).textContent = model.summary;
       q('#archiveDocRows', host).innerHTML = model.rows.map(([label, value], index) => `<div><em>0${index + 1}</em><span><small>${label}</small><b>${value}</b></span><i>✓</i></div>`).join('');
+      q('.archive-photo-strip', host).innerHTML = model.photos.map(([src, alt, label, meta]) => `<figure><img src="${src}" alt="${alt}"><figcaption><b>${label}</b><span>${meta}</span></figcaption></figure>`).join('');
       q('#archiveStatusStamp', host).textContent = model.state;
       q('#archiveCaseState', host).textContent = model.state;
       q('#archiveCaseName', host).textContent = model.title;
@@ -2435,72 +2457,125 @@ window.addEventListener("DOMContentLoaded", init);
   function evidenceArchitecture() {
     const host = q('#evidenceArchitecture');
     if (!host) return;
-    host.className = 'v37-evidence-architecture';
+    host.className = 'v53-evidence-console';
     host.innerHTML = `
-      <header><span class="v37-kicker">EVIDENCE ARCHITECTURE / 三项证据架构</span><strong><b id="v37EvidenceCount">0</b>/3 已核验</strong></header>
-      <div class="v37-evidence-stage">
-        <section class="v37-evidence-side left">
-          <h4>责任从哪里开始</h4>
-          <button data-proof="owner"><b>谁接手？</b><span>企业全称、联系人与可查询资质</span></button>
-          <button data-proof="place"><b>在哪里？</b><span>交接时间、具体地点与凭证编号</span></button>
+      <header class="v53-evidence-head">
+        <div><span>EVIDENCE CONTROL / 三项证据核验台</span><h3>把一次交接拆成三道可以复查的关口</h3></div>
+        <strong><b id="v53EvidenceCount">0</b><small>/ 3 已核验</small></strong>
+      </header>
+      <div class="v53-evidence-switches" role="group" aria-label="选择要核验的交接证据">
+        <button type="button" data-proof="owner" aria-pressed="false"><em>01</em><span><b>谁接手？</b><small>企业全称 · 联系人 · 可查询资质</small></span><i>待核验</i></button>
+        <button type="button" data-proof="place" aria-pressed="false"><em>02</em><span><b>在哪里？</b><small>交接时间 · 具体地点 · 回执编号</small></span><i>待核验</i></button>
+        <button type="button" data-proof="method" aria-pressed="false"><em>03</em><span><b>怎么处理？</b><small>数据清除 · 功能检测 · 材料去向</small></span><i>待核验</i></button>
+      </div>
+      <div class="v53-evidence-grid">
+        <section class="v53-evidence-ledger">
+          <header><span>RECORD PACKAGE</span><b>交接记录包</b></header>
+          <div data-ledger="owner"><em>01</em><span><small>主体记录</small><b>接收主体尚未确认</b></span><i></i></div>
+          <div data-ledger="place"><em>02</em><span><small>位置记录</small><b>交接坐标尚未确认</b></span><i></i></div>
+          <div data-ledger="method"><em>03</em><span><small>处理记录</small><b>末端方式尚未确认</b></span><i></i></div>
+          <footer><span>同一设备编号</span><i></i><span>连续时间顺序</span><i></i><span>可带走副本</span></footer>
         </section>
-        <section class="v37-evidence-core">
-          <div class="v37-core-rings"><i></i><i></i><i></i><strong>交接<br>核验</strong></div>
-          <p id="v37EvidenceSummary">逐项点亮三项证据，查看一条责任链如何闭合。</p>
+        <section class="v53-evidence-network">
+          <header><span>LINK ANALYSIS</span><b>三点互证网络</b></header>
+          <svg viewBox="0 0 640 320" role="img" aria-label="接收主体、交接地点和处理方式围绕同一台设备形成三角核验网络">
+            <path class="v53-network-edge owner-place" d="M160 82 L480 82"/>
+            <path class="v53-network-edge place-method" d="M480 82 L320 252"/>
+            <path class="v53-network-edge method-owner" d="M320 252 L160 82"/>
+            <path class="v53-network-spoke owner" d="M160 82 L320 148"/>
+            <path class="v53-network-spoke place" d="M480 82 L320 148"/>
+            <path class="v53-network-spoke method" d="M320 252 L320 148"/>
+            <g data-evidence-node="owner"><circle cx="160" cy="82" r="48"/><text x="160" y="76">主体</text><text x="160" y="98">WHO</text></g>
+            <g data-evidence-node="place"><circle cx="480" cy="82" r="48"/><text x="480" y="76">位置</text><text x="480" y="98">WHERE</text></g>
+            <g data-evidence-node="method"><circle cx="320" cy="252" r="48"/><text x="320" y="246">处理</text><text x="320" y="268">HOW</text></g>
+            <g class="v53-device-node"><circle cx="320" cy="148" r="55"/><text x="320" y="143">HUST·1037</text><text x="320" y="166">SAME DEVICE</text></g>
+          </svg>
+          <p id="v53EvidenceSummary">点击三道关口，让主体、地点与处理共同指向同一台设备。</p>
         </section>
-        <section class="v37-evidence-side right">
-          <h4>责任如何抵达末端</h4>
-          <button data-proof="method"><b>怎么处理？</b><span>数据清除、检测、拆解与材料去向</span></button>
-          <div class="v37-evidence-output"><small>输出</small><b id="v37EvidenceOutput">记录尚未闭合</b></div>
-        </section>
-      </div>`;
+        <aside class="v53-evidence-output">
+          <header><span>AUDIT OUTPUT</span><b id="v53EvidenceState">WAITING</b></header>
+          <strong id="v53EvidenceOutput">记录尚未闭合</strong>
+          <p id="v53EvidenceCopy">当前还不能确认设备离开用户之后由谁负责、在哪里停留、最终经历了什么。</p>
+          <div class="v53-proof-bars">
+            <div data-evidence-bar="owner"><span>接收主体</span><i><em></em></i><b>0%</b></div>
+            <div data-evidence-bar="place"><span>交接位置</span><i><em></em></i><b>0%</b></div>
+            <div data-evidence-bar="method"><span>处理凭证</span><i><em></em></i><b>0%</b></div>
+          </div>
+          <div class="v53-evidence-outcomes"><span>可追问</span><span>可复核</span><span>可归责</span></div>
+        </aside>
+      </div>
+      <footer class="v53-evidence-sequence"><span>交接发生</span><i></i><span>主体签收</span><i></i><span>地点留痕</span><i></i><span>处理回执</span><i></i><b>责任闭环</b></footer>`;
     const selected = new Set();
-    const summaries = {
-      owner: '接收主体可核验，责任有了明确起点。',
-      place: '交接地点与时间可核验，设备的移动不再是模糊终点。',
-      method: '处理方式与材料去向可核验，责任抵达真实末端。'
+    const proofModels = {
+      owner: { label: '接收主体', ledger: 'RECYCLE · 06 / 主体已签收', summary: '接收主体可核验，责任有了明确起点。' },
+      place: { label: '交接位置', ledger: '武汉洪山区服务站 / 地点已留痕', summary: '交接地点与时间可核验，设备的移动不再是模糊终点。' },
+      method: { label: '处理凭证', ledger: 'ERASED · VERIFIED / 结果已封存', summary: '处理方式与材料去向可核验，责任抵达真实末端。' }
+    };
+    const renderEvidence = () => {
+      const count = selected.size;
+      q('#v53EvidenceCount', host).textContent = count;
+      qa('[data-proof]', host).forEach((button) => {
+        const active = selected.has(button.dataset.proof);
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+        q('i', button).textContent = active ? '已核验' : '待核验';
+      });
+      Object.entries(proofModels).forEach(([key, model]) => {
+        const active = selected.has(key);
+        const ledger = q(`[data-ledger="${key}"]`, host);
+        ledger.classList.toggle('active', active);
+        q('span b', ledger).textContent = active ? model.ledger : `${model.label}尚未确认`;
+        q(`[data-evidence-node="${key}"]`, host).classList.toggle('active', active);
+        const bar = q(`[data-evidence-bar="${key}"]`, host);
+        bar.classList.toggle('active', active);
+        q('b', bar).textContent = active ? '100%' : '0%';
+      });
+      const activeLabels = [...selected].map((key) => proofModels[key].label);
+      q('#v53EvidenceSummary', host).textContent = count ? `已核验：${activeLabels.join('、')}。继续补齐剩余关口。` : '点击三道关口，让主体、地点与处理共同指向同一台设备。';
+      q('#v53EvidenceState', host).textContent = count === 3 ? 'CHAIN CLOSED' : count ? 'VERIFYING' : 'WAITING';
+      q('#v53EvidenceOutput', host).textContent = count === 3 ? '三项证据已经闭合' : count === 2 ? '只差最后一处确认' : count === 1 ? '责任链刚刚建立' : '记录尚未闭合';
+      q('#v53EvidenceCopy', host).textContent = count === 3 ? '主体、地点与处理结果共用同一设备编号和时间顺序，交接可以被追问、复核并最终归责。' : count ? `当前已有 ${count} 项记录可查，仍有 ${3 - count} 项信息可能让设备在下一次转手时失去身份。` : '当前还不能确认设备离开用户之后由谁负责、在哪里停留、最终经历了什么。';
+      qa('.v53-evidence-outcomes span', host).forEach((item, index) => item.classList.toggle('active', count > index));
+      qa('.v53-evidence-sequence span', host).forEach((item, index) => item.classList.toggle('active', index <= count));
+      q('.v53-evidence-sequence b', host).classList.toggle('active', count === 3);
+      host.classList.toggle('complete', count === 3);
     };
     qa('[data-proof]', host).forEach((button) => {
       button.addEventListener('click', () => {
         const key = button.dataset.proof;
         selected.has(key) ? selected.delete(key) : selected.add(key);
-        button.classList.toggle('active', selected.has(key));
-        q('#v37EvidenceCount').textContent = selected.size;
-        q('#v37EvidenceSummary').textContent = selected.size ? summaries[key] : '逐项点亮三项证据，查看一条责任链如何闭合。';
-        q('#v37EvidenceOutput').textContent = selected.size === 3 ? '形成可追问、复核与归责的证据链' : `仍缺 ${3 - selected.size} 项关键证据`;
-        host.classList.toggle('complete', selected.size === 3);
+        renderEvidence();
       });
     });
+    renderEvidence();
   }
 
   function mazeScene() {
     const host = q('#ewasteMaze');
     if (!host) return;
-    const existing = q('img', host) || qa('img').find((img) => /waste|ewaste|maze|pile|scrap/i.test(img.src));
-    const texture = existing ? `url("${existing.src}")` : 'linear-gradient(135deg,#172624,#384944)';
-    host.className = 'v37-maze';
-    host.style.setProperty('--maze-texture', texture);
+    host.className = 'v53-ewaste-maze';
     host.innerHTML = `
-      <header><span class="v37-kicker">END / 电子废弃物迷宫</span><h3>数字生活的清洁感，不能建立在看不见的脏活上</h3><p>设备离开屏幕之后，会穿过转卖、维修、回收与拆解的多重岔路。缺少连续记录时，我们置身其中，却很难判断哪一条路真正通向合规末端。</p></header>
-      <div class="v37-maze-stage" aria-label="由电子废弃物组成的三维迷宫">
-        <div class="v37-maze-sky"><span>出口？</span><span>谁接手？</span><span>材料去了哪里？</span></div>
-        <div class="v37-maze-floor"></div>
-        <div class="v37-wall left l1"></div><div class="v37-wall left l2"></div><div class="v37-wall left l3"></div><div class="v37-wall left l4"></div>
-        <div class="v37-wall right r1"></div><div class="v37-wall right r2"></div><div class="v37-wall right r3"></div><div class="v37-wall right r4"></div>
-        <div class="v37-cross-wall c1"></div><div class="v37-cross-wall c2"></div><div class="v37-cross-wall c3"></div>
-        <div class="v37-person"><i></i><b></b><span></span></div>
-        <div class="v37-maze-caption"><strong>你站在路径中央</strong><span>左右移动鼠标，观察被设备高墙遮住的出口。</span></div>
+      <div class="v53-maze-stage" aria-label="一个小人站在由手机、显示器、电路板、电线和废旧家电构成的巨大三维迷宫入口">
+        <img src="assets/images/ewaste-maze-3d-v1.jpg" alt="小人面对由大量电子废弃物堆叠而成的庞大三维迷宫">
+        <div class="v53-maze-depth" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="v53-maze-signals" aria-hidden="true"><span>身份是否还在？</span><span>下一站在哪里？</span><span>谁保存处理结果？</span></div>
+        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>移动鼠标，观察庞大墙体之间不断改变的路径与遮挡。</span></div>
       </div>`;
-    const stage = q('.v37-maze-stage', host);
+    const stage = q('.v53-maze-stage', host);
     stage.addEventListener('pointermove', (event) => {
       const rect = stage.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
-      stage.style.setProperty('--look-x', `${x * 18}px`);
-      stage.style.setProperty('--tilt', `${x * 2.5}deg`);
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      stage.style.setProperty('--maze-x', `${x * -22}px`);
+      stage.style.setProperty('--maze-y', `${y * -12}px`);
+      stage.style.setProperty('--maze-tilt-x', `${y * -1.4}deg`);
+      stage.style.setProperty('--maze-tilt-y', `${x * 2.2}deg`);
     });
     stage.addEventListener('pointerleave', () => {
-      stage.style.setProperty('--look-x', '0px');
-      stage.style.setProperty('--tilt', '0deg');
+      stage.style.setProperty('--maze-x', '0px');
+      stage.style.setProperty('--maze-y', '0px');
+      stage.style.setProperty('--maze-tilt-x', '0deg');
+      stage.style.setProperty('--maze-tilt-y', '0deg');
     });
   }
 
