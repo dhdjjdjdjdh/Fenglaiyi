@@ -3085,8 +3085,9 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .afterlife-page .v37-balanced-layout {
   width: min(1180px, calc(100% - 40px)) !important;
   grid-template-columns: minmax(0, .9fr) minmax(430px, 1.1fr) !important;
-  gap: 56px !important;
+  gap: clamp(80px, 5vw, 96px) !important;
   align-items: center !important;
+  padding-inline: 0 !important;
 }
 
 .afterlife-page .v37-balanced-layout.v37-visual-first {
