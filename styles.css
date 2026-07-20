@@ -4019,7 +4019,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   max-width: calc(100% - 36px);
   padding: 4px 7px 3px;
   color: #fff;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1;
   background: var(--comic-ink);
   transform: rotate(-1deg);
@@ -4036,7 +4036,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   position: relative;
   z-index: 1;
   margin: 0;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 760;
   line-height: 1.5;
   text-align: justify;
@@ -4049,7 +4049,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   max-width: 96%;
   margin: auto 0 0 auto;
   padding: 4px 6px;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 850;
   line-height: 1.28;
   text-align: left;
@@ -4591,12 +4591,12 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 .comic-recycle-bin u { position: absolute; inset: 13px 0 auto; font-size: 18px; line-height: 1; text-align: center; text-decoration: none; }
 .comic-panel--rebirth .comic-phone--recycle {
   position: absolute;
-  left: 35px;
+  left: 50%;
   top: -3px;
   z-index: 3;
   width: 30px;
   height: 50px;
-  transform: rotate(-9deg) scale(.84);
+  transform: translateX(-50%) rotate(-4deg) scale(.84);
 }
 .comic-panel--rebirth .comic-material { left: 34px; top: 53px; z-index: 1; opacity: 0; transform: scale(.2); }
 .comic-panel--rebirth .comic-new-device { right: 13px; opacity: .35; filter: grayscale(.65); }
@@ -4660,7 +4660,11 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
 @keyframes life-right-hand-receive { from { transform: translateX(0) rotate(-7deg); } to { transform: translateX(-17px) rotate(-2deg); } }
 @keyframes life-phone-pass { 0% { transform: translateX(-17px) rotate(-5deg); } 45% { transform: translateX(0) rotate(0) translateY(-5px); } 100% { transform: translateX(18px) rotate(5deg); } }
 @keyframes life-receipt-stamp { 0% { opacity: .55; transform: translateY(-8px) rotate(8deg) scale(.85); } 70% { opacity: 1; transform: translateY(2px) rotate(-4deg) scale(1.15); } 100% { opacity: 1; transform: translateY(0) rotate(-2deg) scale(1.05); box-shadow: 3px 3px 0 var(--comic-ink); } }
-@keyframes life-phone-to-bin { 0%, 15% { opacity: 1; transform: rotate(-9deg) scale(.84); } 65% { opacity: 1; transform: translate(1px,30px) rotate(10deg) scale(.66); } 100% { opacity: 0; transform: translate(0,45px) rotate(18deg) scale(.45); } }
+@keyframes life-phone-to-bin {
+  0%, 15% { left: 50%; top: -3px; opacity: 1; transform: translateX(-50%) rotate(-4deg) scale(.84); }
+  65% { left: 36px; top: 27px; opacity: 1; transform: translateX(-50%) rotate(10deg) scale(.66); }
+  100% { left: 36px; top: 43px; opacity: 0; transform: translateX(-50%) rotate(18deg) scale(.45); }
+}
 @keyframes life-bin-lid { 0%, 18% { transform: rotate(0); } 48% { transform: rotate(-24deg); } 100% { transform: rotate(0); } }
 @keyframes life-material-one { 0% { opacity: 0; transform: translate(0,0) rotate(0) scale(.2); } 35% { opacity: 1; transform: translate(26px,-32px) rotate(90deg) scale(.75); } 100% { opacity: .18; transform: translate(91px,-28px) rotate(230deg) scale(.25); } }
 @keyframes life-material-two { 0% { opacity: 0; transform: translate(0,0) rotate(0) scale(.2); } 35% { opacity: 1; transform: translate(39px,-12px) rotate(80deg) scale(.72); } 100% { opacity: .18; transform: translate(95px,-18px) rotate(190deg) scale(.22); } }
