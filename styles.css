@@ -3169,3 +3169,373 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
     font-size: 34px !important;
   }
 }
+
+/* Afterlife v42: compact horizontal dashboards inspired by the other chapters. */
+.afterlife-page .v37-balanced-layout {
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr) !important;
+  gap: 72px !important;
+}
+
+.afterlife-page .v37-balanced-layout.v37-visual-first {
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, .82fr) !important;
+}
+
+.afterlife-page .v37-visual-col > .afterlife-dashboard {
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+.afterlife-dashboard {
+  --dash-bg: #071411;
+  --dash-card: #0f201b;
+  --dash-card-2: #132720;
+  --dash-line: rgba(125, 163, 153, .24);
+  --dash-copy: #a8bbb4;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-width: 0;
+  color: #f7fbf9;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(57, 191, 242, .13), transparent 28%),
+    radial-gradient(circle at 92% 10%, rgba(157, 117, 255, .12), transparent 24%),
+    linear-gradient(rgba(110, 147, 137, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110, 147, 137, .07) 1px, transparent 1px),
+    var(--dash-bg);
+  background-size: auto, auto, 48px 48px, 48px 48px, auto;
+  border: 1px solid #29423a;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(9, 20, 17, .2);
+}
+
+.afterlife-dashboard::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 7%;
+  right: 7%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #39bff2 25%, #9d75ff 58%, #c4f500, transparent);
+  box-shadow: 0 0 18px rgba(57, 191, 242, .7);
+}
+
+.afterlife-dash-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  min-height: 74px;
+  padding: 14px 18px 13px;
+  border-bottom: 1px solid var(--dash-line);
+}
+
+.afterlife-dash-head span {
+  display: block;
+  margin-bottom: 5px;
+  color: #ffb219;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+.afterlife-dash-head h3 {
+  max-width: none;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(19px, 1.45vw, 24px);
+  line-height: 1.14;
+}
+
+.afterlife-dash-head > b {
+  flex: 0 0 auto;
+  padding: 6px 8px;
+  color: #c4f500;
+  font-size: 9px;
+  letter-spacing: .08em;
+  background: rgba(196, 245, 0, .08);
+  border: 1px solid rgba(196, 245, 0, .35);
+  border-radius: 999px;
+}
+
+.afterlife-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--dash-line);
+}
+
+.afterlife-kpi-grid article {
+  position: relative;
+  min-width: 0;
+  min-height: 64px;
+  overflow: hidden;
+  padding: 8px 9px 7px 11px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--card-accent) 22%, #14251f), #101e1a 68%);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 38%, #263b34);
+  border-radius: 8px;
+  box-shadow: inset 0 1px rgba(255,255,255,.06), 0 8px 18px rgba(0,0,0,.14);
+}
+
+.afterlife-kpi-grid article::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -55% 38%;
+  height: 80px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--card-accent) 30%, transparent), transparent 66%);
+}
+
+.afterlife-kpi-grid span,
+.afterlife-kpi-grid small {
+  position: relative;
+  z-index: 1;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.afterlife-kpi-grid span { color: #d9e4e0; font-size: 9px; }
+.afterlife-kpi-grid strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 4px 0 3px;
+  color: var(--card-accent);
+  font-size: clamp(23px, 1.8vw, 30px);
+  line-height: .95;
+  font-variant-numeric: tabular-nums;
+}
+.afterlife-kpi-grid small { color: #8fa49d; font-size: 8px; }
+
+.route-console-grid,
+.diagnostic-console-grid {
+  display: grid;
+  gap: 10px;
+  padding: 8px 10px 10px;
+}
+
+.route-console-grid { grid-template-columns: minmax(0, 1.36fr) minmax(190px, .76fr); }
+.diagnostic-console-grid { grid-template-columns: minmax(0, 1.18fr) minmax(205px, .82fr); }
+
+.route-choice-panel,
+.route-audit-module,
+.diagnostic-field-panel,
+.diagnostic-trace-panel {
+  min-width: 0;
+  background: rgba(14, 29, 24, .9);
+  border: 1px solid var(--dash-line);
+  border-radius: 8px;
+}
+
+.afterlife-panel-head,
+.route-audit-module > header,
+.diagnostic-trace-panel > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 41px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--dash-line);
+}
+
+.afterlife-panel-head b,
+.route-audit-module > header span,
+.diagnostic-trace-panel > header span { display: block; font-size: 12px; }
+.afterlife-panel-head small { display: block; margin-top: 3px; color: var(--dash-copy); font-size: 8px; }
+.afterlife-panel-head > span,
+.route-audit-module > header b,
+.diagnostic-trace-panel > header b { color: #ffb219; font-size: 8px; text-align: right; }
+
+.route-proof-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 5px 11px 0;
+  color: #70877f;
+  font-size: 8px;
+}
+
+.route-choice-list { display: grid; gap: 5px; padding: 5px 8px 8px; }
+.route-choice-list button {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 50px 28px;
+  align-items: center;
+  gap: 7px;
+  min-height: 47px;
+  padding: 6px 7px;
+  color: #f7fbf9;
+  text-align: left;
+  background: #10211b;
+  border: 1px solid #2d453d;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.route-choice-list button:hover,
+.route-choice-list button:focus-visible,
+.route-choice-list button.active {
+  background: linear-gradient(90deg, rgba(196,245,0,.1), #10211b 54%);
+  border-color: #9ac400;
+  transform: translateX(3px);
+  outline: none;
+}
+.route-choice-list em { color: #ffb219; font-size: 11px; font-style: normal; font-weight: 850; }
+.route-choice-list span { min-width: 0; }
+.route-choice-list span b,
+.route-choice-list span small { display: block; }
+.route-choice-list span b { font-size: 12px; }
+.route-choice-list span small { margin-top: 2px; overflow: hidden; color: #81968f; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.route-choice-list > button > i { display: flex; gap: 4px; }
+.route-choice-list u {
+  width: 13px;
+  height: 5px;
+  background: #293b35;
+  border-radius: 999px;
+  text-decoration: none;
+}
+.route-choice-list u.on { background: #c4f500; box-shadow: 0 0 8px rgba(196,245,0,.35); }
+.route-choice-list button > strong { color: #a7bbb4; font-size: 10px; text-align: right; }
+
+.route-audit-module {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-bottom: 11px;
+}
+.route-score-ring {
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: 72px;
+  aspect-ratio: 1;
+  margin: 10px auto 6px;
+  background: radial-gradient(circle at center, #0e1d19 0 52%, transparent 53%), conic-gradient(var(--ring-color) calc(var(--score) * 1%), #2b3c36 0);
+  border-radius: 50%;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--ring-color) 22%, transparent);
+}
+.route-score-ring strong { grid-area: 1 / 1; font-size: 18px; }
+.route-score-ring small { grid-area: 1 / 1; align-self: end; margin-bottom: 16px; color: #849890; font-size: 7px; }
+.route-audit-module h4 { margin: 0; padding: 0 12px; font-size: 21px; text-align: center; }
+.route-audit-module p { min-height: 52px; margin: 6px 0 7px; padding: 0 12px; color: #aebfb9; font-size: 10px; line-height: 1.5; text-align: justify; }
+.route-audit-checks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 0 10px; }
+.route-audit-checks i {
+  padding: 7px 2px;
+  color: #657a73;
+  font-size: 8px;
+  font-style: normal;
+  text-align: center;
+  background: #13241e;
+  border-top: 3px solid #31423c;
+}
+.route-audit-checks i.on { color: #fff; border-color: #c4f500; }
+
+.afterlife-dash-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 12px;
+  color: #8da198;
+  font-size: 8px;
+  border-top: 1px solid var(--dash-line);
+}
+.afterlife-dash-foot i { width: 18px; height: 1px; background: linear-gradient(90deg, #4f665d, #c4f500); }
+
+.diagnostic-route-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  padding: 6px 8px;
+}
+.diagnostic-route-tabs button {
+  min-width: 0;
+  padding: 6px 4px;
+  overflow: hidden;
+  color: #8ea29b;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #10201b;
+  border: 1px solid #2d433b;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.diagnostic-route-tabs button:hover,
+.diagnostic-route-tabs button:focus-visible,
+.diagnostic-route-tabs button.active { color: #07120f; background: #c4f500; border-color: #c4f500; outline: none; }
+
+.diagnostic-field-list { display: grid; gap: 4px; padding: 0 8px 8px; }
+.diagnostic-field-list > div {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 70px 34px;
+  align-items: center;
+  gap: 7px;
+  min-height: 43px;
+  padding: 5px 7px;
+  background: #10201b;
+  border: 1px solid #2b4038;
+  border-radius: 5px;
+}
+.diagnostic-field-list em { color: #ffb219; font-size: 10px; font-style: normal; font-weight: 850; }
+.diagnostic-field-list span b,
+.diagnostic-field-list span small { display: block; }
+.diagnostic-field-list span b { font-size: 11px; }
+.diagnostic-field-list span small { margin-top: 2px; color: #7e938b; font-size: 8px; }
+.diagnostic-field-list i { height: 6px; overflow: hidden; background: #2b3c36; border-radius: 999px; }
+.diagnostic-field-list i u { display: block; width: 12%; height: 100%; background: #ff6542; text-decoration: none; transition: width .3s ease, background .3s ease; }
+.diagnostic-field-list strong { color: #ff8065; font-size: 8px; text-align: right; }
+.diagnostic-field-list .present { border-color: rgba(196,245,0,.42); }
+.diagnostic-field-list .present i u { width: 100%; background: #c4f500; }
+.diagnostic-field-list .present strong { color: #c4f500; }
+
+.diagnostic-trace-panel { padding-bottom: 11px; }
+.diagnostic-trace-panel h4 { margin: 10px 12px 5px; font-size: 20px; }
+.diagnostic-trace-panel > p { min-height: 64px; margin: 0; padding: 0 12px; color: #a9bbb5; font-size: 10px; line-height: 1.5; text-align: justify; }
+.diagnostic-time-spine {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+  align-items: center;
+  gap: 4px;
+  margin: 9px 11px;
+}
+.diagnostic-time-spine span { color: #647971; font-size: 8px; }
+.diagnostic-time-spine span.on { color: #fff; }
+.diagnostic-time-spine i { height: 2px; background: #32453e; }
+.diagnostic-time-spine span.on + i { background: #c4f500; }
+.diagnostic-continuity-bars { display: grid; gap: 7px; padding: 0 12px; }
+.diagnostic-continuity-bars > div { display: grid; grid-template-columns: 48px 1fr; align-items: center; gap: 7px; }
+.diagnostic-continuity-bars span { color: #80958d; font-size: 8px; }
+.diagnostic-continuity-bars i { height: 6px; overflow: hidden; background: #2b3c36; border-radius: 999px; }
+.diagnostic-continuity-bars u { display: block; width: var(--w); height: 100%; background: linear-gradient(90deg, #39bff2, #9d75ff, #c4f500); text-decoration: none; transition: width .35s ease; }
+
+.diagnostic-dash-foot strong { color: #ffb219; font-size: 14px; }
+
+@media (max-width: 980px) {
+  .afterlife-page .v37-balanced-layout,
+  .afterlife-page .v37-balanced-layout.v37-visual-first {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .afterlife-dash-head { align-items: flex-start; flex-direction: column; gap: 9px; }
+  .afterlife-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .route-console-grid,
+  .diagnostic-console-grid { grid-template-columns: 1fr; }
+  .route-audit-module p,
+  .diagnostic-trace-panel > p { min-height: 0; }
+  .afterlife-dash-foot { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-choice-list button,
+  .diagnostic-field-list i u,
+  .diagnostic-continuity-bars u { transition: none; }
+}

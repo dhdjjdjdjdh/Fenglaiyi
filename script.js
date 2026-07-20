@@ -1932,7 +1932,7 @@ function setupTraceVerifier() {
 function setupRoutes() {
   // The current afterlife chapter replaces the legacy route widgets with the
   // v37 dashboards before this shared initializer runs.
-  if (document.querySelector(".afterlife-page .v37-dashboard")) return;
+  if (document.body.classList.contains("afterlife-page")) return;
   setupRouteCommandDashboard();
   setupChainDiagnostic();
   setupEvidenceArchitecture();
@@ -2255,78 +2255,68 @@ window.addEventListener("DOMContentLoaded", init);
     const host = q('#routeCommandDashboard');
     if (!host) return;
     majorLayout(host, false);
-    host.className = 'v37-dashboard v37-route-dashboard';
+    host.className = 'afterlife-dashboard route-control-console';
     host.innerHTML = `
-      <header class="v37-dash-head">
+      <header class="afterlife-dash-head">
         <div>
-          <span class="v37-kicker">ROUTE LEDGER / 去向总览数据舱</span>
-          <h3>离开用户之后，责任沿哪条线移动？</h3>
+          <span>ROUTE LEDGER / 去向总览</span>
+          <h3>一台设备，四条路线，三道证据门</h3>
         </div>
-        <span class="v37-meta">编辑部路径审计模型</span>
+        <b>INTERACTIVE MODEL</b>
       </header>
-      <section class="v37-metric-strip" aria-label="路径总览">
-        <div><strong>04</strong><span>种常见去向</span></div>
-        <div><strong>03</strong><span>处关键核验</span></div>
-        <div><strong>01</strong><span>条连续账本</span></div>
-        <div><strong>00</strong><span>步可以省略</span></div>
+      <section class="afterlife-kpi-grid" aria-label="路径审计模型概览">
+        <article style="--card-accent:#39bff2"><span>去向分支</span><strong>04</strong><small>闲置 / 延寿 / 回收 / 失联</small></article>
+        <article style="--card-accent:#9d75ff"><span>证据门</span><strong>03</strong><small>主体 / 地点 / 处理</small></article>
+        <article style="--card-accent:#ffad00"><span>设备身份</span><strong>01</strong><small>贯穿每一次转手</small></article>
+        <article style="--card-accent:#c4f500"><span>凭证绑定</span><strong>1:1</strong><small>设备与记录相互指向</small></article>
       </section>
-      <div class="v37-route-board">
-        <aside class="v37-mini-stack" aria-label="去向小图表">
-          <article>
-            <header><b>记录完整度</b><small>从交接到末端</small></header>
-            <svg viewBox="0 0 260 90" role="img" aria-label="四类去向记录完整度折线图">
-              <path class="grid" d="M8 18H252M8 45H252M8 72H252"/>
-              <path class="line lime" d="M12 66 C52 58 77 48 112 44 S177 25 248 16"/>
-              <circle cx="12" cy="66" r="4"/><circle cx="112" cy="44" r="4"/><circle cx="248" cy="16" r="4"/>
-            </svg>
-            <div class="v37-axis"><span>离开用户</span><span>末端处理</span></div>
-          </article>
-          <article>
-            <header><b>四种去向</b><small>风险并不等长</small></header>
-            <div class="v37-radial-mini">
-              <i style="--p:84;--c:#c5f500"><span>正规</span></i>
-              <i style="--p:61;--c:#6d929c"><span>二手</span></i>
-              <i style="--p:43;--c:#ffb000"><span>闲置</span></i>
-              <i style="--p:18;--c:#e85d38"><span>未记</span></i>
-            </div>
-          </article>
-          <article>
-            <header><b>三项证据</b><small>缺一即断链</small></header>
-            <div class="v37-proof-bars"><i style="--w:92%"></i><i style="--w:71%"></i><i style="--w:48%"></i></div>
-            <div class="v37-proof-labels"><span>主体</span><span>地点</span><span>处理</span></div>
-          </article>
-        </aside>
-        <main class="v37-route-flow">
-          <div class="v37-device-node"><span>OLD DEVICE</span><b>旧设备</b><small>离开原持有人</small></div>
-          <div class="v37-route-lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="v37-route-list">
-            <button data-route="闲置"><em>01</em><b>闲置</b><small>停在原处，位置清楚但尚未交接</small></button>
-            <button data-route="二手 / 维修"><em>02</em><b>二手 / 维修</b><small>设备延寿，责任在转手处重新起算</small></button>
-            <button class="active" data-route="正规回收"><em>03</em><b>正规回收</b><small>主体、检测和末端凭证可以互证</small></button>
-            <button data-route="未记录"><em>04</em><b>未记录</b><small>去向消失，风险与责任同时变模糊</small></button>
+      <div class="route-console-grid">
+        <section class="route-choice-panel">
+          <header class="afterlife-panel-head">
+            <div><b>路径可见度</b><small>点击路线，比较证据门通过情况</small></div>
+            <span>审计模型 · 非统计比例</span>
+          </header>
+          <div class="route-proof-legend"><span>接收主体</span><span>交接地点</span><span>处理凭证</span></div>
+          <div class="route-choice-list" role="list">
+            <button type="button" data-route="闲置" aria-pressed="false"><em>01</em><span><b>闲置</b><small>位置仍可知，正式交接尚未发生</small></span><i><u class="on"></u><u></u><u></u></i><strong>1/3</strong></button>
+            <button type="button" data-route="二手 / 维修" aria-pressed="false"><em>02</em><span><b>二手 / 维修</b><small>继续使用，但未来末端仍待记录</small></span><i><u class="on"></u><u class="on"></u><u></u></i><strong>2/3</strong></button>
+            <button type="button" class="active" data-route="正规回收" aria-pressed="true"><em>03</em><span><b>正规回收</b><small>接收、检测与末端凭证相互印证</small></span><i><u class="on"></u><u class="on"></u><u class="on"></u></i><strong>3/3</strong></button>
+            <button type="button" data-route="未记录" aria-pressed="false"><em>04</em><span><b>未记录</b><small>位置和处理方式同时退出视野</small></span><i><u></u><u></u><u></u></i><strong>0/3</strong></button>
           </div>
-        </main>
-        <aside class="v37-current-audit">
-          <span>当前审计</span>
+        </section>
+        <aside class="route-audit-module" aria-live="polite">
+          <header><span>当前审计</span><b id="routeAuditBadge">链条闭合</b></header>
+          <div class="route-score-ring" id="routeAuditRing" style="--score:100;--ring-color:#c4f500"><strong id="routeAuditNumber">3/3</strong><small>证据门</small></div>
           <h4 id="v37RouteName">正规回收</h4>
           <p id="v37RouteText">接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。</p>
-          <div class="v37-audit-checks"><i class="on">主体</i><i class="on">地点</i><i class="on">处理</i></div>
+          <div class="route-audit-checks"><i class="on">主体</i><i class="on">地点</i><i class="on">处理</i></div>
         </aside>
-      </div>`;
+      </div>
+      <footer class="afterlife-dash-foot"><span>设备护照</span><i></i><span>交接回执</span><i></i><span>检测记录</span><i></i><span>末端凭证</span></footer>`;
 
     const details = {
-      '闲置': ['设备停留在家庭或机构内，位置仍可知，但没有正式接收主体，也没有末端处理记录。', [1, 0, 0]],
-      '二手 / 维修': ['设备被转卖、维修或翻新后继续使用；延寿有价值，但转手时间、接收者和未来去向必须留下记录。', [1, 1, 0]],
-      '正规回收': ['接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。', [1, 1, 1]],
-      '未记录': ['设备可能混入普通废物流或分散拆解链，位置、处理方法和材料去向均难以复核。', [0, 0, 0]]
+      '闲置': { text: '设备仍停留在家庭或机构内，位置可知，但没有新的接收主体，也没有末端处理记录。', checks: [1, 0, 0], badge: '尚未交接', color: '#ffad00' },
+      '二手 / 维修': { text: '设备通过转卖、维修或翻新继续使用；本次接手可查，但未来末端仍需要新的凭证承接。', checks: [1, 1, 0], badge: '延寿进行中', color: '#39bff2' },
+      '正规回收': { text: '接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。', checks: [1, 1, 1], badge: '链条闭合', color: '#c4f500' },
+      '未记录': { text: '设备可能混入普通废物流或分散拆解链，位置、处理方法与材料去向均难以复核。', checks: [0, 0, 0], badge: '链条失联', color: '#ff6542' }
     };
-    qa('.v37-route-list button', host).forEach((button) => {
+    qa('.route-choice-list button', host).forEach((button) => {
       button.addEventListener('click', () => {
-        qa('.v37-route-list button', host).forEach((item) => item.classList.toggle('active', item === button));
+        qa('.route-choice-list button', host).forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
         const name = button.dataset.route;
+        const detail = details[name];
+        const score = detail.checks.reduce((sum, value) => sum + value, 0);
         q('#v37RouteName').textContent = name;
-        q('#v37RouteText').textContent = details[name][0];
-        qa('.v37-audit-checks i', host).forEach((item, index) => item.classList.toggle('on', Boolean(details[name][1][index])));
+        q('#v37RouteText').textContent = detail.text;
+        q('#routeAuditBadge', host).textContent = detail.badge;
+        q('#routeAuditNumber', host).textContent = `${score}/3`;
+        q('#routeAuditRing', host).style.setProperty('--score', String(Math.round(score / 3 * 100)));
+        q('#routeAuditRing', host).style.setProperty('--ring-color', detail.color);
+        qa('.route-audit-checks i', host).forEach((item, index) => item.classList.toggle('on', Boolean(detail.checks[index])));
       });
     });
   }
@@ -2335,35 +2325,79 @@ window.addEventListener("DOMContentLoaded", init);
     const host = q('#chainDiagnosticDashboard');
     if (!host) return;
     majorLayout(host, true);
-    host.className = 'v37-dashboard v37-diagnostic-dashboard';
+    host.className = 'afterlife-dashboard chain-diagnostic-console';
     host.innerHTML = `
-      <header class="v37-dash-head">
-        <div><span class="v37-kicker">TRACE DIAGNOSTICS / 责任链诊断台</span><h3>四项记录，决定一台设备能否被复盘</h3></div>
-        <span class="v37-status">链条完整</span>
+      <header class="afterlife-dash-head">
+        <div><span>TRACE DIAGNOSTICS / 责任链诊断</span><h3>四个字段，拼出一条可复核时间线</h3></div>
+        <b id="diagnosticStatusBadge">CHAIN COMPLETE</b>
       </header>
-      <section class="v37-diagnostic-kpis">
-        <div><strong>4/4</strong><span>信息字段</span></div><div><strong>3/3</strong><span>交叉核验</span></div><div><strong>1</strong><span>设备身份</span></div><div><strong>∞</strong><span>可追溯周期</span></div>
+      <section class="afterlife-kpi-grid diagnostic-kpi-grid" aria-label="责任链概览">
+        <article style="--card-accent:#ff6542"><span>核心字段</span><strong>4/4</strong><small>身份、权属、地点、凭证</small></article>
+        <article style="--card-accent:#9d75ff"><span>交叉核验</span><strong>3×</strong><small>前后记录相互确认</small></article>
+        <article style="--card-accent:#39bff2"><span>唯一身份</span><strong>01</strong><small>所有文件共用编号</small></article>
+        <article style="--card-accent:#c4f500"><span>记录寿命</span><strong>∞</strong><small>可迁移、可读取、可复核</small></article>
       </section>
-      <div class="v37-diagnostic-grid">
-        <section class="v37-record-matrix">
-          <button class="done"><em>01</em><b>设备身份</b><span>型号 / 序列号 / 唯一标识</span></button>
-          <button class="done"><em>02</em><b>所有权</b><span>原持有人 / 接收主体</span></button>
-          <button class="done"><em>03</em><b>交接地点</b><span>时间 / 地址 / 凭证编号</span></button>
-          <button class="done"><em>04</em><b>处理凭证</b><span>检测 / 数据清除 / 材料去向</span></button>
+      <div class="diagnostic-console-grid">
+        <section class="diagnostic-field-panel">
+          <header class="afterlife-panel-head"><div><b>字段联检</b><small>选择路线，查看记录在哪一步断开</small></div><span id="diagnosticFieldScore">4 / 4 完整</span></header>
+          <div class="diagnostic-route-tabs" role="tablist" aria-label="选择设备去向">
+            <button type="button" data-diagnostic-model="闲置" aria-selected="false">闲置</button>
+            <button type="button" data-diagnostic-model="二手 / 维修" aria-selected="false">二手 / 维修</button>
+            <button type="button" class="active" data-diagnostic-model="正规回收" aria-selected="true">正规回收</button>
+            <button type="button" data-diagnostic-model="未记录" aria-selected="false">未记录</button>
+          </div>
+          <div class="diagnostic-field-list">
+            <div class="present" data-field-index="0"><em>01</em><span><b>设备身份</b><small>序列号 / 资产编号</small></span><i><u></u></i><strong>可核验</strong></div>
+            <div class="present" data-field-index="1"><em>02</em><span><b>所有权</b><small>原持有人 / 接收主体</small></span><i><u></u></i><strong>可核验</strong></div>
+            <div class="present" data-field-index="2"><em>03</em><span><b>交接地点</b><small>时间 / 地址 / 回执编号</small></span><i><u></u></i><strong>可核验</strong></div>
+            <div class="present" data-field-index="3"><em>04</em><span><b>处理凭证</b><small>检测结果 / 材料去向</small></span><i><u></u></i><strong>可核验</strong></div>
+          </div>
         </section>
-        <section class="v37-process-spine">
-          <span>设备</span><i></i><span>交接</span><i></i><span>检测</span><i></i><span>末端</span>
-        </section>
-        <section class="v37-diagnostic-copy">
-          <span>当前路线</span><h4>正规回收</h4>
-          <p>四项记录不是四张孤立表格，而是一条可验证的时间线。任何一项缺席，设备就会在下一次转手时失去身份。</p>
-          <div class="v37-coverage-bars"><i style="--w:100%"></i><i style="--w:92%"></i><i style="--w:84%"></i><i style="--w:76%"></i></div>
-        </section>
-        <section class="v37-lower-charts">
-          <article><b>字段覆盖</b><div class="v37-ring-row"><i style="--v:94"></i><i style="--v:81"></i><i style="--v:73"></i></div><small>身份 / 地点 / 处理</small></article>
-          <article><b>核验进度</b><svg viewBox="0 0 240 70"><path class="grid" d="M5 18H235M5 42H235M5 66H235"/><path class="line lime" d="M8 60 L68 48 L128 38 L188 21 L232 12"/></svg><small>交接越连续，责任越清楚</small></article>
-        </section>
-      </div>`;
+        <aside class="diagnostic-trace-panel" aria-live="polite">
+          <header><span>当前路线</span><b id="diagnosticTraceState">记录可互证</b></header>
+          <h4 id="diagnosticModelName">正规回收</h4>
+          <p id="diagnosticModelCopy">设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。</p>
+          <div class="diagnostic-time-spine" aria-label="责任链时间线"><span class="on">登记</span><i></i><span class="on">交接</span><i></i><span class="on">检测</span><i></i><span class="on">末端</span></div>
+          <div class="diagnostic-continuity-bars">
+            <div><span>身份连续</span><i><u style="--w:100%"></u></i></div>
+            <div><span>权属连续</span><i><u style="--w:96%"></u></i></div>
+            <div><span>凭证连续</span><i><u style="--w:90%"></u></i></div>
+          </div>
+        </aside>
+      </div>
+      <footer class="afterlife-dash-foot diagnostic-dash-foot"><span>字段已填写</span><strong>≠</strong><span>记录可互证</span><i></i><span>同一编号 + 连续时间 + 可读格式</span></footer>`;
+
+    const models = {
+      '闲置': { fields: [1, 1, 1, 0], state: '末端尚未发生', badge: 'CHAIN OPEN', copy: '设备位置和持有人仍然明确，但没有处理凭证；暂存时间越长，技术状态越需要重新检测。', bars: [100, 86, 22] },
+      '二手 / 维修': { fields: [1, 1, 1, 0], state: '延寿链待续写', badge: 'CHAIN EXTENDED', copy: '本次转手和维修可以核验，但责任链不能止于“仍可使用”，未来再次转手时仍需沿用同一设备身份。', bars: [100, 82, 46] },
+      '正规回收': { fields: [1, 1, 1, 1], state: '记录可互证', badge: 'CHAIN COMPLETE', copy: '设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。', bars: [100, 96, 90] },
+      '未记录': { fields: [1, 0, 0, 0], state: '责任链中断', badge: 'CHAIN BROKEN', copy: '只剩设备本身，接收主体、地点与处理结果均无法对应，后续任何文件都难以确认属于这台设备。', bars: [36, 12, 6] }
+    };
+
+    qa('[data-diagnostic-model]', host).forEach((button) => {
+      button.addEventListener('click', () => {
+        const name = button.dataset.diagnosticModel;
+        const model = models[name];
+        const score = model.fields.reduce((sum, value) => sum + value, 0);
+        qa('[data-diagnostic-model]', host).forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-selected', String(active));
+        });
+        qa('[data-field-index]', host).forEach((row, index) => {
+          const present = Boolean(model.fields[index]);
+          row.classList.toggle('present', present);
+          q('strong', row).textContent = present ? '可核验' : '缺失';
+        });
+        qa('.diagnostic-time-spine span', host).forEach((node, index) => node.classList.toggle('on', index < score));
+        qa('.diagnostic-continuity-bars u', host).forEach((bar, index) => bar.style.setProperty('--w', `${model.bars[index]}%`));
+        q('#diagnosticFieldScore', host).textContent = `${score} / 4 完整`;
+        q('#diagnosticStatusBadge', host).textContent = model.badge;
+        q('#diagnosticTraceState', host).textContent = model.state;
+        q('#diagnosticModelName', host).textContent = name;
+        q('#diagnosticModelCopy', host).textContent = model.copy;
+      });
+    });
   }
 
   function evidenceArchitecture() {
