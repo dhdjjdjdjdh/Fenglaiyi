@@ -2255,71 +2255,51 @@ window.addEventListener("DOMContentLoaded", init);
     const host = q('#routeCommandDashboard');
     if (!host) return;
     majorLayout(host, false);
-    host.className = 'route-dispatch-board';
+    host.className = 'device-life-comic';
     host.innerHTML = `
-      <header class="dispatch-head">
-        <div>
-          <span>ROUTE DISPATCH 05 / 去向调度</span>
-          <h3>设备离场后，路线必须重新报到</h3>
-        </div>
-        <div class="dispatch-identity"><small>DEVICE ID</small><b>7E-19-204</b><em id="dispatchState">ON RECORD</em></div>
+      <header class="comic-coverline">
+        <div><span>DEVICE BIOGRAPHY / 设备小传</span><h3>一台电子设备的六格人生</h3></div>
+        <b>NO. 7E-19-204</b>
       </header>
-      <div class="dispatch-main">
-        <section class="dispatch-table" aria-label="四种设备去向调度牌">
-          <header>
-            <span>航道</span><span>目的状态</span><span>证据门</span><span>可见度</span>
-          </header>
-          <div class="dispatch-rows">
-            <button type="button" data-dispatch-route="闲置" aria-pressed="false"><em>01</em><span><b>HOLD</b><small>闲置 / 原处保留</small></span><i><u class="on"></u><u></u><u></u></i><strong>1/3</strong></button>
-            <button type="button" data-dispatch-route="二手 / 维修" aria-pressed="false"><em>02</em><span><b>EXTEND</b><small>二手 / 维修延寿</small></span><i><u class="on"></u><u class="on"></u><u></u></i><strong>2/3</strong></button>
-            <button type="button" class="active" data-dispatch-route="正规回收" aria-pressed="true"><em>03</em><span><b>CLOSE</b><small>正规回收 / 凭证闭环</small></span><i><u class="on"></u><u class="on"></u><u class="on"></u></i><strong>3/3</strong></button>
-            <button type="button" data-dispatch-route="未记录" aria-pressed="false"><em>04</em><span><b>DARK</b><small>未记录 / 去向失联</small></span><i><u></u><u></u><u></u></i><strong>0/3</strong></button>
-          </div>
-        </section>
-        <aside class="dispatch-ticket" aria-live="polite">
-          <header><span>ROUTE TICKET</span><b id="dispatchTicketCode">CLOSE-03</b></header>
-          <div class="dispatch-ticket-body">
-            <small>DESTINATION</small>
-            <h4 id="dispatchTicketName">正规回收</h4>
-            <p id="dispatchTicketCopy">接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。</p>
-            <div class="dispatch-ticket-score"><span>PROOF GATES</span><b id="dispatchScore">3 / 3</b></div>
-            <div class="dispatch-checks"><i class="on">主体</i><i class="on">地点</i><i class="on">处理</i></div>
-            <div class="dispatch-meter"><i><u id="dispatchMeterFill" style="--w:100%"></u></i><small>审计可见度</small></div>
-          </div>
-          <footer><span>ISSUED 2026</span><i></i><span>MODEL / NOT RATE</span></footer>
-        </aside>
+      <div class="comic-page" aria-label="电子设备从诞生、使用、闲置到延寿、回收和材料再生的六格漫画">
+        <article class="comic-panel comic-panel--birth">
+          <span class="comic-number">01</span><b class="comic-chapter">初次点亮</b>
+          <div class="comic-scene"><i class="comic-box"></i><i class="comic-phone comic-phone--happy"><u></u></i><em class="comic-burst">叮！</em></div>
+          <p>从包装盒里醒来，它第一次拥有姓名、编号和主人。</p>
+          <q>“你好，我会陪你很久。”</q>
+        </article>
+        <article class="comic-panel comic-panel--use">
+          <span class="comic-number">02</span><b class="comic-chapter">并肩生活</b>
+          <div class="comic-scene"><i class="comic-phone comic-phone--busy"><u></u></i><i class="comic-icons">✦<u>●</u><b>♫</b></i><em class="comic-motion">嗖嗖</em></div>
+          <p>照片、消息、工作和路线，让它成为用户生活的一部分。</p>
+          <q>“今天也装满了故事。”</q>
+        </article>
+        <article class="comic-panel comic-panel--drawer">
+          <span class="comic-number">03</span><b class="comic-chapter">被放进抽屉</b>
+          <div class="comic-scene"><i class="comic-drawer"></i><i class="comic-phone comic-phone--sleep"><u></u></i><em class="comic-z">Z<br>Z</em></div>
+          <p>新设备到来后，它没有坏，只是慢慢离开了日常视线。</p>
+          <q>“我是在休息，还是被忘记？”</q>
+        </article>
+        <article class="comic-panel comic-panel--repair">
+          <span class="comic-number">04</span><b class="comic-chapter">修好，再出发</b>
+          <div class="comic-scene"><i class="comic-tool">✦</i><i class="comic-phone comic-phone--patched"><u></u></i><em class="comic-burst">咔哒</em></div>
+          <p>维修、翻新或转手，让尚能使用的功能继续创造价值。</p>
+          <q>“换块电池，我还可以。”</q>
+        </article>
+        <article class="comic-panel comic-panel--handover">
+          <span class="comic-number">05</span><b class="comic-chapter">带着记录交接</b>
+          <div class="comic-scene"><i class="comic-hand comic-hand--left"></i><i class="comic-phone comic-phone--handover"><u></u></i><i class="comic-hand comic-hand--right"></i><em class="comic-ticket-mini">✓ 编号<br>✓ 地点<br>✓ 凭证</em></div>
+          <p>正规回收不是消失，而是身份、地点和处理结果都能被追问。</p>
+          <q>“请让下一站留下签名。”</q>
+        </article>
+        <article class="comic-panel comic-panel--rebirth">
+          <span class="comic-number">06</span><b class="comic-chapter">材料的新生</b>
+          <div class="comic-scene"><i class="comic-material comic-material--one"></i><i class="comic-material comic-material--two"></i><i class="comic-material comic-material--three"></i><i class="comic-new-device"></i><em class="comic-burst">再见，也是再生</em></div>
+          <p>金属、玻璃和塑料回到生产链，旧设备以另一种形态继续生活。</p>
+          <q>“我的一生，不该止于垃圾桶。”</q>
+        </article>
       </div>
-      <section class="dispatch-timeband">
-        <header><span>TIME DECAY / 暂存也会改变去向</span><b>TECHNICAL VALUE</b></header>
-        <div><article><em>T+0</em><b>可直接复用</b><small>状态与配件仍清楚</small></article><i></i><article><em>T+1</em><b>需要重新检测</b><small>电池与接口开始老化</small></article><i></i><article><em>T+2</em><b>再使用价值下降</b><small>更新支持与兼容性中断</small></article><i></i><article><em>T+?</em><b>无人负责的遗忘</b><small>时间与状态同时缺席</small></article></div>
-      </section>`;
-
-    const details = {
-      '闲置': { text: '设备仍停留在家庭或机构内，位置可知，但没有新的接收主体，也没有末端处理记录。', checks: [1, 0, 0], code: 'HOLD-01', state: 'WAITING', visibility: 33, color: '#ffad00' },
-      '二手 / 维修': { text: '设备通过转卖、维修或翻新继续使用；本次接手可查，但未来末端仍需要新的凭证承接。', checks: [1, 1, 0], code: 'EXTEND-02', state: 'IN USE', visibility: 67, color: '#31d6d0' },
-      '正规回收': { text: '接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。', checks: [1, 1, 1], code: 'CLOSE-03', state: 'ON RECORD', visibility: 100, color: '#c4f500' },
-      '未记录': { text: '设备可能混入普通废物流或分散拆解链，位置、处理方法与材料去向均难以复核。', checks: [0, 0, 0], code: 'DARK-04', state: 'NO SIGNAL', visibility: 4, color: '#ff6542' }
-    };
-    qa('[data-dispatch-route]', host).forEach((button) => {
-      button.addEventListener('click', () => {
-        qa('[data-dispatch-route]', host).forEach((item) => {
-          const active = item === button;
-          item.classList.toggle('active', active);
-          item.setAttribute('aria-pressed', String(active));
-        });
-        const name = button.dataset.dispatchRoute;
-        const detail = details[name];
-        const score = detail.checks.reduce((sum, value) => sum + value, 0);
-        q('#dispatchState', host).textContent = detail.state;
-        q('#dispatchTicketCode', host).textContent = detail.code;
-        q('#dispatchTicketName', host).textContent = name;
-        q('#dispatchTicketCopy', host).textContent = detail.text;
-        q('#dispatchScore', host).textContent = `${score} / 3`;
-        q('#dispatchMeterFill', host).style.setProperty('--w', `${detail.visibility}%`);
-        qa('.dispatch-checks i', host).forEach((item, index) => item.classList.toggle('on', Boolean(detail.checks[index])));
-        host.style.setProperty('--dispatch-accent', detail.color);
-      });
-    });
+      <footer class="comic-colophon"><span>一台设备，可以拥有不止一次“开始”。</span><b>KEEP IT IN THE LOOP →</b></footer>`;
   }
 
   function diagnosticDashboard() {
