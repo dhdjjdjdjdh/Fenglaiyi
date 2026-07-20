@@ -2306,75 +2306,120 @@ window.addEventListener("DOMContentLoaded", init);
     const host = q('#chainDiagnosticDashboard');
     if (!host) return;
     majorLayout(host, true);
-    host.className = 'custody-forensics-board';
+    host.className = 'interactive-archive-board';
     host.innerHTML = `
-      <header class="forensic-folder-head">
-        <div class="forensic-folder-tab"><small>CASE FILE</small><b>7E-19-204</b></div>
-        <div><span>CHAIN OF CUSTODY / 责任链取证</span><h3>把四份记录装进同一个设备档案</h3></div>
-        <em id="forensicStatusStamp">VERIFIED</em>
+      <header class="archive-folder-head">
+        <div class="archive-case-tab"><small>CASE FILE</small><b>7E–19–204</b></div>
+        <div class="archive-headline"><span>CHAIN OF CUSTODY / 责任链取证</span><h3>从档案袋中，逐份抽出设备的一生</h3></div>
+        <em id="archiveStatusStamp">PROOF SEALED</em>
       </header>
-      <div class="forensic-workbench">
-        <section class="forensic-sheet">
-          <header><div><small>TRACE RECORD</small><b>设备记录联检单</b></div><strong id="forensicSheetScore">4 / 4</strong></header>
-          <div class="forensic-route-tabs" role="tablist" aria-label="选择设备去向">
-            <button type="button" data-forensic-route="闲置" aria-selected="false">闲置</button>
-            <button type="button" data-forensic-route="二手 / 维修" aria-selected="false">二手 / 维修</button>
-            <button type="button" class="active" data-forensic-route="正规回收" aria-selected="true">正规回收</button>
-            <button type="button" data-forensic-route="未记录" aria-selected="false">未记录</button>
+      <div class="archive-workbench">
+        <section class="archive-file-stage" aria-label="可翻阅的设备档案袋">
+          <article class="archive-open-file" id="archiveOpenFile" aria-live="polite">
+            <header>
+              <span><small id="archiveDocType">04 / TERMINAL PROOF</small><b id="archiveDocCode">DOC · 88D0</b></span>
+              <em id="archiveDocState">已封存</em>
+            </header>
+            <div class="archive-paper-title"><span id="archiveDocNumber">04</span><div><small>TRACE RECORD</small><h4 id="archiveDocTitle">处理凭证</h4></div></div>
+            <p id="archiveDocSummary">检测、数据清除与材料去向必须落在同一设备编号下，责任链才抵达真实末端。</p>
+            <div class="archive-doc-rows" id="archiveDocRows"></div>
+            <footer><span>SAME DEVICE ID</span><i></i><span>ORDERED TIME</span><i></i><span>READABLE FILE</span></footer>
+          </article>
+          <div class="archive-folder-pocket">
+            <div class="archive-file-tabs" role="tablist" aria-label="选择要从档案袋中抽出的文件">
+              <button type="button" data-archive-file="identity" role="tab" aria-selected="false"><small>FILE 01</small><b>设备身份</b><em>ID</em></button>
+              <button type="button" data-archive-file="owner" role="tab" aria-selected="false"><small>FILE 02</small><b>所有权</b><em>OWNER</em></button>
+              <button type="button" data-archive-file="place" role="tab" aria-selected="false"><small>FILE 03</small><b>交接地点</b><em>PLACE</em></button>
+              <button type="button" class="active" data-archive-file="proof" role="tab" aria-selected="true"><small>FILE 04</small><b>处理凭证</b><em>PROOF</em></button>
+            </div>
+            <div class="archive-pocket-face"><span><small>DEVICE ARCHIVE</small><b>7E–19–204</b></span><em>悬停文件，抽出查看</em><i>4 RECORDS</i></div>
           </div>
-          <div class="forensic-field-list">
-            <div class="present" data-forensic-field="0"><em>01</em><span><b>设备身份</b><small>序列号 / 资产编号 / 同一标识</small></span><i></i><strong>FOUND</strong></div>
-            <div class="present" data-forensic-field="1"><em>02</em><span><b>所有权</b><small>原持有人 / 接收主体 / 转移时间</small></span><i></i><strong>FOUND</strong></div>
-            <div class="present" data-forensic-field="2"><em>03</em><span><b>交接地点</b><small>地址 / 回执编号 / 经手人</small></span><i></i><strong>FOUND</strong></div>
-            <div class="present" data-forensic-field="3"><em>04</em><span><b>处理凭证</b><small>检测结果 / 数据状态 / 材料去向</small></span><i></i><strong>FOUND</strong></div>
-          </div>
-          <footer><span>SAME DEVICE ID</span><i></i><span>ORDERED TIME</span><i></i><span>READABLE FILE</span></footer>
         </section>
-        <aside class="forensic-verifier" aria-live="polite">
-          <header><span>CHECKSUM VERIFIER</span><b id="forensicCaseState">MATCHED</b></header>
-          <div class="forensic-code"><i></i><span>7E19 / 204F / C6A2 / 88D0</span></div>
-          <h4 id="forensicCaseName">正规回收</h4>
-          <p id="forensicCaseCopy">设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。</p>
-          <div class="forensic-custody-rail" aria-label="保管链节点">
-            <div class="on"><i></i><span><b>登记</b><small>ID CREATED</small></span></div>
-            <div class="on"><i></i><span><b>交接</b><small>OWNER SIGNED</small></span></div>
-            <div class="on"><i></i><span><b>检测</b><small>STATUS READ</small></span></div>
-            <div class="on"><i></i><span><b>末端</b><small>PROOF SEALED</small></span></div>
+        <aside class="archive-verifier" aria-live="polite">
+          <header><span>LIVE FILE VERIFIER</span><b id="archiveCaseState">PROOF SEALED</b></header>
+          <div class="archive-code"><i></i><span id="archiveChecksum">7E19 / 204F / C6A2 / 88D0</span></div>
+          <small class="archive-now-reading">NOW READING / 当前文件</small>
+          <h4 id="archiveCaseName">处理凭证</h4>
+          <p id="archiveCaseCopy">前三份文件回答“它是谁、交给谁、在哪里”，最后一份文件说明它最终经历了什么。</p>
+          <div class="archive-custody-rail" aria-label="随文件同步点亮的责任链">
+            <div data-archive-node="0"><i></i><span><b>身份建立</b><small>ID CREATED</small></span></div>
+            <div data-archive-node="1"><i></i><span><b>主体签收</b><small>OWNER SIGNED</small></span></div>
+            <div data-archive-node="2"><i></i><span><b>地点留痕</b><small>PLACE RECORDED</small></span></div>
+            <div data-archive-node="3"><i></i><span><b>结果封存</b><small>PROOF SEALED</small></span></div>
           </div>
         </aside>
       </div>
-      <footer class="forensic-meta-row"><div><small>FILE FORMAT</small><b>OPEN / MIGRATABLE</b></div><div><small>RETENTION</small><b>LONGER THAN PLATFORM</b></div><div><small>LAST CHECK</small><b>2026 · VERIFIED COPY</b></div></footer>`;
+      <footer class="archive-meta-row"><div><small>HOW TO READ</small><b>HOVER / FOCUS / TAP</b></div><div><small>RETENTION</small><b>LONGER THAN PLATFORM</b></div><div><small>CHAIN STATUS</small><b id="archiveChainCount">4 / 4 FILES LINKED</b></div></footer>`;
 
     const models = {
-      '闲置': { fields: [1, 1, 1, 0], state: 'OPEN FILE', stamp: 'PENDING', copy: '设备位置和持有人仍然明确，但没有处理凭证；暂存时间越长，技术状态越需要重新检测。' },
-      '二手 / 维修': { fields: [1, 1, 1, 0], state: 'NEXT ENTRY DUE', stamp: 'EXTENDED', copy: '本次转手和维修可以核验，但责任链不能止于“仍可使用”，未来再次转手时仍需沿用同一设备身份。' },
-      '正规回收': { fields: [1, 1, 1, 1], state: 'MATCHED', stamp: 'VERIFIED', copy: '设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。' },
-      '未记录': { fields: [1, 0, 0, 0], state: 'CHECKSUM FAIL', stamp: 'BROKEN', copy: '只剩设备本身，接收主体、地点与处理结果均无法对应，后续任何文件都难以确认属于这台设备。' }
+      identity: {
+        index: 0, number: '01', type: 'DEVICE IDENTITY', code: 'DOC · 7E19', state: 'ID MATCHED', stateCn: '身份已匹配', title: '设备身份',
+        summary: '不是“某台旧手机”，而是可被持续辨认的同一台设备；统一编号让此后的每份记录都有明确归属。',
+        verifier: '型号、序列号和资产编号共同锁定设备身份，后续文件才能确认属于同一台设备。', checksum: '7E19 / A113 / SN88 / ID01',
+        rows: [['设备型号', 'FENG · M24'], ['序列号', 'SN–204–7E19'], ['资产编号', 'ASSET–0118']]
+      },
+      owner: {
+        index: 1, number: '02', type: 'OWNERSHIP TRANSFER', code: 'DOC · 204F', state: 'OWNER SIGNED', stateCn: '主体已签收', title: '所有权',
+        summary: '设备离开原持有人时，新的接收主体与签收时间同时出现，责任不会停留在一句模糊的“已转手”。',
+        verifier: '原持有人、接收主体和转移时间共同证明责任在何时、从谁手中转移给谁。', checksum: '7E19 / 204F / OWN2 / T132',
+        rows: [['原持有人', 'USER · 019'], ['接收主体', 'RECYCLE · 06'], ['转移时间', '2026–07–20 13:42']]
+      },
+      place: {
+        index: 2, number: '03', type: 'HANDOVER LOCATION', code: 'DOC · C6A2', state: 'PLACE RECORDED', stateCn: '地点已留痕', title: '交接地点',
+        summary: '地址、经手人与回执编号把一次线下交接固定在现实世界中，让设备的移动轨迹可以被复核。',
+        verifier: '交接地点不是背景信息；它把设备、时间和经手人连接成可回查的现实坐标。', checksum: '7E19 / C6A2 / LOC3 / RCPT',
+        rows: [['交接地址', '上海 · 服务站 06'], ['经手人员', 'OPERATOR · LIN'], ['回执编号', 'RCPT–C6A2–31']]
+      },
+      proof: {
+        index: 3, number: '04', type: 'TERMINAL PROOF', code: 'DOC · 88D0', state: 'PROOF SEALED', stateCn: '结果已封存', title: '处理凭证',
+        summary: '检测、数据清除与材料去向必须落在同一设备编号下，责任链才抵达真实末端。',
+        verifier: '前三份文件回答“它是谁、交给谁、在哪里”，最后一份文件说明它最终经历了什么。', checksum: '7E19 / 204F / C6A2 / 88D0',
+        rows: [['检测结果', 'BATTERY · 71%'], ['数据状态', 'ERASED · VERIFIED'], ['材料去向', 'PLANT · SH–04']]
+      }
     };
 
-    qa('[data-forensic-route]', host).forEach((button) => {
-      button.addEventListener('click', () => {
-        const name = button.dataset.forensicRoute;
-        const model = models[name];
-        const score = model.fields.reduce((sum, value) => sum + value, 0);
-        qa('[data-forensic-route]', host).forEach((item) => {
-          const active = item === button;
+    const renderFile = (key, animate = true) => {
+      const model = models[key];
+      const paper = q('#archiveOpenFile', host);
+      qa('[data-archive-file]', host).forEach((item) => {
+          const active = item.dataset.archiveFile === key;
           item.classList.toggle('active', active);
           item.setAttribute('aria-selected', String(active));
-        });
-        qa('[data-forensic-field]', host).forEach((row, index) => {
-          const present = Boolean(model.fields[index]);
-          row.classList.toggle('present', present);
-          q('strong', row).textContent = present ? 'FOUND' : 'MISSING';
-        });
-        qa('.forensic-custody-rail > div', host).forEach((node, index) => node.classList.toggle('on', index < score));
-        q('#forensicSheetScore', host).textContent = `${score} / 4`;
-        q('#forensicStatusStamp', host).textContent = model.stamp;
-        q('#forensicCaseState', host).textContent = model.state;
-        q('#forensicCaseName', host).textContent = name;
-        q('#forensicCaseCopy', host).textContent = model.copy;
       });
+      if (animate) {
+        paper.classList.remove('is-opening');
+        void paper.offsetWidth;
+        paper.classList.add('is-opening');
+      }
+      q('#archiveDocType', host).textContent = `${model.number} / ${model.type}`;
+      q('#archiveDocCode', host).textContent = model.code;
+      q('#archiveDocState', host).textContent = model.stateCn;
+      q('#archiveDocNumber', host).textContent = model.number;
+      q('#archiveDocTitle', host).textContent = model.title;
+      q('#archiveDocSummary', host).textContent = model.summary;
+      q('#archiveDocRows', host).innerHTML = model.rows.map(([label, value], index) => `<div><em>0${index + 1}</em><span><small>${label}</small><b>${value}</b></span><i>✓</i></div>`).join('');
+      q('#archiveStatusStamp', host).textContent = model.state;
+      q('#archiveCaseState', host).textContent = model.state;
+      q('#archiveCaseName', host).textContent = model.title;
+      q('#archiveCaseCopy', host).textContent = model.verifier;
+      q('#archiveChecksum', host).textContent = model.checksum;
+      q('#archiveChainCount', host).textContent = `${model.index + 1} / 4 FILES LINKED`;
+      qa('[data-archive-node]', host).forEach((node, index) => {
+        node.classList.toggle('on', index <= model.index);
+        node.classList.toggle('current', index === model.index);
+      });
+    };
+
+    qa('[data-archive-file]', host).forEach((button) => {
+      const selectFile = () => renderFile(button.dataset.archiveFile);
+      button.addEventListener('mouseenter', selectFile);
+      button.addEventListener('focus', selectFile);
+      button.addEventListener('click', selectFile);
     });
+    renderFile('proof', false);
+    if (window.location.hash === '#chainDiagnosticDashboard') {
+      window.setTimeout(() => host.scrollIntoView({ block: 'center' }), 80);
+    }
   }
 
   function evidenceArchitecture() {
