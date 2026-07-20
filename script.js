@@ -2332,7 +2332,7 @@ window.addEventListener("DOMContentLoaded", init);
               <button type="button" data-archive-file="place" role="tab" aria-selected="false"><small>FILE 03</small><b>交接地点</b><em>PLACE</em></button>
               <button type="button" class="active" data-archive-file="proof" role="tab" aria-selected="true"><small>FILE 04</small><b>处理凭证</b><em>PROOF</em></button>
             </div>
-            <div class="archive-pocket-face"><span><small>DEVICE ARCHIVE</small><b>7E–19–204</b></span><em>悬停文件，抽出查看</em><i>4 RECORDS</i></div>
+            <div class="archive-pocket-face"><span><small>DEVICE ARCHIVE</small><b>7E–19–204</b></span><em>悬停一份，完整抽出</em><i>4 RECORDS</i></div>
           </div>
         </section>
         <aside class="archive-verifier" aria-live="polite">
@@ -2378,7 +2378,7 @@ window.addEventListener("DOMContentLoaded", init);
       }
     };
 
-    const renderFile = (key, animate = true) => {
+    const renderFile = (key, animate = true, reveal = true) => {
       const model = models[key];
       const paper = q('#archiveOpenFile', host);
       qa('[data-archive-file]', host).forEach((item) => {
@@ -2391,6 +2391,7 @@ window.addEventListener("DOMContentLoaded", init);
         void paper.offsetWidth;
         paper.classList.add('is-opening');
       }
+      paper.classList.toggle('is-revealed', reveal);
       q('#archiveDocType', host).textContent = `${model.number} / ${model.type}`;
       q('#archiveDocCode', host).textContent = model.code;
       q('#archiveDocState', host).textContent = model.stateCn;
@@ -2416,7 +2417,12 @@ window.addEventListener("DOMContentLoaded", init);
       button.addEventListener('focus', selectFile);
       button.addEventListener('click', selectFile);
     });
-    renderFile('proof', false);
+    const fileStage = q('.archive-file-stage', host);
+    fileStage.addEventListener('mouseleave', () => q('#archiveOpenFile', host).classList.remove('is-revealed'));
+    fileStage.addEventListener('focusout', (event) => {
+      if (!fileStage.contains(event.relatedTarget)) q('#archiveOpenFile', host).classList.remove('is-revealed');
+    });
+    renderFile('proof', false, false);
     if (window.location.hash === '#chainDiagnosticDashboard') {
       window.setTimeout(() => host.scrollIntoView({ block: 'center' }), 80);
     }
