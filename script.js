@@ -2255,68 +2255,69 @@ window.addEventListener("DOMContentLoaded", init);
     const host = q('#routeCommandDashboard');
     if (!host) return;
     majorLayout(host, false);
-    host.className = 'afterlife-dashboard route-control-console';
+    host.className = 'route-dispatch-board';
     host.innerHTML = `
-      <header class="afterlife-dash-head">
+      <header class="dispatch-head">
         <div>
-          <span>ROUTE LEDGER / 去向总览</span>
-          <h3>一台设备，四条路线，三道证据门</h3>
+          <span>ROUTE DISPATCH 05 / 去向调度</span>
+          <h3>设备离场后，路线必须重新报到</h3>
         </div>
-        <b>INTERACTIVE MODEL</b>
+        <div class="dispatch-identity"><small>DEVICE ID</small><b>7E-19-204</b><em id="dispatchState">ON RECORD</em></div>
       </header>
-      <section class="afterlife-kpi-grid" aria-label="路径审计模型概览">
-        <article style="--card-accent:#39bff2"><span>去向分支</span><strong>04</strong><small>闲置 / 延寿 / 回收 / 失联</small></article>
-        <article style="--card-accent:#9d75ff"><span>证据门</span><strong>03</strong><small>主体 / 地点 / 处理</small></article>
-        <article style="--card-accent:#ffad00"><span>设备身份</span><strong>01</strong><small>贯穿每一次转手</small></article>
-        <article style="--card-accent:#c4f500"><span>凭证绑定</span><strong>1:1</strong><small>设备与记录相互指向</small></article>
-      </section>
-      <div class="route-console-grid">
-        <section class="route-choice-panel">
-          <header class="afterlife-panel-head">
-            <div><b>路径可见度</b><small>点击路线，比较证据门通过情况</small></div>
-            <span>审计模型 · 非统计比例</span>
+      <div class="dispatch-main">
+        <section class="dispatch-table" aria-label="四种设备去向调度牌">
+          <header>
+            <span>航道</span><span>目的状态</span><span>证据门</span><span>可见度</span>
           </header>
-          <div class="route-proof-legend"><span>接收主体</span><span>交接地点</span><span>处理凭证</span></div>
-          <div class="route-choice-list" role="list">
-            <button type="button" data-route="闲置" aria-pressed="false"><em>01</em><span><b>闲置</b><small>位置仍可知，正式交接尚未发生</small></span><i><u class="on"></u><u></u><u></u></i><strong>1/3</strong></button>
-            <button type="button" data-route="二手 / 维修" aria-pressed="false"><em>02</em><span><b>二手 / 维修</b><small>继续使用，但未来末端仍待记录</small></span><i><u class="on"></u><u class="on"></u><u></u></i><strong>2/3</strong></button>
-            <button type="button" class="active" data-route="正规回收" aria-pressed="true"><em>03</em><span><b>正规回收</b><small>接收、检测与末端凭证相互印证</small></span><i><u class="on"></u><u class="on"></u><u class="on"></u></i><strong>3/3</strong></button>
-            <button type="button" data-route="未记录" aria-pressed="false"><em>04</em><span><b>未记录</b><small>位置和处理方式同时退出视野</small></span><i><u></u><u></u><u></u></i><strong>0/3</strong></button>
+          <div class="dispatch-rows">
+            <button type="button" data-dispatch-route="闲置" aria-pressed="false"><em>01</em><span><b>HOLD</b><small>闲置 / 原处保留</small></span><i><u class="on"></u><u></u><u></u></i><strong>1/3</strong></button>
+            <button type="button" data-dispatch-route="二手 / 维修" aria-pressed="false"><em>02</em><span><b>EXTEND</b><small>二手 / 维修延寿</small></span><i><u class="on"></u><u class="on"></u><u></u></i><strong>2/3</strong></button>
+            <button type="button" class="active" data-dispatch-route="正规回收" aria-pressed="true"><em>03</em><span><b>CLOSE</b><small>正规回收 / 凭证闭环</small></span><i><u class="on"></u><u class="on"></u><u class="on"></u></i><strong>3/3</strong></button>
+            <button type="button" data-dispatch-route="未记录" aria-pressed="false"><em>04</em><span><b>DARK</b><small>未记录 / 去向失联</small></span><i><u></u><u></u><u></u></i><strong>0/3</strong></button>
           </div>
         </section>
-        <aside class="route-audit-module" aria-live="polite">
-          <header><span>当前审计</span><b id="routeAuditBadge">链条闭合</b></header>
-          <div class="route-score-ring" id="routeAuditRing" style="--score:100;--ring-color:#c4f500"><strong id="routeAuditNumber">3/3</strong><small>证据门</small></div>
-          <h4 id="v37RouteName">正规回收</h4>
-          <p id="v37RouteText">接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。</p>
-          <div class="route-audit-checks"><i class="on">主体</i><i class="on">地点</i><i class="on">处理</i></div>
+        <aside class="dispatch-ticket" aria-live="polite">
+          <header><span>ROUTE TICKET</span><b id="dispatchTicketCode">CLOSE-03</b></header>
+          <div class="dispatch-ticket-body">
+            <small>DESTINATION</small>
+            <h4 id="dispatchTicketName">正规回收</h4>
+            <p id="dispatchTicketCopy">接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。</p>
+            <div class="dispatch-ticket-score"><span>PROOF GATES</span><b id="dispatchScore">3 / 3</b></div>
+            <div class="dispatch-checks"><i class="on">主体</i><i class="on">地点</i><i class="on">处理</i></div>
+            <div class="dispatch-meter"><i><u id="dispatchMeterFill" style="--w:100%"></u></i><small>审计可见度</small></div>
+          </div>
+          <footer><span>ISSUED 2026</span><i></i><span>MODEL / NOT RATE</span></footer>
         </aside>
       </div>
-      <footer class="afterlife-dash-foot"><span>设备护照</span><i></i><span>交接回执</span><i></i><span>检测记录</span><i></i><span>末端凭证</span></footer>`;
+      <section class="dispatch-timeband">
+        <header><span>TIME DECAY / 暂存也会改变去向</span><b>TECHNICAL VALUE</b></header>
+        <div><article><em>T+0</em><b>可直接复用</b><small>状态与配件仍清楚</small></article><i></i><article><em>T+1</em><b>需要重新检测</b><small>电池与接口开始老化</small></article><i></i><article><em>T+2</em><b>再使用价值下降</b><small>更新支持与兼容性中断</small></article><i></i><article><em>T+?</em><b>无人负责的遗忘</b><small>时间与状态同时缺席</small></article></div>
+      </section>`;
 
     const details = {
-      '闲置': { text: '设备仍停留在家庭或机构内，位置可知，但没有新的接收主体，也没有末端处理记录。', checks: [1, 0, 0], badge: '尚未交接', color: '#ffad00' },
-      '二手 / 维修': { text: '设备通过转卖、维修或翻新继续使用；本次接手可查，但未来末端仍需要新的凭证承接。', checks: [1, 1, 0], badge: '延寿进行中', color: '#39bff2' },
-      '正规回收': { text: '接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。', checks: [1, 1, 1], badge: '链条闭合', color: '#c4f500' },
-      '未记录': { text: '设备可能混入普通废物流或分散拆解链，位置、处理方法与材料去向均难以复核。', checks: [0, 0, 0], badge: '链条失联', color: '#ff6542' }
+      '闲置': { text: '设备仍停留在家庭或机构内，位置可知，但没有新的接收主体，也没有末端处理记录。', checks: [1, 0, 0], code: 'HOLD-01', state: 'WAITING', visibility: 33, color: '#ffad00' },
+      '二手 / 维修': { text: '设备通过转卖、维修或翻新继续使用；本次接手可查，但未来末端仍需要新的凭证承接。', checks: [1, 1, 0], code: 'EXTEND-02', state: 'IN USE', visibility: 67, color: '#31d6d0' },
+      '正规回收': { text: '接收主体、位置与处理凭证可查，设备身份贯穿交接、检测与材料去向。', checks: [1, 1, 1], code: 'CLOSE-03', state: 'ON RECORD', visibility: 100, color: '#c4f500' },
+      '未记录': { text: '设备可能混入普通废物流或分散拆解链，位置、处理方法与材料去向均难以复核。', checks: [0, 0, 0], code: 'DARK-04', state: 'NO SIGNAL', visibility: 4, color: '#ff6542' }
     };
-    qa('.route-choice-list button', host).forEach((button) => {
+    qa('[data-dispatch-route]', host).forEach((button) => {
       button.addEventListener('click', () => {
-        qa('.route-choice-list button', host).forEach((item) => {
+        qa('[data-dispatch-route]', host).forEach((item) => {
           const active = item === button;
           item.classList.toggle('active', active);
           item.setAttribute('aria-pressed', String(active));
         });
-        const name = button.dataset.route;
+        const name = button.dataset.dispatchRoute;
         const detail = details[name];
         const score = detail.checks.reduce((sum, value) => sum + value, 0);
-        q('#v37RouteName').textContent = name;
-        q('#v37RouteText').textContent = detail.text;
-        q('#routeAuditBadge', host).textContent = detail.badge;
-        q('#routeAuditNumber', host).textContent = `${score}/3`;
-        q('#routeAuditRing', host).style.setProperty('--score', String(Math.round(score / 3 * 100)));
-        q('#routeAuditRing', host).style.setProperty('--ring-color', detail.color);
-        qa('.route-audit-checks i', host).forEach((item, index) => item.classList.toggle('on', Boolean(detail.checks[index])));
+        q('#dispatchState', host).textContent = detail.state;
+        q('#dispatchTicketCode', host).textContent = detail.code;
+        q('#dispatchTicketName', host).textContent = name;
+        q('#dispatchTicketCopy', host).textContent = detail.text;
+        q('#dispatchScore', host).textContent = `${score} / 3`;
+        q('#dispatchMeterFill', host).style.setProperty('--w', `${detail.visibility}%`);
+        qa('.dispatch-checks i', host).forEach((item, index) => item.classList.toggle('on', Boolean(detail.checks[index])));
+        host.style.setProperty('--dispatch-accent', detail.color);
       });
     });
   }
@@ -2325,77 +2326,73 @@ window.addEventListener("DOMContentLoaded", init);
     const host = q('#chainDiagnosticDashboard');
     if (!host) return;
     majorLayout(host, true);
-    host.className = 'afterlife-dashboard chain-diagnostic-console';
+    host.className = 'custody-forensics-board';
     host.innerHTML = `
-      <header class="afterlife-dash-head">
-        <div><span>TRACE DIAGNOSTICS / 责任链诊断</span><h3>四个字段，拼出一条可复核时间线</h3></div>
-        <b id="diagnosticStatusBadge">CHAIN COMPLETE</b>
+      <header class="forensic-folder-head">
+        <div class="forensic-folder-tab"><small>CASE FILE</small><b>7E-19-204</b></div>
+        <div><span>CHAIN OF CUSTODY / 责任链取证</span><h3>把四份记录装进同一个设备档案</h3></div>
+        <em id="forensicStatusStamp">VERIFIED</em>
       </header>
-      <section class="afterlife-kpi-grid diagnostic-kpi-grid" aria-label="责任链概览">
-        <article style="--card-accent:#ff6542"><span>核心字段</span><strong>4/4</strong><small>身份、权属、地点、凭证</small></article>
-        <article style="--card-accent:#9d75ff"><span>交叉核验</span><strong>3×</strong><small>前后记录相互确认</small></article>
-        <article style="--card-accent:#39bff2"><span>唯一身份</span><strong>01</strong><small>所有文件共用编号</small></article>
-        <article style="--card-accent:#c4f500"><span>记录寿命</span><strong>∞</strong><small>可迁移、可读取、可复核</small></article>
-      </section>
-      <div class="diagnostic-console-grid">
-        <section class="diagnostic-field-panel">
-          <header class="afterlife-panel-head"><div><b>字段联检</b><small>选择路线，查看记录在哪一步断开</small></div><span id="diagnosticFieldScore">4 / 4 完整</span></header>
-          <div class="diagnostic-route-tabs" role="tablist" aria-label="选择设备去向">
-            <button type="button" data-diagnostic-model="闲置" aria-selected="false">闲置</button>
-            <button type="button" data-diagnostic-model="二手 / 维修" aria-selected="false">二手 / 维修</button>
-            <button type="button" class="active" data-diagnostic-model="正规回收" aria-selected="true">正规回收</button>
-            <button type="button" data-diagnostic-model="未记录" aria-selected="false">未记录</button>
+      <div class="forensic-workbench">
+        <section class="forensic-sheet">
+          <header><div><small>TRACE RECORD</small><b>设备记录联检单</b></div><strong id="forensicSheetScore">4 / 4</strong></header>
+          <div class="forensic-route-tabs" role="tablist" aria-label="选择设备去向">
+            <button type="button" data-forensic-route="闲置" aria-selected="false">闲置</button>
+            <button type="button" data-forensic-route="二手 / 维修" aria-selected="false">二手 / 维修</button>
+            <button type="button" class="active" data-forensic-route="正规回收" aria-selected="true">正规回收</button>
+            <button type="button" data-forensic-route="未记录" aria-selected="false">未记录</button>
           </div>
-          <div class="diagnostic-field-list">
-            <div class="present" data-field-index="0"><em>01</em><span><b>设备身份</b><small>序列号 / 资产编号</small></span><i><u></u></i><strong>可核验</strong></div>
-            <div class="present" data-field-index="1"><em>02</em><span><b>所有权</b><small>原持有人 / 接收主体</small></span><i><u></u></i><strong>可核验</strong></div>
-            <div class="present" data-field-index="2"><em>03</em><span><b>交接地点</b><small>时间 / 地址 / 回执编号</small></span><i><u></u></i><strong>可核验</strong></div>
-            <div class="present" data-field-index="3"><em>04</em><span><b>处理凭证</b><small>检测结果 / 材料去向</small></span><i><u></u></i><strong>可核验</strong></div>
+          <div class="forensic-field-list">
+            <div class="present" data-forensic-field="0"><em>01</em><span><b>设备身份</b><small>序列号 / 资产编号 / 同一标识</small></span><i></i><strong>FOUND</strong></div>
+            <div class="present" data-forensic-field="1"><em>02</em><span><b>所有权</b><small>原持有人 / 接收主体 / 转移时间</small></span><i></i><strong>FOUND</strong></div>
+            <div class="present" data-forensic-field="2"><em>03</em><span><b>交接地点</b><small>地址 / 回执编号 / 经手人</small></span><i></i><strong>FOUND</strong></div>
+            <div class="present" data-forensic-field="3"><em>04</em><span><b>处理凭证</b><small>检测结果 / 数据状态 / 材料去向</small></span><i></i><strong>FOUND</strong></div>
           </div>
+          <footer><span>SAME DEVICE ID</span><i></i><span>ORDERED TIME</span><i></i><span>READABLE FILE</span></footer>
         </section>
-        <aside class="diagnostic-trace-panel" aria-live="polite">
-          <header><span>当前路线</span><b id="diagnosticTraceState">记录可互证</b></header>
-          <h4 id="diagnosticModelName">正规回收</h4>
-          <p id="diagnosticModelCopy">设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。</p>
-          <div class="diagnostic-time-spine" aria-label="责任链时间线"><span class="on">登记</span><i></i><span class="on">交接</span><i></i><span class="on">检测</span><i></i><span class="on">末端</span></div>
-          <div class="diagnostic-continuity-bars">
-            <div><span>身份连续</span><i><u style="--w:100%"></u></i></div>
-            <div><span>权属连续</span><i><u style="--w:96%"></u></i></div>
-            <div><span>凭证连续</span><i><u style="--w:90%"></u></i></div>
+        <aside class="forensic-verifier" aria-live="polite">
+          <header><span>CHECKSUM VERIFIER</span><b id="forensicCaseState">MATCHED</b></header>
+          <div class="forensic-code"><i></i><span>7E19 / 204F / C6A2 / 88D0</span></div>
+          <h4 id="forensicCaseName">正规回收</h4>
+          <p id="forensicCaseCopy">设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。</p>
+          <div class="forensic-custody-rail" aria-label="保管链节点">
+            <div class="on"><i></i><span><b>登记</b><small>ID CREATED</small></span></div>
+            <div class="on"><i></i><span><b>交接</b><small>OWNER SIGNED</small></span></div>
+            <div class="on"><i></i><span><b>检测</b><small>STATUS READ</small></span></div>
+            <div class="on"><i></i><span><b>末端</b><small>PROOF SEALED</small></span></div>
           </div>
         </aside>
       </div>
-      <footer class="afterlife-dash-foot diagnostic-dash-foot"><span>字段已填写</span><strong>≠</strong><span>记录可互证</span><i></i><span>同一编号 + 连续时间 + 可读格式</span></footer>`;
+      <footer class="forensic-meta-row"><div><small>FILE FORMAT</small><b>OPEN / MIGRATABLE</b></div><div><small>RETENTION</small><b>LONGER THAN PLATFORM</b></div><div><small>LAST CHECK</small><b>2026 · VERIFIED COPY</b></div></footer>`;
 
     const models = {
-      '闲置': { fields: [1, 1, 1, 0], state: '末端尚未发生', badge: 'CHAIN OPEN', copy: '设备位置和持有人仍然明确，但没有处理凭证；暂存时间越长，技术状态越需要重新检测。', bars: [100, 86, 22] },
-      '二手 / 维修': { fields: [1, 1, 1, 0], state: '延寿链待续写', badge: 'CHAIN EXTENDED', copy: '本次转手和维修可以核验，但责任链不能止于“仍可使用”，未来再次转手时仍需沿用同一设备身份。', bars: [100, 82, 46] },
-      '正规回收': { fields: [1, 1, 1, 1], state: '记录可互证', badge: 'CHAIN COMPLETE', copy: '设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。', bars: [100, 96, 90] },
-      '未记录': { fields: [1, 0, 0, 0], state: '责任链中断', badge: 'CHAIN BROKEN', copy: '只剩设备本身，接收主体、地点与处理结果均无法对应，后续任何文件都难以确认属于这台设备。', bars: [36, 12, 6] }
+      '闲置': { fields: [1, 1, 1, 0], state: 'OPEN FILE', stamp: 'PENDING', copy: '设备位置和持有人仍然明确，但没有处理凭证；暂存时间越长，技术状态越需要重新检测。' },
+      '二手 / 维修': { fields: [1, 1, 1, 0], state: 'NEXT ENTRY DUE', stamp: 'EXTENDED', copy: '本次转手和维修可以核验，但责任链不能止于“仍可使用”，未来再次转手时仍需沿用同一设备身份。' },
+      '正规回收': { fields: [1, 1, 1, 1], state: 'MATCHED', stamp: 'VERIFIED', copy: '设备编号贯穿交接、检测和末端处理，四项记录可以按时间顺序彼此印证。' },
+      '未记录': { fields: [1, 0, 0, 0], state: 'CHECKSUM FAIL', stamp: 'BROKEN', copy: '只剩设备本身，接收主体、地点与处理结果均无法对应，后续任何文件都难以确认属于这台设备。' }
     };
 
-    qa('[data-diagnostic-model]', host).forEach((button) => {
+    qa('[data-forensic-route]', host).forEach((button) => {
       button.addEventListener('click', () => {
-        const name = button.dataset.diagnosticModel;
+        const name = button.dataset.forensicRoute;
         const model = models[name];
         const score = model.fields.reduce((sum, value) => sum + value, 0);
-        qa('[data-diagnostic-model]', host).forEach((item) => {
+        qa('[data-forensic-route]', host).forEach((item) => {
           const active = item === button;
           item.classList.toggle('active', active);
           item.setAttribute('aria-selected', String(active));
         });
-        qa('[data-field-index]', host).forEach((row, index) => {
+        qa('[data-forensic-field]', host).forEach((row, index) => {
           const present = Boolean(model.fields[index]);
           row.classList.toggle('present', present);
-          q('strong', row).textContent = present ? '可核验' : '缺失';
+          q('strong', row).textContent = present ? 'FOUND' : 'MISSING';
         });
-        qa('.diagnostic-time-spine span', host).forEach((node, index) => node.classList.toggle('on', index < score));
-        qa('.diagnostic-continuity-bars u', host).forEach((bar, index) => bar.style.setProperty('--w', `${model.bars[index]}%`));
-        q('#diagnosticFieldScore', host).textContent = `${score} / 4 完整`;
-        q('#diagnosticStatusBadge', host).textContent = model.badge;
-        q('#diagnosticTraceState', host).textContent = model.state;
-        q('#diagnosticModelName', host).textContent = name;
-        q('#diagnosticModelCopy', host).textContent = model.copy;
+        qa('.forensic-custody-rail > div', host).forEach((node, index) => node.classList.toggle('on', index < score));
+        q('#forensicSheetScore', host).textContent = `${score} / 4`;
+        q('#forensicStatusStamp', host).textContent = model.stamp;
+        q('#forensicCaseState', host).textContent = model.state;
+        q('#forensicCaseName', host).textContent = name;
+        q('#forensicCaseCopy', host).textContent = model.copy;
       });
     });
   }
