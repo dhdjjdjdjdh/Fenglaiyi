@@ -2323,6 +2323,10 @@ window.addEventListener("DOMContentLoaded", init);
             <div class="archive-paper-title"><span id="archiveDocNumber">04</span><div><small>TRACE RECORD</small><h4 id="archiveDocTitle">处理凭证</h4></div></div>
             <p id="archiveDocSummary">检测、数据清除与材料去向必须落在同一设备编号下，责任链才抵达真实末端。</p>
             <div class="archive-doc-rows" id="archiveDocRows"></div>
+            <div class="archive-photo-strip" aria-label="设备检测与线下交接照片">
+              <figure><img src="assets/archive-device-inspection.jpg" alt="工作人员在维修台检测手机"><figcaption><b>设备检测</b><span>INSPECTION / 01</span></figcaption></figure>
+              <figure><img src="assets/archive-service-handover.jpg" alt="居民在线下回收点交接电子设备"><figcaption><b>线下交接</b><span>HANDOVER / 02</span></figcaption></figure>
+            </div>
             <footer><span>SAME DEVICE ID</span><i></i><span>ORDERED TIME</span><i></i><span>READABLE FILE</span></footer>
           </article>
           <div class="archive-folder-pocket">
@@ -2356,19 +2360,19 @@ window.addEventListener("DOMContentLoaded", init);
         index: 0, number: '01', type: 'DEVICE IDENTITY', code: 'DOC · 7E19', state: 'ID MATCHED', stateCn: '身份已匹配', title: '设备身份',
         summary: '不是“某台旧手机”，而是可被持续辨认的同一台设备；统一编号让此后的每份记录都有明确归属。',
         verifier: '型号、序列号和资产编号共同锁定设备身份，后续文件才能确认属于同一台设备。', checksum: '7E19 / A113 / SN88 / ID01',
-        rows: [['设备型号', 'FENG · M24'], ['序列号', 'SN–204–7E19'], ['资产编号', 'ASSET–0118']]
+        rows: [['设备型号', 'HUST·1037'], ['序列号', 'SN-024-7E65'], ['资产编号', 'ASSET-1037']]
       },
       owner: {
         index: 1, number: '02', type: 'OWNERSHIP TRANSFER', code: 'DOC · 204F', state: 'OWNER SIGNED', stateCn: '主体已签收', title: '所有权',
         summary: '设备离开原持有人时，新的接收主体与签收时间同时出现，责任不会停留在一句模糊的“已转手”。',
         verifier: '原持有人、接收主体和转移时间共同证明责任在何时、从谁手中转移给谁。', checksum: '7E19 / 204F / OWN2 / T132',
-        rows: [['原持有人', 'USER · 019'], ['接收主体', 'RECYCLE · 06'], ['转移时间', '2026–07–20 13:42']]
+        rows: [['原持有人', 'USER · 019'], ['接收主体', 'RECYCLE · 06'], ['转移时间', '7.10，10：37']]
       },
       place: {
         index: 2, number: '03', type: 'HANDOVER LOCATION', code: 'DOC · C6A2', state: 'PLACE RECORDED', stateCn: '地点已留痕', title: '交接地点',
         summary: '地址、经手人与回执编号把一次线下交接固定在现实世界中，让设备的移动轨迹可以被复核。',
         verifier: '交接地点不是背景信息；它把设备、时间和经手人连接成可回查的现实坐标。', checksum: '7E19 / C6A2 / LOC3 / RCPT',
-        rows: [['交接地址', '上海 · 服务站 06'], ['经手人员', 'OPERATOR · LIN'], ['回执编号', 'RCPT–C6A2–31']]
+        rows: [['交接地址', '武汉洪山区服务站'], ['经手人员', 'OPERATOR · LIN'], ['回执编号', 'RCPT–C6A2–31']]
       },
       proof: {
         index: 3, number: '04', type: 'TERMINAL PROOF', code: 'DOC · 88D0', state: 'PROOF SEALED', stateCn: '结果已封存', title: '处理凭证',
