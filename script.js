@@ -2553,15 +2553,147 @@ window.addEventListener("DOMContentLoaded", init);
   function mazeScene() {
     const host = q('#ewasteMaze');
     if (!host) return;
-    host.className = 'v53-ewaste-maze';
+    host.className = 'v54-ewaste-maze';
     host.innerHTML = `
-      <div class="v53-maze-stage" aria-label="一个小人站在由手机、显示器、电路板、电线和废旧家电构成的巨大三维迷宫入口">
-        <img src="assets/images/ewaste-maze-3d-v1.jpg" alt="小人面对由大量电子废弃物堆叠而成的庞大三维迷宫">
+      <div class="v53-maze-stage v54-maze-stage" role="button" tabindex="0" aria-label="电子废弃物持续从天空落下；悬停或点击会让电子废弃物迷宫不断增生并封住出口">
+        <img src="assets/images/ewaste-maze-3d-v2-4k.jpg" alt="小人面对由大量电子废弃物堆叠而成、上方可见天空的庞大三维迷宫" loading="lazy" decoding="async">
+        <canvas class="v54-ewaste-rain" aria-hidden="true"></canvas>
+        <div class="v54-maze-growth" aria-hidden="true"></div>
         <div class="v53-maze-depth" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div class="v53-maze-signals" aria-hidden="true"><span>身份是否还在？</span><span>下一站在哪里？</span><span>谁保存处理结果？</span></div>
-        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>移动鼠标，观察庞大墙体之间不断改变的路径与遮挡。</span></div>
+        <div class="v54-maze-status" aria-live="polite"><span>PATH COMPLEXITY / 路径复杂度</span><b>12%</b></div>
+        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>天空会持续落下少量电子废弃物；悬停或点击，让新障碍逐渐封住路径。</span></div>
       </div>`;
-    const stage = q('.v53-maze-stage', host);
+    const stage = q('.v54-maze-stage', host);
+    const canvas = q('.v54-ewaste-rain', host);
+    const growth = q('.v54-maze-growth', host);
+    const status = q('.v54-maze-status b', host);
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const drops = [];
+    const wallMap = [
+      [37, 49, 22, -7], [52, 53, 20, 8], [29, 59, 25, 5], [48, 64, 25, -4],
+      [19, 69, 26, -8], [58, 71, 25, 7], [34, 74, 22, 3], [47, 78, 23, -3],
+      [24, 55, 17, 10], [61, 59, 18, -9], [39, 57, 25, 1], [36, 68, 31, 0]
+    ];
+    let active = false;
+    let visible = true;
+    let lastTime = 0;
+    let lastSpawn = 0;
+    let lastGrowth = 0;
+    let wallCount = 0;
+    let boostTimer = 0;
+
+    const resizeCanvas = () => {
+      const rect = stage.getBoundingClientRect();
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.max(1, Math.round(rect.width * ratio));
+      canvas.height = Math.max(1, Math.round(rect.height * ratio));
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    };
+
+    const spawnDrop = (burst = false) => {
+      const rect = stage.getBoundingClientRect();
+      if (!rect.width || drops.length >= (active ? 24 : 8)) return;
+      const size = (burst ? 15 : 11) + Math.random() * (burst ? 16 : 11);
+      drops.push({
+        type: Math.floor(Math.random() * 5),
+        x: rect.width * (.06 + Math.random() * .88),
+        y: -size * 1.5,
+        size,
+        speed: (active ? 70 : 28) + Math.random() * (active ? 80 : 34),
+        rotation: Math.random() * Math.PI,
+        spin: (Math.random() - .5) * (active ? 2.1 : .8),
+        alpha: .42 + Math.random() * .28,
+        landing: rect.height * (.66 + Math.random() * .22)
+      });
+    };
+
+    const drawDevice = (item) => {
+      const s = item.size;
+      ctx.save();
+      ctx.translate(item.x, item.y);
+      ctx.rotate(item.rotation);
+      ctx.globalAlpha = item.alpha;
+      ctx.lineWidth = Math.max(1, s * .065);
+      ctx.strokeStyle = '#17201d';
+      ctx.fillStyle = '#78837e';
+      ctx.shadowColor = 'rgba(0,0,0,.55)';
+      ctx.shadowBlur = 7;
+      if (item.type === 0) {
+        ctx.beginPath(); ctx.roundRect(-s * .28, -s * .5, s * .56, s, s * .09); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#25312d'; ctx.fillRect(-s * .21, -s * .37, s * .42, s * .62);
+      } else if (item.type === 1) {
+        ctx.fillRect(-s * .55, -s * .36, s * 1.1, s * .7); ctx.strokeRect(-s * .55, -s * .36, s * 1.1, s * .7);
+        ctx.fillStyle = '#202a27'; ctx.fillRect(-s * .43, -s * .25, s * .86, s * .46); ctx.fillRect(-s * .08, s * .34, s * .16, s * .24);
+      } else if (item.type === 2) {
+        ctx.beginPath(); ctx.roundRect(-s * .58, -s * .25, s * 1.16, s * .5, s * .08); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle = '#26312e'; for (let i = -2; i <= 2; i += 1) { ctx.beginPath(); ctx.moveTo(i * s * .18, -s * .18); ctx.lineTo(i * s * .18, s * .18); ctx.stroke(); }
+      } else if (item.type === 3) {
+        ctx.fillStyle = '#3e5a4f'; ctx.fillRect(-s * .48, -s * .35, s * .96, s * .7); ctx.strokeRect(-s * .48, -s * .35, s * .96, s * .7);
+        ctx.fillStyle = '#b8e255'; for (let i = 0; i < 5; i += 1) ctx.fillRect(-s * .35 + i * s * .17, -s * .2 + (i % 2) * s * .25, s * .07, s * .07);
+      } else {
+        ctx.beginPath(); ctx.arc(0, 0, s * .37, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(s * .31, s * .12); ctx.bezierCurveTo(s * .7, s * .2, s * .5, s * .56, s * .86, s * .65); ctx.stroke();
+      }
+      ctx.restore();
+    };
+
+    const addBarrier = () => {
+      if (wallCount >= wallMap.length) return;
+      const [left, top, width, angle] = wallMap[wallCount];
+      const barrier = document.createElement('i');
+      barrier.className = 'v54-maze-barrier';
+      barrier.style.left = `${left}%`;
+      barrier.style.top = `${top}%`;
+      barrier.style.width = `${width}%`;
+      barrier.style.setProperty('--barrier-angle', `${angle}deg`);
+      growth.appendChild(barrier);
+      wallCount += 1;
+      status.textContent = `${Math.min(96, 12 + wallCount * 7)}%`;
+      stage.classList.toggle('is-complex', wallCount >= 7);
+    };
+
+    const burst = () => {
+      active = true;
+      window.clearTimeout(boostTimer);
+      for (let i = 0; i < 7; i += 1) spawnDrop(true);
+      addBarrier();
+      addBarrier();
+      boostTimer = window.setTimeout(() => { active = stage.matches(':hover, :focus-within'); }, 1700);
+    };
+
+    const draw = (time) => {
+      if (!visible) { requestAnimationFrame(draw); return; }
+      const rect = stage.getBoundingClientRect();
+      const dt = Math.min(36, time - (lastTime || time)) / 1000;
+      lastTime = time;
+      const spawnEvery = active ? 210 : 1180;
+      if (time - lastSpawn > spawnEvery) { spawnDrop(active); lastSpawn = time; }
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      for (let i = drops.length - 1; i >= 0; i -= 1) {
+        const item = drops[i];
+        item.y += item.speed * dt;
+        item.rotation += item.spin * dt;
+        drawDevice(item);
+        if (item.y > item.landing) {
+          drops.splice(i, 1);
+          if (active && time - lastGrowth > 620) { addBarrier(); lastGrowth = time; }
+        }
+      }
+      requestAnimationFrame(draw);
+    };
+
+    resizeCanvas();
+    for (let i = 0; i < 5; i += 1) { spawnDrop(false); drops[i].y = 20 + Math.random() * stage.clientHeight * .42; }
+    if (!reduceMotion) requestAnimationFrame(draw);
+    else { ctx.clearRect(0, 0, stage.clientWidth, stage.clientHeight); drops.forEach(drawDevice); }
+
+    if ('ResizeObserver' in window) new ResizeObserver(resizeCanvas).observe(stage);
+    if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: .05 }).observe(stage);
+    stage.addEventListener('pointerenter', () => { active = true; addBarrier(); });
     stage.addEventListener('pointermove', (event) => {
       const rect = stage.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
@@ -2570,12 +2702,22 @@ window.addEventListener("DOMContentLoaded", init);
       stage.style.setProperty('--maze-y', `${y * -12}px`);
       stage.style.setProperty('--maze-tilt-x', `${y * -1.4}deg`);
       stage.style.setProperty('--maze-tilt-y', `${x * 2.2}deg`);
+      if (performance.now() - lastGrowth > 1000) { addBarrier(); lastGrowth = performance.now(); }
     });
     stage.addEventListener('pointerleave', () => {
+      active = false;
       stage.style.setProperty('--maze-x', '0px');
       stage.style.setProperty('--maze-y', '0px');
       stage.style.setProperty('--maze-tilt-x', '0deg');
       stage.style.setProperty('--maze-tilt-y', '0deg');
+    });
+    stage.addEventListener('focus', () => { active = true; });
+    stage.addEventListener('blur', () => { active = false; });
+    stage.addEventListener('click', burst);
+    stage.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      burst();
     });
   }
 
