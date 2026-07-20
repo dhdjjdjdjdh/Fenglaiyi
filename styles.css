@@ -5617,6 +5617,7 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .afterlife-page .maze-intro .section-natural-copy > p { font-size: 17px !important; line-height: 1.82 !important; text-align: left !important; }
   .v54-maze-status { top: 44px; right: 13px; min-width: 130px; padding: 8px 9px; }
   .v54-maze-status b { font-size: 18px; }
+  .v54-maze-stage { min-height: 440px; }
   .v54-maze-barrier { height: 28px; }
 }
 
