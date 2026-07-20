@@ -2264,42 +2264,42 @@ window.addEventListener("DOMContentLoaded", init);
       <div class="comic-page" aria-label="电子设备从诞生、使用、闲置到延寿、回收和材料再生的六格漫画">
         <article class="comic-panel comic-panel--birth" tabindex="0">
           <span class="comic-number">01</span><b class="comic-chapter">初次点亮</b>
-          <div class="comic-scene"><i class="comic-box"></i><i class="comic-phone comic-phone--happy"><u></u></i><em class="comic-burst">叮！</em></div>
+          <div class="comic-scene"><i class="comic-box"></i><i class="comic-box-lid"></i><i class="comic-phone comic-phone--happy"><u></u></i><em class="comic-burst">开箱</em></div>
           <p>从包装盒里醒来，它第一次拥有姓名、编号和主人。</p>
           <q>“你好，我会陪你很久。”</q>
         </article>
         <article class="comic-panel comic-panel--use" tabindex="0">
           <span class="comic-number">02</span><b class="comic-chapter">并肩生活</b>
-          <div class="comic-scene"><i class="comic-phone comic-phone--busy"><u></u></i><i class="comic-icons">✦<u>●</u><b>♫</b></i><em class="comic-motion">嗖嗖</em></div>
+          <div class="comic-scene"><i class="comic-table"></i><i class="comic-phone comic-phone--busy"><u></u></i><i class="comic-finger"></i><i class="comic-icons">✦<u>●</u><b>♫</b></i><em class="comic-motion">新消息</em></div>
           <p>照片、消息、工作和路线，让它成为用户生活的一部分。</p>
           <q>“今天也装满了故事。”</q>
         </article>
         <article class="comic-panel comic-panel--drawer" tabindex="0">
           <span class="comic-number">03</span><b class="comic-chapter">被放进抽屉</b>
-          <div class="comic-scene"><i class="comic-drawer"></i><i class="comic-phone comic-phone--sleep"><u></u></i><em class="comic-z">Z<br>Z</em></div>
+          <div class="comic-scene"><i class="comic-drawer-frame"></i><i class="comic-drawer"></i><i class="comic-phone comic-phone--sleep"><u></u></i><em class="comic-z">Z<br>Z</em></div>
           <p>新设备到来后，它没有坏，只是慢慢离开了日常视线。</p>
           <q>“我是在休息，还是被忘记？”</q>
         </article>
         <article class="comic-panel comic-panel--repair" tabindex="0">
           <span class="comic-number">04</span><b class="comic-chapter">修好，再出发</b>
-          <div class="comic-scene"><i class="comic-tool">✦</i><i class="comic-phone comic-phone--patched"><u></u></i><em class="comic-burst">咔哒</em></div>
+          <div class="comic-scene"><i class="comic-battery comic-battery--old">10%</i><i class="comic-battery comic-battery--new">100%</i><i class="comic-tool"></i><i class="comic-phone comic-phone--patched"><u></u></i><em class="comic-burst">换好了</em></div>
           <p>维修、翻新或转手，让尚能使用的功能继续创造价值。</p>
           <q>“换块电池，我还可以。”</q>
         </article>
         <article class="comic-panel comic-panel--handover" tabindex="0">
           <span class="comic-number">05</span><b class="comic-chapter">带着记录交接</b>
-          <div class="comic-scene"><i class="comic-hand comic-hand--left"></i><i class="comic-phone comic-phone--handover"><u></u></i><i class="comic-hand comic-hand--right"></i><em class="comic-ticket-mini">✓ 编号<br>✓ 地点<br>✓ 凭证</em></div>
+          <div class="comic-scene"><i class="comic-counter"></i><i class="comic-hand comic-hand--left"></i><i class="comic-phone comic-phone--handover"><u></u></i><i class="comic-hand comic-hand--right"></i><em class="comic-ticket-mini">✓ 编号<br>✓ 地点<br>✓ 凭证</em></div>
           <p>正规回收不是消失，而是身份、地点和处理结果都能被追问。</p>
           <q>“请让下一站留下签名。”</q>
         </article>
         <article class="comic-panel comic-panel--rebirth" tabindex="0">
           <span class="comic-number">06</span><b class="comic-chapter">材料的新生</b>
-          <div class="comic-scene"><i class="comic-material comic-material--one"></i><i class="comic-material comic-material--two"></i><i class="comic-material comic-material--three"></i><i class="comic-new-device"></i><em class="comic-burst">再见，也是再生</em></div>
+          <div class="comic-scene"><i class="comic-recycle-bin"><u>♻</u></i><i class="comic-phone comic-phone--recycle"><u></u></i><i class="comic-material comic-material--one"></i><i class="comic-material comic-material--two"></i><i class="comic-material comic-material--three"></i><i class="comic-new-device"></i><em class="comic-burst">材料回来了</em></div>
           <p>金属、玻璃和塑料回到生产链，旧设备以另一种形态继续生活。</p>
           <q>“我的一生，不该止于垃圾桶。”</q>
         </article>
       </div>
-      <footer class="comic-colophon"><span><i>HOVER</i> 把鼠标放进每一格，陪设备走完一生</span><b>KEEP IT IN THE LOOP →</b></footer>`;
+      <footer class="comic-colophon"><span><i>HOVER</i> 悬停一格，看看真实动作如何发生</span><b>KEEP IT IN THE LOOP →</b></footer>`;
   }
 
   function diagnosticDashboard() {

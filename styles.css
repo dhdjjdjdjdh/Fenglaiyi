@@ -4402,3 +4402,267 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .comic-panel:hover *,
   .comic-panel:focus-visible * { animation: none !important; }
 }
+
+/* Afterlife v46: everyday actions play as short, ordered hover sequences. */
+.comic-scene { flex-basis: 84px; }
+
+/* 01 / Unboxing: lid opens first, then the phone is lifted out. */
+.comic-panel--birth .comic-box {
+  left: 50%;
+  bottom: 5px;
+  z-index: 3;
+  width: 72px;
+  height: 38px;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+}
+.comic-panel--birth .comic-box::before { content: "DEVICE"; left: 10px; top: 11px; font-size: 8px; letter-spacing: .08em; }
+.comic-box-lid {
+  position: absolute;
+  left: 50%;
+  bottom: 43px;
+  z-index: 4;
+  width: 76px;
+  height: 17px;
+  background: #f4c436;
+  border: 3px solid var(--comic-ink);
+  box-shadow: inset 0 -4px rgba(23,24,22,.12);
+  transform: translateX(-50%);
+  transform-origin: left bottom;
+}
+.comic-box-lid::after { content: ""; position: absolute; left: 9px; right: 9px; top: 5px; border-top: 2px solid rgba(23,24,22,.45); }
+.comic-panel--birth .comic-phone--happy {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  z-index: 2;
+  opacity: .42;
+  transform: translate(-50%, 17px) rotate(0) scale(.82);
+}
+.comic-panel--birth .comic-burst { opacity: 0; }
+.comic-panel--birth:is(:hover, :focus-visible) .comic-box-lid { animation: life-box-open .72s ease-out both; }
+.comic-panel--birth:is(:hover, :focus-visible) .comic-box { animation: life-box-settle .72s ease-out both; }
+.comic-panel--birth:is(:hover, :focus-visible) .comic-phone--happy { animation: life-phone-unbox .88s .2s cubic-bezier(.2,.78,.2,1.2) both; }
+.comic-panel--birth:is(:hover, :focus-visible) .comic-burst { animation: comic-pop .42s .72s ease both; }
+
+/* 02 / Daily use: the hand taps once, the screen wakes, notifications arrive. */
+.comic-table {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 5px;
+  height: 25px;
+  background: #d4a875;
+  border: 3px solid var(--comic-ink);
+  transform: skewX(-5deg);
+}
+.comic-panel--use .comic-phone--busy {
+  position: relative;
+  z-index: 2;
+  animation: none;
+  filter: brightness(.63) saturate(.7);
+  transform: translateY(7px) rotate(-4deg) scale(.95);
+}
+.comic-finger {
+  position: absolute;
+  right: -18px;
+  top: 32px;
+  z-index: 3;
+  width: 62px;
+  height: 22px;
+  background: #e8a078;
+  border: 3px solid var(--comic-ink);
+  border-radius: 18px 0 0 18px;
+  opacity: 0;
+  transform: translateX(28px) rotate(-8deg);
+}
+.comic-finger::before { content: ""; position: absolute; left: 4px; top: 3px; width: 14px; height: 9px; border-top: 2px solid #9d614c; border-radius: 50%; }
+.comic-panel--use .comic-icons,
+.comic-panel--use .comic-motion { opacity: 0; }
+.comic-panel--use:is(:hover, :focus-visible) .comic-finger { animation: life-finger-tap .72s ease-in-out both; }
+.comic-panel--use:is(:hover, :focus-visible) .comic-phone--busy { animation: life-screen-wake .85s .26s ease-out both; }
+.comic-panel--use:is(:hover, :focus-visible) .comic-icons { animation: life-notifications .55s .62s cubic-bezier(.2,.8,.2,1.35) both; }
+.comic-panel--use:is(:hover, :focus-visible) .comic-motion { animation: life-message-label .4s .76s ease both; }
+
+/* 03 / Storage: the drawer opens, the phone is placed inside, then it closes. */
+.comic-drawer-frame {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 5px;
+  z-index: 0;
+  height: 51px;
+  background: #655b7d;
+  border: 3px solid var(--comic-ink);
+  box-shadow: inset 0 8px rgba(23,24,22,.15);
+}
+.comic-panel--drawer .comic-drawer {
+  left: 12px;
+  right: 12px;
+  bottom: 8px;
+  z-index: 3;
+  height: 39px;
+  background: #8b7da9;
+  transform: none;
+  transform-origin: center top;
+}
+.comic-panel--drawer .comic-phone--sleep {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 2;
+  opacity: 1;
+  transform: translateX(-50%) rotate(4deg) scale(.9);
+}
+.comic-panel--drawer .comic-z { opacity: .2; }
+.comic-panel--drawer:is(:hover, :focus-visible) .comic-drawer { animation: life-drawer-cycle 1.38s ease-in-out both; }
+.comic-panel--drawer:is(:hover, :focus-visible) .comic-phone--sleep { z-index: 2; animation: life-store-phone 1.38s ease-in-out both; }
+.comic-panel--drawer:is(:hover, :focus-visible) .comic-z { animation: life-storage-sleep 1.2s .72s ease-in-out infinite alternate; }
+
+/* 04 / Repair: remove the tired battery, insert a fresh one, then boot. */
+.comic-panel--repair .comic-phone--patched {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  z-index: 2;
+  filter: grayscale(.45) brightness(.82);
+  transform: translateX(-50%) rotate(2deg) scale(.94);
+}
+.comic-battery {
+  position: absolute;
+  top: 27px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 37px;
+  font: 900 6px/1 Arial, sans-serif;
+  font-style: normal;
+  background: #ddd9d0;
+  border: 3px solid var(--comic-ink);
+  border-radius: 3px;
+}
+.comic-battery::before { content: ""; position: absolute; left: 7px; top: -6px; width: 7px; height: 5px; background: var(--comic-ink); }
+.comic-battery--old { left: 9px; color: #a23c3c; }
+.comic-battery--new { right: 7px; color: #326f22; background: #edffad; opacity: .5; }
+.comic-panel--repair .comic-tool {
+  left: auto;
+  right: 28px;
+  top: 4px;
+  z-index: 3;
+  width: 8px;
+  height: 49px;
+  background: #b9c1c6;
+  border: 3px solid var(--comic-ink);
+  border-radius: 5px;
+  transform: rotate(34deg);
+}
+.comic-panel--repair .comic-tool::before { content: ""; position: absolute; left: -5px; top: -9px; width: 12px; height: 18px; background: #ea8058; border: 3px solid var(--comic-ink); border-radius: 4px; }
+.comic-panel--repair .comic-burst { opacity: 0; }
+.comic-panel--repair:is(:hover, :focus-visible) .comic-tool { animation: life-unscrew .58s ease-in-out both; }
+.comic-panel--repair:is(:hover, :focus-visible) .comic-battery--old { animation: life-old-battery-out .68s .35s ease-in both; }
+.comic-panel--repair:is(:hover, :focus-visible) .comic-battery--new { animation: life-new-battery-in .78s .64s ease-out both; }
+.comic-panel--repair:is(:hover, :focus-visible) .comic-phone--patched { animation: life-repair-boot .6s 1.12s ease-out both; }
+.comic-panel--repair:is(:hover, :focus-visible) .comic-burst { animation: comic-pop .4s 1.22s ease both; }
+
+/* 05 / Handover: the phone crosses the counter; its receipt is stamped last. */
+.comic-counter { position: absolute; left: 0; right: 0; bottom: 7px; height: 15px; background: #9d6748; border-top: 3px solid var(--comic-ink); }
+.comic-panel--handover .comic-phone--handover { transform: translateX(-15px) rotate(-4deg); }
+.comic-panel--handover .comic-ticket-mini { opacity: .58; }
+.comic-panel--handover:is(:hover, :focus-visible) .comic-hand--left { animation: life-left-hand-pass .9s ease-in-out both; }
+.comic-panel--handover:is(:hover, :focus-visible) .comic-hand--right { animation: life-right-hand-receive .9s ease-in-out both; }
+.comic-panel--handover:is(:hover, :focus-visible) .comic-phone--handover { animation: life-phone-pass 1.05s .12s ease-in-out both; }
+.comic-panel--handover:is(:hover, :focus-visible) .comic-ticket-mini { animation: life-receipt-stamp .45s .78s cubic-bezier(.2,.8,.2,1.3) both; }
+
+/* 06 / Recycling: drop the old phone in, separate materials, form a new device. */
+.comic-recycle-bin {
+  position: absolute;
+  left: 13px;
+  bottom: 3px;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  color: #fff;
+  background: #397f6f;
+  border: 3px solid var(--comic-ink);
+  clip-path: polygon(8% 0,92% 0,82% 100%,18% 100%);
+}
+.comic-recycle-bin::before { content: ""; position: absolute; left: -5px; top: -7px; width: 48px; border-top: 6px solid var(--comic-ink); transform-origin: right center; }
+.comic-recycle-bin u { position: absolute; inset: 13px 0 auto; font-size: 18px; line-height: 1; text-align: center; text-decoration: none; }
+.comic-panel--rebirth .comic-phone--recycle {
+  position: absolute;
+  left: 35px;
+  top: -3px;
+  z-index: 3;
+  width: 30px;
+  height: 50px;
+  transform: rotate(-9deg) scale(.84);
+}
+.comic-panel--rebirth .comic-material { left: 34px; top: 53px; z-index: 1; opacity: 0; transform: scale(.2); }
+.comic-panel--rebirth .comic-new-device { right: 13px; opacity: .35; filter: grayscale(.65); }
+.comic-panel--rebirth .comic-burst { opacity: 0; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-phone--recycle { animation: life-phone-to-bin .72s ease-in both; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-recycle-bin::before { animation: life-bin-lid .72s ease-in-out both; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-material--one { animation: life-material-one 1.05s .58s ease-out both; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-material--two { animation: life-material-two 1.05s .67s ease-out both; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-material--three { animation: life-material-three 1.05s .76s ease-out both; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-new-device { animation: life-new-device .55s 1.34s cubic-bezier(.2,.8,.2,1.3) both; }
+.comic-panel--rebirth:is(:hover, :focus-visible) .comic-burst { animation: comic-pop .42s 1.47s ease both; }
+
+@keyframes life-box-open {
+  0%, 18% { transform: translateX(-50%) rotate(0); }
+  42% { transform: translate(-50%, -8px) rotate(0); }
+  100% { transform: translate(-88%, -19px) rotate(-27deg); }
+}
+@keyframes life-box-settle {
+  0%, 45% { transform: translateX(-50%) scale(1); }
+  70% { transform: translateX(-50%) scale(1.04,.94); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+@keyframes life-phone-unbox {
+  0%, 18% { opacity: .42; transform: translate(-50%, 17px) rotate(0) scale(.82); }
+  58% { opacity: 1; transform: translate(-50%, -10px) rotate(-3deg) scale(1); }
+  100% { opacity: 1; transform: translate(-50%, -23px) rotate(7deg) scale(1.08); }
+}
+@keyframes life-finger-tap {
+  0% { opacity: 0; transform: translateX(28px) rotate(-8deg); }
+  35% { opacity: 1; transform: translateX(-12px) rotate(-8deg); }
+  53% { opacity: 1; transform: translateX(-17px) rotate(-8deg) scale(.96); }
+  100% { opacity: 0; transform: translateX(18px) rotate(-8deg); }
+}
+@keyframes life-screen-wake {
+  0%, 28% { filter: brightness(.63) saturate(.7); transform: translateY(7px) rotate(-4deg) scale(.95); }
+  60% { filter: brightness(1.18) saturate(1.15); transform: translateY(1px) rotate(2deg) scale(1.06); }
+  100% { filter: brightness(1) saturate(1); transform: translateY(-3px) rotate(-2deg) scale(1.05); }
+}
+@keyframes life-notifications {
+  0% { opacity: 0; transform: translateY(8px) rotate(-12deg) scale(.35); }
+  70% { opacity: 1; transform: translateY(-4px) rotate(6deg) scale(1.24); }
+  100% { opacity: 1; transform: translateY(-2px) rotate(0) scale(1.12); }
+}
+@keyframes life-message-label { from { opacity: 0; transform: translateX(9px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes life-drawer-cycle {
+  0%, 12% { transform: translateY(0) scaleX(1); }
+  34%, 72% { transform: translateY(13px) scaleX(1.05); }
+  100% { transform: translateY(1px) scaleX(1); }
+}
+@keyframes life-store-phone {
+  0%, 25% { opacity: 1; transform: translateX(-50%) rotate(4deg) scale(.9); }
+  58% { opacity: .9; transform: translate(-50%, 24px) rotate(90deg) scale(.83); }
+  100% { opacity: .28; transform: translate(-50%, 34px) rotate(90deg) scale(.78); }
+}
+@keyframes life-storage-sleep { from { opacity: .35; transform: translateY(2px); } to { opacity: 1; transform: translateY(-8px); } }
+@keyframes life-unscrew { 0% { transform: rotate(34deg); } 45% { transform: translate(-8px,5px) rotate(165deg); } 100% { transform: translate(-2px,-4px) rotate(250deg); } }
+@keyframes life-old-battery-out { from { opacity: 1; transform: translateX(0) rotate(0); } to { opacity: .18; transform: translate(-17px,10px) rotate(-16deg); } }
+@keyframes life-new-battery-in { 0% { opacity: .45; transform: translateX(0) rotate(0); } 70% { opacity: 1; transform: translate(-43px,-2px) rotate(-3deg); } 100% { opacity: 0; transform: translate(-49px,-2px) rotate(0) scale(.72); } }
+@keyframes life-repair-boot { 0% { filter: grayscale(.45) brightness(.82); transform: translateX(-50%) rotate(2deg) scale(.94); } 60% { filter: none; transform: translate(-50%,-7px) rotate(-5deg) scale(1.1); } 100% { filter: none; transform: translate(-50%,-4px) rotate(2deg) scale(1.05); } }
+@keyframes life-left-hand-pass { from { transform: translateX(0) rotate(7deg); } to { transform: translateX(17px) rotate(2deg); } }
+@keyframes life-right-hand-receive { from { transform: translateX(0) rotate(-7deg); } to { transform: translateX(-17px) rotate(-2deg); } }
+@keyframes life-phone-pass { 0% { transform: translateX(-17px) rotate(-5deg); } 45% { transform: translateX(0) rotate(0) translateY(-5px); } 100% { transform: translateX(18px) rotate(5deg); } }
+@keyframes life-receipt-stamp { 0% { opacity: .55; transform: translateY(-8px) rotate(8deg) scale(.85); } 70% { opacity: 1; transform: translateY(2px) rotate(-4deg) scale(1.15); } 100% { opacity: 1; transform: translateY(0) rotate(-2deg) scale(1.05); box-shadow: 3px 3px 0 var(--comic-ink); } }
+@keyframes life-phone-to-bin { 0%, 15% { opacity: 1; transform: rotate(-9deg) scale(.84); } 65% { opacity: 1; transform: translate(1px,30px) rotate(10deg) scale(.66); } 100% { opacity: 0; transform: translate(0,45px) rotate(18deg) scale(.45); } }
+@keyframes life-bin-lid { 0%, 18% { transform: rotate(0); } 48% { transform: rotate(-24deg); } 100% { transform: rotate(0); } }
+@keyframes life-material-one { 0% { opacity: 0; transform: translate(0,0) rotate(0) scale(.2); } 35% { opacity: 1; transform: translate(26px,-32px) rotate(90deg) scale(.75); } 100% { opacity: .18; transform: translate(91px,-28px) rotate(230deg) scale(.25); } }
+@keyframes life-material-two { 0% { opacity: 0; transform: translate(0,0) rotate(0) scale(.2); } 35% { opacity: 1; transform: translate(39px,-12px) rotate(80deg) scale(.72); } 100% { opacity: .18; transform: translate(95px,-18px) rotate(190deg) scale(.22); } }
+@keyframes life-material-three { 0% { opacity: 0; transform: translate(0,0) rotate(0) scale(.2); } 35% { opacity: 1; transform: translate(50px,-42px) rotate(110deg) scale(.7); } 100% { opacity: .18; transform: translate(98px,-35px) rotate(250deg) scale(.2); } }
+@keyframes life-new-device { from { opacity: .35; filter: grayscale(.65); transform: translateY(3px) scale(.88); } to { opacity: 1; filter: none; transform: translateY(-4px) rotate(3deg) scale(1.1); box-shadow: 6px 7px 0 rgba(23,24,22,.22); } }
