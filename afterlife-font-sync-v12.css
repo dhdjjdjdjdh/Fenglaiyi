@@ -1,0 +1,39 @@
+/* Keep the afterlife narrative typography identical to the preceding pages. */
+body .afterlife-type-title,
+body .afterlife-type-title * {
+  font-size: 56px !important;
+  line-height: 1.12 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+body .afterlife-type-body,
+body .afterlife-type-body * {
+  font-size: 22px !important;
+  line-height: 1.78 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
+body .afterlife-type-body strong,
+body .afterlife-type-body b,
+body .afterlife-type-body mark {
+  font-size: inherit !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 1099px) {
+  body .afterlife-type-title,
+  body .afterlife-type-title * {
+    font-size: 38px !important;
+    line-height: 1.16 !important;
+  }
+
+  body .afterlife-type-body,
+  body .afterlife-type-body * {
+    font-size: 18px !important;
+    line-height: 1.72 !important;
+  }
+}
