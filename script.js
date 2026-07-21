@@ -2562,7 +2562,7 @@ window.addEventListener("DOMContentLoaded", init);
         <div class="v53-maze-depth" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div class="v53-maze-signals" aria-hidden="true"><span>身份是否还在？</span><span>下一站在哪里？</span><span>谁保存处理结果？</span></div>
         <div class="v54-maze-status" aria-live="polite"><span>PATH COMPLEXITY / 路径复杂度</span><b>12%</b><small>0 件废弃物已落入</small></div>
-        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>电子废弃物会直接落入迷宫并留在路径上；悬停或点击，加速真实堆积。</span></div>
+        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>每一件电子废弃物都会从天空坠入并留在路径上；悬停或点击，只会让真实堆积加速。</span></div>
       </div>`;
     const stage = q('.v54-maze-stage', host);
     const canvas = q('.v54-ewaste-rain', host);
@@ -2593,11 +2593,6 @@ window.addEventListener("DOMContentLoaded", init);
       [47, 45, -7], [54, 47, 6], [39, 50, 11], [62, 51, -10], [48, 54, 7], [57, 56, -5],
       [32, 58, -14], [68, 59, 12], [42, 62, 8], [60, 64, -8], [36, 67, 13], [70, 68, -11],
       [48, 69, -4], [56, 72, 8], [28, 72, -16], [75, 74, 11], [42, 76, 6], [64, 77, -9]
-    ];
-    const obstacleMap = [
-      [49, 58, -4, 18],
-      [68, 67, 8, 15],
-      [34, 65, -10, 14]
     ];
     let active = false;
     let visible = true;
@@ -2670,20 +2665,20 @@ window.addEventListener("DOMContentLoaded", init);
       const wind = Math.sin(progress * Math.PI) * item.sway * (1 - settle);
       const x = rect.width * (item.startX + (targetX - item.startX) * steer) / 100 + wind;
       const y = startY + (rect.height * targetY / 100 - startY) * fall;
-      const scale = .26 + fall * .74;
+      const scale = .42 + fall * .58;
       const width = finalWidth * scale;
       const height = finalHeight * scale;
       const freeRotation = item.startRotation + item.spin * progress;
       const rotation = freeRotation * (1 - settle) + targetRotation * Math.PI / 180 * settle;
-      const speedBlur = Math.max(0, Math.min(1.25, progress * (1 - settle) * 1.4));
+      const speedBlur = Math.max(0, Math.min(.72, progress * (1 - settle) * .82));
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rotation);
-      ctx.globalAlpha = .72 + fall * .28;
+      ctx.globalAlpha = .92 + fall * .08;
       ctx.shadowColor = 'rgba(0, 0, 0, .72)';
       ctx.shadowBlur = 5 + fall * 12;
       ctx.shadowOffsetY = 3 + fall * 8;
-      ctx.filter = `brightness(${.72 + fall * .22}) saturate(${.68 + fall * .2}) contrast(1.1) blur(${speedBlur}px)`;
+      ctx.filter = `brightness(${.82 + fall * .16}) saturate(${.78 + fall * .18}) contrast(1.1) blur(${speedBlur}px)`;
       ctx.drawImage(image, -width / 2, -height / 2, width, height);
       ctx.restore();
     };
@@ -2697,28 +2692,10 @@ window.addEventListener("DOMContentLoaded", init);
       impact.addEventListener('animationend', () => impact.remove(), { once: true });
     };
 
-    const addObstacleCluster = (index) => {
-      const target = obstacleMap[index];
-      if (!target) return;
-      const [left, top, rotation, width] = target;
-      const obstacle = document.createElement('img');
-      obstacle.className = 'v57-maze-obstacle';
-      obstacle.src = 'assets/images/ewaste-obstacle-cluster-v2.png';
-      obstacle.alt = '';
-      obstacle.decoding = 'async';
-      obstacle.style.left = `${left}%`;
-      obstacle.style.top = `${top}%`;
-      obstacle.style.width = `${width}%`;
-      obstacle.style.zIndex = String(Math.round(top * 10));
-      obstacle.style.setProperty('--obstacle-rotation', `${rotation}deg`);
-      growth.appendChild(obstacle);
-      requestAnimationFrame(() => obstacle.classList.add('is-visible'));
-    };
-
     const settleDrop = (item) => {
       const [left, top, rotation] = targetFor(item);
       const existingDebris = growth.querySelectorAll('.v56-maze-debris');
-      if (existingDebris.length >= 34) existingDebris[0].remove();
+      if (existingDebris.length >= 52) existingDebris[0].remove();
       const debris = document.createElement('img');
       debris.className = 'v56-maze-debris';
       debris.src = spriteSources[item.type];
@@ -2734,9 +2711,6 @@ window.addEventListener("DOMContentLoaded", init);
       requestAnimationFrame(() => debris.classList.add('is-settled'));
       addImpact(left, top);
       landedCount += 1;
-      if (landedCount === 8) addObstacleCluster(0);
-      if (landedCount === 18) addObstacleCluster(1);
-      if (landedCount === 30) addObstacleCluster(2);
       const complexity = Math.min(96, Math.round(12 + landedCount * 2.5));
       status.textContent = `${complexity}%`;
       statusCount.textContent = `${landedCount} 件废弃物已落入`;
@@ -2761,6 +2735,8 @@ window.addEventListener("DOMContentLoaded", init);
       ctx.clearRect(0, 0, rect.width, rect.height);
       for (let i = drops.length - 1; i >= 0; i -= 1) {
         const item = drops[i];
+        const sprite = sprites[item.type];
+        if (!sprite.complete || !sprite.naturalWidth) continue;
         item.progress = Math.min(1, item.progress + dt / (boosted ? item.duration * .48 : item.duration));
         drawDevice(item, item.progress, rect);
         if (item.progress >= 1) {
