@@ -2555,14 +2555,14 @@ window.addEventListener("DOMContentLoaded", init);
     if (!host) return;
     host.className = 'v57-ewaste-maze';
     host.innerHTML = `
-      <div class="v53-maze-stage v54-maze-stage v57-maze-stage" role="button" tabindex="0" aria-label="拟真的电子废弃物持续落入迷宫；悬停或点击可以加速堆积，让路径逐渐变得复杂">
+      <div class="v53-maze-stage v54-maze-stage v57-maze-stage" role="button" tabindex="0" aria-label="拟真的电子废弃物持续落入迷宫；点击可以短暂加速堆积，让路径逐渐变得复杂">
         <img src="assets/images/ewaste-maze-3d-v2-4k.jpg" alt="小人面对由大量电子废弃物堆叠而成、上方可见天空的庞大三维迷宫" loading="lazy" decoding="async">
         <canvas class="v54-ewaste-rain" aria-hidden="true"></canvas>
         <div class="v54-maze-growth" aria-hidden="true"></div>
         <div class="v53-maze-depth" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div class="v53-maze-signals" aria-hidden="true"><span>身份是否还在？</span><span>下一站在哪里？</span><span>谁保存处理结果？</span></div>
         <div class="v54-maze-status" aria-live="polite"><span>PATH COMPLEXITY / 路径复杂度</span><b>12%</b><small>0 件废弃物已落入</small></div>
-        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>每一件电子废弃物都会从天空坠入并留在路径上；悬停或点击，只会让真实堆积加速。</span></div>
+        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>每一件电子废弃物都会从天空坠入并留在路径上；点击画面，可让堆积短暂加速。</span></div>
       </div>`;
     const stage = q('.v54-maze-stage', host);
     const canvas = q('.v54-ewaste-rain', host);
@@ -2594,7 +2594,6 @@ window.addEventListener("DOMContentLoaded", init);
       [32, 58, -14], [68, 59, 12], [42, 62, 8], [60, 64, -8], [36, 67, 13], [70, 68, -11],
       [48, 69, -4], [56, 72, 8], [28, 72, -16], [75, 74, 11], [42, 76, 6], [64, 77, -9]
     ];
-    let active = false;
     let visible = true;
     let lastTime = 0;
     let lastSpawn = 0;
@@ -2633,7 +2632,7 @@ window.addEventListener("DOMContentLoaded", init);
 
     const spawnDrop = (burst = false) => {
       const rect = stage.getBoundingClientRect();
-      if (!rect.width || drops.length >= (burst || active ? 7 : 5)) return;
+      if (!rect.width || drops.length >= (burst ? 7 : 5)) return;
       const targetIndex = spawnedCount % landingMap.length;
       const layer = Math.floor(spawnedCount / landingMap.length) % 3;
       spawnedCount += 1;
@@ -2644,7 +2643,7 @@ window.addEventListener("DOMContentLoaded", init);
         targetIndex,
         layer,
         progress: burst ? Math.random() * .08 : 0,
-        duration: burst ? 1.15 + Math.random() * .55 : 3.2 + Math.random() * 1.25,
+        duration: burst ? 2.9 + Math.random() * .85 : 3.2 + Math.random() * 1.25,
         startX: target[0] + (Math.random() - .5) * (burst ? 14 : 22),
         startRotation: (Math.random() - .5) * 1.2,
         spin: (Math.random() > .5 ? 1 : -1) * (1.1 + Math.random() * 1.4) * Math.PI,
@@ -2720,8 +2719,8 @@ window.addEventListener("DOMContentLoaded", init);
     };
 
     const burst = () => {
-      boostedUntil = performance.now() + 2200;
-      for (let i = 0; i < 4; i += 1) spawnDrop(true);
+      boostedUntil = performance.now() + 2800;
+      for (let i = 0; i < 2; i += 1) spawnDrop(true);
     };
 
     const draw = (time) => {
@@ -2729,15 +2728,15 @@ window.addEventListener("DOMContentLoaded", init);
       const rect = stage.getBoundingClientRect();
       const dt = Math.min(36, time - (lastTime || time)) / 1000;
       lastTime = time;
-      const boosted = active || time < boostedUntil;
-      const spawnEvery = boosted ? 1100 : 1900;
+      const boosted = time < boostedUntil;
+      const spawnEvery = boosted ? 1500 : 2100;
       if (time - lastSpawn > spawnEvery) { spawnDrop(boosted); lastSpawn = time; }
       ctx.clearRect(0, 0, rect.width, rect.height);
       for (let i = drops.length - 1; i >= 0; i -= 1) {
         const item = drops[i];
         const sprite = sprites[item.type];
         if (!sprite.complete || !sprite.naturalWidth) continue;
-        item.progress = Math.min(1, item.progress + dt / (boosted ? item.duration * .48 : item.duration));
+        item.progress = Math.min(1, item.progress + dt / (boosted ? item.duration * .78 : item.duration));
         drawDevice(item, item.progress, rect);
         if (item.progress >= 1) {
           drops.splice(i, 1);
@@ -2760,7 +2759,6 @@ window.addEventListener("DOMContentLoaded", init);
 
     if ('ResizeObserver' in window) new ResizeObserver(resizeCanvas).observe(stage);
     if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: .05 }).observe(stage);
-    stage.addEventListener('pointerenter', () => { active = true; });
     stage.addEventListener('pointermove', (event) => {
       const rect = stage.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
@@ -2771,14 +2769,11 @@ window.addEventListener("DOMContentLoaded", init);
       stage.style.setProperty('--maze-tilt-y', `${x * 2.2}deg`);
     });
     stage.addEventListener('pointerleave', () => {
-      active = false;
       stage.style.setProperty('--maze-x', '0px');
       stage.style.setProperty('--maze-y', '0px');
       stage.style.setProperty('--maze-tilt-x', '0deg');
       stage.style.setProperty('--maze-tilt-y', '0deg');
     });
-    stage.addEventListener('focus', () => { active = true; });
-    stage.addEventListener('blur', () => { active = false; });
     stage.addEventListener('click', burst);
     stage.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
