@@ -2553,36 +2553,59 @@ window.addEventListener("DOMContentLoaded", init);
   function mazeScene() {
     const host = q('#ewasteMaze');
     if (!host) return;
-    host.className = 'v54-ewaste-maze';
+    host.className = 'v57-ewaste-maze';
     host.innerHTML = `
-      <div class="v53-maze-stage v54-maze-stage" role="button" tabindex="0" aria-label="电子废弃物持续从天空落下；悬停或点击会让电子废弃物迷宫不断增生并封住出口">
+      <div class="v53-maze-stage v54-maze-stage v57-maze-stage" role="button" tabindex="0" aria-label="拟真的电子废弃物持续落入迷宫；悬停或点击可以加速堆积，让路径逐渐变得复杂">
         <img src="assets/images/ewaste-maze-3d-v2-4k.jpg" alt="小人面对由大量电子废弃物堆叠而成、上方可见天空的庞大三维迷宫" loading="lazy" decoding="async">
         <canvas class="v54-ewaste-rain" aria-hidden="true"></canvas>
         <div class="v54-maze-growth" aria-hidden="true"></div>
         <div class="v53-maze-depth" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div class="v53-maze-signals" aria-hidden="true"><span>身份是否还在？</span><span>下一站在哪里？</span><span>谁保存处理结果？</span></div>
-        <div class="v54-maze-status" aria-live="polite"><span>PATH COMPLEXITY / 路径复杂度</span><b>12%</b></div>
-        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>天空会持续落下少量电子废弃物；悬停或点击，让新障碍逐渐封住路径。</span></div>
+        <div class="v54-maze-status" aria-live="polite"><span>PATH COMPLEXITY / 路径复杂度</span><b>12%</b><small>0 件废弃物已落入</small></div>
+        <div class="v53-maze-caption"><small>TRACE ENTRY / 电子废弃物迷宫</small><strong>入口很容易找到，出口必须被证明。</strong><span>电子废弃物会直接落入迷宫并留在路径上；悬停或点击，加速真实堆积。</span></div>
       </div>`;
     const stage = q('.v54-maze-stage', host);
     const canvas = q('.v54-ewaste-rain', host);
     const growth = q('.v54-maze-growth', host);
     const status = q('.v54-maze-status b', host);
+    const statusCount = q('.v54-maze-status small', host);
     const ctx = canvas.getContext('2d');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const drops = [];
-    const wallMap = [
-      [37, 49, 22, -7], [52, 53, 20, 8], [29, 59, 25, 5], [48, 64, 25, -4],
-      [19, 69, 26, -8], [58, 71, 25, 7], [34, 74, 22, 3], [47, 78, 23, -3],
-      [24, 55, 17, 10], [61, 59, 18, -9], [39, 57, 25, 1], [36, 68, 31, 0]
+    const spriteSources = [
+      'assets/images/ewaste-drop-phone.png',
+      'assets/images/ewaste-drop-monitor.png',
+      'assets/images/ewaste-drop-laptop.png',
+      'assets/images/ewaste-drop-keyboard.png',
+      'assets/images/ewaste-drop-board.png',
+      'assets/images/ewaste-drop-cables.png'
+    ];
+    const sprites = spriteSources.map((src) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = src;
+      return image;
+    });
+    const spriteWidths = [3.5, 5.6, 6.8, 7.2, 5.4, 6.2];
+    const spriteMinWidths = [22, 36, 44, 46, 32, 38];
+    const spriteMaxWidths = [58, 92, 112, 116, 86, 98];
+    const landingMap = [
+      [47, 45, -7], [54, 47, 6], [39, 50, 11], [62, 51, -10], [48, 54, 7], [57, 56, -5],
+      [32, 58, -14], [68, 59, 12], [42, 62, 8], [60, 64, -8], [36, 67, 13], [70, 68, -11],
+      [48, 69, -4], [56, 72, 8], [28, 72, -16], [75, 74, 11], [42, 76, 6], [64, 77, -9]
+    ];
+    const obstacleMap = [
+      [49, 58, -4, 18],
+      [68, 67, 8, 15],
+      [34, 65, -10, 14]
     ];
     let active = false;
     let visible = true;
     let lastTime = 0;
     let lastSpawn = 0;
-    let lastGrowth = 0;
-    let wallCount = 0;
-    let boostTimer = 0;
+    let landedCount = 0;
+    let spawnedCount = 0;
+    let boostedUntil = 0;
 
     const resizeCanvas = () => {
       const rect = stage.getBoundingClientRect();
@@ -2594,75 +2617,137 @@ window.addEventListener("DOMContentLoaded", init);
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     };
 
+    const widthFor = (type, depth) => {
+      const depthScale = .64 + Math.max(0, Math.min(1, (depth - 43) / 36)) * .72;
+      return spriteWidths[type] * depthScale;
+    };
+
+    const pixelWidthFor = (type, depth, stageWidth) => Math.max(
+      spriteMinWidths[type],
+      Math.min(spriteMaxWidths[type], stageWidth * widthFor(type, depth) / 100)
+    );
+
+    const targetFor = (item) => {
+      const [left, top, rotation] = landingMap[item.targetIndex];
+      if (!item.layer) return [left, top, rotation];
+      const horizontalShift = ((item.targetIndex % 3) - 1) * item.layer * .72;
+      const verticalShift = item.layer * .36;
+      const rotationShift = (item.targetIndex % 2 ? 1 : -1) * item.layer * 2.2;
+      return [left + horizontalShift, top + verticalShift, rotation + rotationShift];
+    };
+
     const spawnDrop = (burst = false) => {
       const rect = stage.getBoundingClientRect();
-      if (!rect.width || drops.length >= (active ? 24 : 8)) return;
-      const size = (burst ? 15 : 11) + Math.random() * (burst ? 16 : 11);
+      if (!rect.width || drops.length >= (burst || active ? 7 : 5)) return;
+      const targetIndex = spawnedCount % landingMap.length;
+      const layer = Math.floor(spawnedCount / landingMap.length) % 3;
+      spawnedCount += 1;
+      const target = landingMap[targetIndex];
+      const type = targetIndex % sprites.length;
       drops.push({
-        type: Math.floor(Math.random() * 5),
-        x: rect.width * (.06 + Math.random() * .88),
-        y: -size * 1.5,
-        size,
-        speed: (active ? 70 : 28) + Math.random() * (active ? 80 : 34),
-        rotation: Math.random() * Math.PI,
-        spin: (Math.random() - .5) * (active ? 2.1 : .8),
-        alpha: .42 + Math.random() * .28,
-        landing: rect.height * (.66 + Math.random() * .22)
+        type,
+        targetIndex,
+        layer,
+        progress: burst ? Math.random() * .08 : 0,
+        duration: burst ? 1.15 + Math.random() * .55 : 3.2 + Math.random() * 1.25,
+        startX: target[0] + (Math.random() - .5) * (burst ? 14 : 22),
+        startRotation: (Math.random() - .5) * 1.2,
+        spin: (Math.random() > .5 ? 1 : -1) * (1.1 + Math.random() * 1.4) * Math.PI,
+        sway: (Math.random() - .5) * (burst ? 34 : 48)
       });
     };
 
-    const drawDevice = (item) => {
-      const s = item.size;
+    const drawDevice = (item, progress, rect) => {
+      const image = sprites[item.type];
+      if (!image.complete || !image.naturalWidth) return;
+      const [targetX, targetY, targetRotation] = targetFor(item);
+      const finalWidth = pixelWidthFor(item.type, targetY, rect.width);
+      const finalHeight = finalWidth * image.naturalHeight / image.naturalWidth;
+      const fall = Math.pow(progress, 2.45);
+      const steer = progress * progress * (3 - 2 * progress);
+      const settle = Math.max(0, Math.min(1, (progress - .78) / .22));
+      const startY = -finalHeight * 1.15;
+      const wind = Math.sin(progress * Math.PI) * item.sway * (1 - settle);
+      const x = rect.width * (item.startX + (targetX - item.startX) * steer) / 100 + wind;
+      const y = startY + (rect.height * targetY / 100 - startY) * fall;
+      const scale = .26 + fall * .74;
+      const width = finalWidth * scale;
+      const height = finalHeight * scale;
+      const freeRotation = item.startRotation + item.spin * progress;
+      const rotation = freeRotation * (1 - settle) + targetRotation * Math.PI / 180 * settle;
+      const speedBlur = Math.max(0, Math.min(1.25, progress * (1 - settle) * 1.4));
       ctx.save();
-      ctx.translate(item.x, item.y);
-      ctx.rotate(item.rotation);
-      ctx.globalAlpha = item.alpha;
-      ctx.lineWidth = Math.max(1, s * .065);
-      ctx.strokeStyle = '#17201d';
-      ctx.fillStyle = '#78837e';
-      ctx.shadowColor = 'rgba(0,0,0,.55)';
-      ctx.shadowBlur = 7;
-      if (item.type === 0) {
-        ctx.beginPath(); ctx.roundRect(-s * .28, -s * .5, s * .56, s, s * .09); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = '#25312d'; ctx.fillRect(-s * .21, -s * .37, s * .42, s * .62);
-      } else if (item.type === 1) {
-        ctx.fillRect(-s * .55, -s * .36, s * 1.1, s * .7); ctx.strokeRect(-s * .55, -s * .36, s * 1.1, s * .7);
-        ctx.fillStyle = '#202a27'; ctx.fillRect(-s * .43, -s * .25, s * .86, s * .46); ctx.fillRect(-s * .08, s * .34, s * .16, s * .24);
-      } else if (item.type === 2) {
-        ctx.beginPath(); ctx.roundRect(-s * .58, -s * .25, s * 1.16, s * .5, s * .08); ctx.fill(); ctx.stroke();
-        ctx.strokeStyle = '#26312e'; for (let i = -2; i <= 2; i += 1) { ctx.beginPath(); ctx.moveTo(i * s * .18, -s * .18); ctx.lineTo(i * s * .18, s * .18); ctx.stroke(); }
-      } else if (item.type === 3) {
-        ctx.fillStyle = '#3e5a4f'; ctx.fillRect(-s * .48, -s * .35, s * .96, s * .7); ctx.strokeRect(-s * .48, -s * .35, s * .96, s * .7);
-        ctx.fillStyle = '#b8e255'; for (let i = 0; i < 5; i += 1) ctx.fillRect(-s * .35 + i * s * .17, -s * .2 + (i % 2) * s * .25, s * .07, s * .07);
-      } else {
-        ctx.beginPath(); ctx.arc(0, 0, s * .37, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(s * .31, s * .12); ctx.bezierCurveTo(s * .7, s * .2, s * .5, s * .56, s * .86, s * .65); ctx.stroke();
-      }
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.globalAlpha = .72 + fall * .28;
+      ctx.shadowColor = 'rgba(0, 0, 0, .72)';
+      ctx.shadowBlur = 5 + fall * 12;
+      ctx.shadowOffsetY = 3 + fall * 8;
+      ctx.filter = `brightness(${.72 + fall * .22}) saturate(${.68 + fall * .2}) contrast(1.1) blur(${speedBlur}px)`;
+      ctx.drawImage(image, -width / 2, -height / 2, width, height);
       ctx.restore();
     };
 
-    const addBarrier = () => {
-      if (wallCount >= wallMap.length) return;
-      const [left, top, width, angle] = wallMap[wallCount];
-      const barrier = document.createElement('i');
-      barrier.className = 'v54-maze-barrier';
-      barrier.style.left = `${left}%`;
-      barrier.style.top = `${top}%`;
-      barrier.style.width = `${width}%`;
-      barrier.style.setProperty('--barrier-angle', `${angle}deg`);
-      growth.appendChild(barrier);
-      wallCount += 1;
-      status.textContent = `${Math.min(96, 12 + wallCount * 7)}%`;
-      stage.classList.toggle('is-complex', wallCount >= 7);
+    const addImpact = (left, top) => {
+      const impact = document.createElement('i');
+      impact.className = 'v57-maze-impact';
+      impact.style.left = `${left}%`;
+      impact.style.top = `${top}%`;
+      growth.appendChild(impact);
+      impact.addEventListener('animationend', () => impact.remove(), { once: true });
+    };
+
+    const addObstacleCluster = (index) => {
+      const target = obstacleMap[index];
+      if (!target) return;
+      const [left, top, rotation, width] = target;
+      const obstacle = document.createElement('img');
+      obstacle.className = 'v57-maze-obstacle';
+      obstacle.src = 'assets/images/ewaste-obstacle-cluster-v2.png';
+      obstacle.alt = '';
+      obstacle.decoding = 'async';
+      obstacle.style.left = `${left}%`;
+      obstacle.style.top = `${top}%`;
+      obstacle.style.width = `${width}%`;
+      obstacle.style.zIndex = String(Math.round(top * 10));
+      obstacle.style.setProperty('--obstacle-rotation', `${rotation}deg`);
+      growth.appendChild(obstacle);
+      requestAnimationFrame(() => obstacle.classList.add('is-visible'));
+    };
+
+    const settleDrop = (item) => {
+      const [left, top, rotation] = targetFor(item);
+      const existingDebris = growth.querySelectorAll('.v56-maze-debris');
+      if (existingDebris.length >= 34) existingDebris[0].remove();
+      const debris = document.createElement('img');
+      debris.className = 'v56-maze-debris';
+      debris.src = spriteSources[item.type];
+      debris.alt = '';
+      debris.decoding = 'async';
+      debris.style.left = `${left}%`;
+      debris.style.top = `${top}%`;
+      debris.style.width = `clamp(${spriteMinWidths[item.type]}px, ${widthFor(item.type, top)}%, ${spriteMaxWidths[item.type]}px)`;
+      debris.style.zIndex = String(Math.round(top * 10));
+      debris.style.setProperty('--debris-rotation', `${rotation}deg`);
+      debris.style.setProperty('--debris-depth', `${Math.max(.7, Math.min(1.08, .68 + (top - 42) / 90))}`);
+      growth.appendChild(debris);
+      requestAnimationFrame(() => debris.classList.add('is-settled'));
+      addImpact(left, top);
+      landedCount += 1;
+      if (landedCount === 8) addObstacleCluster(0);
+      if (landedCount === 18) addObstacleCluster(1);
+      if (landedCount === 30) addObstacleCluster(2);
+      const complexity = Math.min(96, Math.round(12 + landedCount * 2.5));
+      status.textContent = `${complexity}%`;
+      statusCount.textContent = `${landedCount} 件废弃物已落入`;
+      status.parentElement.setAttribute('aria-label', `路径复杂度 ${complexity}%，已有 ${landedCount} 件电子废弃物落入迷宫`);
+      stage.classList.toggle('is-complex', landedCount >= 7);
+      stage.classList.toggle('is-labyrinth', landedCount >= 30);
     };
 
     const burst = () => {
-      active = true;
-      window.clearTimeout(boostTimer);
-      for (let i = 0; i < 7; i += 1) spawnDrop(true);
-      addBarrier();
-      addBarrier();
-      boostTimer = window.setTimeout(() => { active = stage.matches(':hover, :focus-within'); }, 1700);
+      boostedUntil = performance.now() + 2200;
+      for (let i = 0; i < 4; i += 1) spawnDrop(true);
     };
 
     const draw = (time) => {
@@ -2670,30 +2755,36 @@ window.addEventListener("DOMContentLoaded", init);
       const rect = stage.getBoundingClientRect();
       const dt = Math.min(36, time - (lastTime || time)) / 1000;
       lastTime = time;
-      const spawnEvery = active ? 210 : 1180;
-      if (time - lastSpawn > spawnEvery) { spawnDrop(active); lastSpawn = time; }
+      const boosted = active || time < boostedUntil;
+      const spawnEvery = boosted ? 1100 : 1900;
+      if (time - lastSpawn > spawnEvery) { spawnDrop(boosted); lastSpawn = time; }
       ctx.clearRect(0, 0, rect.width, rect.height);
       for (let i = drops.length - 1; i >= 0; i -= 1) {
         const item = drops[i];
-        item.y += item.speed * dt;
-        item.rotation += item.spin * dt;
-        drawDevice(item);
-        if (item.y > item.landing) {
+        item.progress = Math.min(1, item.progress + dt / (boosted ? item.duration * .48 : item.duration));
+        drawDevice(item, item.progress, rect);
+        if (item.progress >= 1) {
           drops.splice(i, 1);
-          if (active && time - lastGrowth > 620) { addBarrier(); lastGrowth = time; }
+          settleDrop(item);
         }
       }
       requestAnimationFrame(draw);
     };
 
     resizeCanvas();
-    for (let i = 0; i < 5; i += 1) { spawnDrop(false); drops[i].y = 20 + Math.random() * stage.clientHeight * .42; }
+    for (let i = 0; i < 4; i += 1) {
+      spawnDrop(false);
+      if (drops[i]) drops[i].progress = .06 + i * .12;
+    }
     if (!reduceMotion) requestAnimationFrame(draw);
-    else { ctx.clearRect(0, 0, stage.clientWidth, stage.clientHeight); drops.forEach(drawDevice); }
+    else {
+      drops.splice(0);
+      for (let i = 0; i < 4; i += 1) settleDrop({ type: i % sprites.length, targetIndex: i });
+    }
 
     if ('ResizeObserver' in window) new ResizeObserver(resizeCanvas).observe(stage);
     if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: .05 }).observe(stage);
-    stage.addEventListener('pointerenter', () => { active = true; addBarrier(); });
+    stage.addEventListener('pointerenter', () => { active = true; });
     stage.addEventListener('pointermove', (event) => {
       const rect = stage.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
@@ -2702,7 +2793,6 @@ window.addEventListener("DOMContentLoaded", init);
       stage.style.setProperty('--maze-y', `${y * -12}px`);
       stage.style.setProperty('--maze-tilt-x', `${y * -1.4}deg`);
       stage.style.setProperty('--maze-tilt-y', `${x * 2.2}deg`);
-      if (performance.now() - lastGrowth > 1000) { addBarrier(); lastGrowth = performance.now(); }
     });
     stage.addEventListener('pointerleave', () => {
       active = false;

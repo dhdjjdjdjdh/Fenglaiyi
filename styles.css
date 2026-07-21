@@ -5625,3 +5625,131 @@ h3 { margin-bottom: 12px; font-size: clamp(21px, 2vw, 30px); line-height: 1.24; 
   .v54-maze-barrier { animation: none; opacity: .9; transform: perspective(720px) rotateX(52deg) rotateZ(var(--barrier-angle)); }
   .v54-maze-stage > img { transition: none; }
 }
+
+/* Afterlife v59: photorealistic falling debris and progressive maze growth. */
+.v57-ewaste-maze { width: 100%; margin: 0; }
+.v57-maze-stage > img { transition: transform .18s ease-out, filter .7s ease; }
+.v57-maze-stage.is-complex > img { filter: brightness(.77) contrast(1.08) saturate(.88); }
+.v57-maze-stage.is-labyrinth > img { filter: brightness(.66) contrast(1.13) saturate(.8); }
+.v57-maze-stage::before { transition: background .8s ease; }
+.v57-maze-stage.is-labyrinth::before {
+  background: linear-gradient(180deg, rgba(5, 11, 9, .08) 34%, rgba(5, 11, 9, .86) 100%), radial-gradient(circle at 50% 52%, transparent 18%, rgba(3, 8, 6, .54) 100%);
+}
+.v57-maze-stage .v54-ewaste-rain,
+.v57-maze-stage .v54-maze-growth {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.v57-maze-stage .v54-ewaste-rain { z-index: 4; }
+.v57-maze-stage .v54-maze-growth { z-index: 5; overflow: hidden; perspective: 1200px; transform-style: preserve-3d; }
+.v57-maze-stage .v53-maze-depth { z-index: 6; }
+.v57-maze-stage .v53-maze-signals { z-index: 7; }
+.v57-maze-stage .v53-maze-caption { z-index: 8; }
+
+.v57-maze-stage .v53-maze-signals {
+  top: 24px;
+  left: 30px;
+  right: 30px;
+  align-items: flex-start;
+  color: rgba(247, 250, 248, .98);
+  font: 900 clamp(16px, 1.05vw, 20px)/1.22 "Microsoft YaHei", "PingFang SC", sans-serif;
+  letter-spacing: .035em;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, .9);
+}
+.v57-maze-stage .v53-maze-signals span {
+  min-width: 190px;
+  padding: 11px 12px 9px;
+  background: linear-gradient(180deg, rgba(5, 13, 10, .5), rgba(5, 13, 10, .08));
+  border-top-width: 3px;
+}
+.v57-maze-stage .v53-maze-signals span:nth-child(2) { text-align: center; }
+.v57-maze-stage .v53-maze-signals span:nth-child(3) { text-align: right; }
+.v57-maze-stage .v53-maze-caption small { font-size: 12px; }
+.v57-maze-stage .v53-maze-caption strong { font-size: clamp(30px, 2.55vw, 43px); }
+.v57-maze-stage .v53-maze-caption span { font-size: 16px; }
+
+.v56-maze-debris {
+  position: absolute;
+  display: block;
+  height: auto;
+  opacity: 0;
+  object-fit: contain;
+  transform: translate(-50%, -112%) rotate(calc(var(--debris-rotation) - 7deg)) scale(calc(var(--debris-depth, 1) * .54));
+  transform-origin: 50% 70%;
+  filter: brightness(.7) saturate(.72) contrast(1.12) sepia(.08) drop-shadow(0 10px 9px rgba(0, 0, 0, .82));
+  will-change: transform, opacity;
+}
+.v56-maze-debris.is-settled { animation: v57-debris-land .72s cubic-bezier(.16, .82, .2, 1) forwards; }
+.v57-maze-obstacle {
+  position: absolute;
+  display: block;
+  height: auto;
+  opacity: 0;
+  object-fit: contain;
+  transform: translate(-50%, -26%) rotate(calc(var(--obstacle-rotation) - 4deg)) scale(.42);
+  transform-origin: 50% 76%;
+  filter: brightness(.58) saturate(.7) contrast(1.18) sepia(.08) drop-shadow(0 15px 12px rgba(0, 0, 0, .9));
+  transition: opacity .7s ease, transform 1.05s cubic-bezier(.14, .82, .18, 1), filter .8s ease;
+  will-change: transform, opacity;
+}
+.v57-maze-obstacle.is-visible {
+  opacity: .94;
+  transform: translate(-50%, -50%) rotate(var(--obstacle-rotation)) scale(1);
+}
+.v57-maze-impact {
+  position: absolute;
+  width: 8%;
+  aspect-ratio: 2.8 / 1;
+  border: 2px solid rgba(202, 225, 213, .56);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(.16);
+  filter: blur(.25px) drop-shadow(0 0 7px rgba(195, 239, 0, .18));
+  animation: v57-impact .72s ease-out forwards;
+}
+.v57-maze-stage .v54-maze-status {
+  top: 62px;
+  right: 28px;
+  min-width: 276px;
+  padding: 16px 18px;
+  color: #dce7e1;
+  text-align: right;
+  background: rgba(5, 13, 10, .72);
+  border-right: 3px solid #c3ef00;
+  backdrop-filter: blur(5px);
+}
+.v57-maze-stage .v54-maze-status span,
+.v57-maze-stage .v54-maze-status b,
+.v57-maze-stage .v54-maze-status small { display: block; }
+.v57-maze-stage .v54-maze-status span { color: #d1ddd7; font: 900 14px/1.25 monospace; letter-spacing: .05em; }
+.v57-maze-stage .v54-maze-status b { margin-top: 8px; color: #c3ef00; font: 900 43px/1 Arial, sans-serif; }
+.v57-maze-stage .v54-maze-status small { margin-top: 7px; color: #f2f6f4; font-size: 13px; font-weight: 800; }
+
+@keyframes v57-impact {
+  0% { opacity: .9; transform: translate(-50%, -50%) scale(.16); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.25); }
+}
+@keyframes v57-debris-land {
+  0% { opacity: .46; transform: translate(-50%, -112%) rotate(calc(var(--debris-rotation) - 7deg)) scale(calc(var(--debris-depth, 1) * .54)); }
+  68% { opacity: 1; transform: translate(-50%, -44%) rotate(calc(var(--debris-rotation) + 2deg)) scale(calc(var(--debris-depth, 1) * 1.08)); }
+  100% { opacity: .96; transform: translate(-50%, -50%) rotate(var(--debris-rotation)) scale(var(--debris-depth, 1)); }
+}
+
+@media (max-width: 760px) {
+  .v57-maze-stage .v53-maze-signals { top: 12px; left: 12px; right: 12px; gap: 6px; font-size: 11px; line-height: 1.25; }
+  .v57-maze-stage .v53-maze-signals span { min-width: 0; padding: 7px 5px 6px; border-top-width: 2px; }
+  .v57-maze-stage .v54-maze-status { top: 66px; right: 12px; min-width: 176px; padding: 10px 11px; }
+  .v57-maze-stage .v54-maze-status span { font-size: 9.5px; }
+  .v57-maze-stage .v54-maze-status b { font-size: 28px; }
+  .v57-maze-stage .v54-maze-status small { font-size: 10px; }
+  .v57-maze-stage .v53-maze-caption small { font-size: 10px; }
+  .v57-maze-stage .v53-maze-caption span { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v56-maze-debris.is-settled { animation: none; opacity: .96; transform: translate(-50%, -50%) rotate(var(--debris-rotation)) scale(var(--debris-depth, 1)); }
+  .v57-maze-obstacle { opacity: .94; transform: translate(-50%, -50%) rotate(var(--obstacle-rotation)) scale(1); transition: none; }
+  .v57-maze-stage > img { transition: none; }
+}
